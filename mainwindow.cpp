@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connectSignals();
-    scaleImage();
+    scaleImageLabel();
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +33,7 @@ void MainWindow::setImage(const Image &image)
     ui -> imageLabel -> setPixmap(mImagePixMap);
 }
 
-void MainWindow::clone()
+void MainWindow::cloneWindow()
 {
     MainWindow* newWindow = new MainWindow();
     newWindow -> setImage(mImage);
@@ -43,18 +43,18 @@ void MainWindow::clone()
 void MainWindow::connectSignals()
 {
     connect(ui -> actionOpen, &QAction::triggered,
-            this, &MainWindow::openImageViewer);
+            this, &MainWindow::openImage);
     connect(ui -> actionClone, &QAction::triggered,
-            this, &MainWindow::clone);
+            this, &MainWindow::cloneWindow);
 }
 
-void MainWindow::openImageViewer(){
+void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
     setImage(image);
 }
 
-void MainWindow::scaleImage()
+void MainWindow::scaleImageLabel()
 {
     ui -> imageLabel -> setScaledContents( true );
     ui -> imageLabel -> setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );

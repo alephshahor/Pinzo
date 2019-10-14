@@ -31,7 +31,8 @@ public:
      * \brief clone Opens a new window with the current
      * image.
      */
-    void clone();
+    void cloneWindow();
+
 
 private:
     /*!
@@ -41,16 +42,16 @@ private:
      */
     void connectSignals();
     /*!
-     * \brief openImageViewer opens a new ImageViewer
-     * widget in a new window.
+     * \brief opens a new Image replacing the one
+     * that already existed ( if existing ).
      */
-    void openImageViewer();
+    void openImage();
 
     /*!
      * \brief scales and sets the size policy of the
      * ui's QLabel's element.
      */
-    void scaleImage();
+    void scaleImageLabel();
 
 private:
 
