@@ -3,6 +3,7 @@
 #include "include/image.h"
 
 #include <iostream>
+#include <memory>
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -37,12 +38,14 @@ void MainWindow::cloneWindow()
 {
     MainWindow* newWindow = new MainWindow();
     newWindow -> setImage(mImage);
+    newWindow -> setAttribute(Qt::WA_DeleteOnClose);
     newWindow -> show();
 }
 
 void MainWindow::openNewWindow()
 {
     MainWindow* newWindow = new MainWindow();
+    newWindow -> setAttribute(Qt::WA_DeleteOnClose);
     newWindow -> show();
 }
 
