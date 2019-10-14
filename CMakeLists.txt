@@ -15,8 +15,17 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
-set(INCLUDE_FILES mainwindow.h)
-set(SOURCE_FILES main.cpp mainwindow.cpp)
+set(INCLUDE_FILES
+    mainwindow.h
+    include/image.h
+    )
+
+set(SOURCE_FILES
+    main.cpp
+    mainwindow.cpp
+    src/image.cpp
+    )
+
 set(UI_FILES mainwindow.ui)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
@@ -27,4 +36,5 @@ add_executable(Pinzo
     ${UI_FILES}
 )
 
+target_include_directories(Pinzo PUBLIC ${CMAKE_INCLUDE_SOURCE_DIR}/include)
 target_link_libraries(Pinzo PRIVATE Qt5::Widgets)
