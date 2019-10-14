@@ -43,6 +43,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionSave"/>
@@ -75,6 +76,11 @@
   <action name="actionClone">
    <property name="text">
     <string>Clone</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

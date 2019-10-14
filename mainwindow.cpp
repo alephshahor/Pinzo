@@ -40,12 +40,20 @@ void MainWindow::cloneWindow()
     newWindow -> show();
 }
 
+void MainWindow::openNewWindow()
+{
+    MainWindow* newWindow = new MainWindow();
+    newWindow -> show();
+}
+
 void MainWindow::connectSignals()
 {
     connect(ui -> actionOpen, &QAction::triggered,
             this, &MainWindow::openImage);
     connect(ui -> actionClone, &QAction::triggered,
             this, &MainWindow::cloneWindow);
+    connect(ui -> actionNew, &QAction::triggered,
+            this, &MainWindow::openNewWindow);
 }
 
 void MainWindow::openImage(){

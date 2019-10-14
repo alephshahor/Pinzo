@@ -15,6 +15,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+private:
+
     /*!
      * \brief  mImage's getter.
      * \return mImage.
@@ -33,8 +36,8 @@ public:
      */
     void cloneWindow();
 
+    void openNewWindow();
 
-private:
     /*!
      * \brief connectSignals connects menu options
      *  with its functions.
@@ -47,11 +50,15 @@ private:
      */
     void openImage();
 
+    void saveImage();
+    void saveImageAs();
+
     /*!
      * \brief scales and sets the size policy of the
      * ui's QLabel's element.
      */
     void scaleImageLabel();
+
 
 private:
 
