@@ -16,6 +16,8 @@ public:
     ~MainWindow();
 
 private:
+    void connectSignals();
+    void openImageViewer();
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

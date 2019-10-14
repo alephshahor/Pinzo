@@ -17,16 +17,21 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 set(INCLUDE_FILES
     mainwindow.h
+    imageviewer.h
     include/image.h
     )
 
 set(SOURCE_FILES
     main.cpp
+    imageviewer.cpp
     mainwindow.cpp
     src/image.cpp
     )
 
-set(UI_FILES mainwindow.ui)
+set(UI_FILES
+    mainwindow.ui
+    imageviewer.ui
+    )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 

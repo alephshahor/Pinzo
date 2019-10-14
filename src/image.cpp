@@ -11,6 +11,12 @@ Image::Image():
 
 }
 
+Image::Image(const QString &filepath):
+    mImage()
+{
+    loadImage(filepath);
+}
+
 bool Image::loadImage(const QString &filepath)
 {
     QImageReader reader(filepath);
