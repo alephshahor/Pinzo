@@ -9,8 +9,10 @@ class Image
 public:
     Image();
     Image(const QString& filepath);
+
     bool loadImage(const QString& filepath);
     bool saveImage(const QString& filepath, const char* format, int quality);
+
     QImage image() const;
     void setImage(const QImage &image);
 

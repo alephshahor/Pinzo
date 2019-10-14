@@ -16,7 +16,16 @@ public:
     ~MainWindow();
 
 private:
+    /*!
+     * \brief connectSignals connects menu options
+     *  with its functions.
+     *
+     */
     void connectSignals();
+    /*!
+     * \brief openImageViewer opens a new ImageViewer
+     * widget in a new window.
+     */
     void openImageViewer();
     Ui::MainWindow *ui;
 };

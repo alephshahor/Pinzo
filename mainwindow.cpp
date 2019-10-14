@@ -26,9 +26,9 @@ void MainWindow::connectSignals()
 }
 
 void MainWindow::openImageViewer(){
-    std::cout << "Im here!\n";
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
     ImageViewer* imageviewer = new ImageViewer();
+    imageviewer -> setImage(image);
     imageviewer -> show();
 }
