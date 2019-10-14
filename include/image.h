@@ -16,8 +16,14 @@ public:
     QImage image() const;
     void setImage(const QImage &image);
 
+    QString filePath() const;
+
+    QString fileFormat() const;
+
 public:
     QImage mImage;
+    QString mFilePath;
+    QString mFileFormat;
 
 };
 

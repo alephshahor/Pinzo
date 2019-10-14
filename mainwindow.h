@@ -36,6 +36,9 @@ private:
      */
     void cloneWindow();
 
+    /*!
+     * \brief Opens a new empty window.
+     */
     void openNewWindow();
 
     /*!
@@ -50,7 +53,15 @@ private:
      */
     void openImage();
 
+    /*!
+     * \brief saves the current image and its modifications.
+     */
     void saveImage();
+
+    /*!
+     * \brief saves a copy of the current image with another
+     * name.
+     */
     void saveImageAs();
 
     /*!

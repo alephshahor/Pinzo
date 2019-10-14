@@ -20,16 +20,19 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/resources)
 set(INCLUDE_FILES
     mainwindow.h
     include/image.h
+    saveimagedialog.h
     )
 
 set(SOURCE_FILES
     main.cpp
     mainwindow.cpp
     src/image.cpp
+    saveimagedialog.cpp
     )
 
 set(UI_FILES
     mainwindow.ui
+    saveimagedialog.ui
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)

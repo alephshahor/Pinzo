@@ -4,6 +4,8 @@
 #include <QGuiApplication>
 #include <QDir>
 #include <QObject>
+#include <QDebug>
+#include <QRegExp>
 
 Image::Image():
     mImage()
@@ -24,7 +26,14 @@ bool Image::loadImage(const QString &filepath)
     mImage = reader.read();
     if(mImage.isNull()){
         return false;
-    }else return true;
+    }else{
+        QRegExp reg("^(/|\\w+)+.(\\w+)");
+        if(reg.exactMatch(filepath)){
+            mFileFormat = reg.cap(2);
+        }
+        mFilePath = filepath;
+        return true;
+    }
 }
 
 bool Image::saveImage(const QString &filepath, const char* format, int quality)
@@ -41,3 +50,15 @@ void Image::setImage(const QImage &image)
 {
     mImage = image;
 }
+
+QString Image::fileFormat() const
+{
+    return mFileFormat;
+}
+
+QString Image::filePath() const
+{
+    return mFilePath;
+}
+
+
