@@ -22,6 +22,7 @@ set(INCLUDE_FILES
     include/image.h
     include/util.h
     saveimagedialog.h
+    histogram.h
     )
 
 set(SOURCE_FILES
@@ -30,14 +31,18 @@ set(SOURCE_FILES
     src/image.cpp
     src/util.cpp
     saveimagedialog.cpp
+    histogram.cpp
     )
 
 set(UI_FILES
     mainwindow.ui
     saveimagedialog.ui
+    histogram.ui
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Charts REQUIRED)
+find_package(Qt5 COMPONENTS Gui REQUIRED)
 
 add_executable(Pinzo
     ${INCLUDE_FILES}
@@ -47,3 +52,7 @@ add_executable(Pinzo
 
 target_include_directories(Pinzo PUBLIC ${CMAKE_INCLUDE_SOURCE_DIR}/include)
 target_link_libraries(Pinzo PRIVATE Qt5::Widgets)
+target_link_libraries(Pinzo PUBLIC Qt5::Charts)
+target_link_libraries(Pinzo PUBLIC Qt5::Gui)
+
+

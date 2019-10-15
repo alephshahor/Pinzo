@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "include/image.h"
 #include "saveimagedialog.h"
+#include "histogram.h"
 
 #include <iostream>
 #include <memory>
@@ -17,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui -> setupUi(this);
 
+    Histogram* h = new Histogram(mImage);
+    h -> show();
     // Alows mouse tracking so we can get the cursor
     // position at every moment.
     ui -> imageLabel -> setMouseTracking(true);
@@ -31,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connectSignals();
     scaleImageLabel();
+
 }
 
 MainWindow::~MainWindow()
@@ -148,6 +152,7 @@ void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
     QString positionText;
     positionText = QString("Position: (%1 , %2)").arg(
                     xPixelCoordinate).arg(yPixelCoordinate);
+
     QString valueText;
     valueText = QString("Value: (%1 , %2 , %3)").arg(
                     red).arg(green).arg(blue);
