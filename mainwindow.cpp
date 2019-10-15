@@ -83,6 +83,7 @@ void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
     setImage(image);
+    setWindowTitle(image.filePath());
 }
 
 void MainWindow::saveImage()
