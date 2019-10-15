@@ -70,7 +70,25 @@ private:
      */
     void scaleImageLabel();
 
+    /*!
+     * \brief eventFilter serves as an intermediary function to
+     * override the behaviour of the centralwidget so the cursor
+     * position can be obtained.
+     * \param obj
+     * \param event
+     * \return true if the object passed as parameter is a
+     * centralwidget and if the Event registered is a MouseMove
+     * event.
+     */
     bool eventFilter(QObject* obj, QEvent* event);
+
+    /*!
+     * \brief displays the position of the cursor with respect to
+     * the image and the image color values.
+     * \param xPixelCoordinate x-axis coordinate of the cursor.
+     * \param yPixelCoordinate y-axis coordinate of the cursor.
+     */
+    void displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate);
 
 
 

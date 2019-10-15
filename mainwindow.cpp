@@ -16,9 +16,15 @@ MainWindow::MainWindow(QWidget *parent)
       ui(new Ui::MainWindow)
 {
     ui -> setupUi(this);
-    ui -> positionLabel -> setMargin(0);
+
+    // Alows mouse tracking so we can get the cursor
+    // position at every moment.
     ui -> imageLabel -> setMouseTracking(true);
     ui -> centralwidget -> setMouseTracking(true);
+
+    // We install an event filter so we can override
+    // the behaviour of the widget when certain event
+    // happens.
     ui -> centralwidget -> installEventFilter(this);
 
     statusBar() -> hide();
@@ -73,13 +79,6 @@ void MainWindow::connectSignals()
             this, &MainWindow::saveImageAs);
 }
 
-//void ui -> centralWidget()::mouseMoveEvent(QMouseEvent* event)
-//{
-//    QString text;
-//    text = QString("(%1 , %2)").arg(event->pos().x()).arg(event->pos().y());
-//    ui -> imageLabel ->setText(text);
-//}
-
 void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
@@ -128,12 +127,29 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (dynamic_cast<QWidget*>(obj) == ui -> centralwidget){
         if(event -> type() == QMouseEvent::MouseMove){
-                QString text;
-                QMouseEvent* ev_ = static_cast<QMouseEvent*>(event);
-                text = QString("Position: (%1 , %2)").arg(ev_->pos().x()).arg(ev_->pos().y());
-                ui -> positionLabel ->setText(text);
-                return true;
+
+            QMouseEvent* event_ = static_cast<QMouseEvent*>(event);
+            displayCursorInfo(event_ -> pos().x(),event_ -> pos().y());
+
+            return true;
         }else return false;
     }else return QMainWindow::eventFilter(obj, event);
    }
 
+void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
+
+    QColor imagePixel = mImage.image().pixel(xPixelCoordinate, yPixelCoordinate);
+    int red = imagePixel.red();
+    int green = imagePixel.green();
+    int blue = imagePixel.blue();
+
+    QString positionText;
+    positionText = QString("Position: (%1 , %2)").arg(
+                    xPixelCoordinate).arg(yPixelCoordinate);
+    QString valueText;
+    valueText = QString("Value: (%1 , %2 , %3)").arg(
+                    red).arg(green).arg(blue);
+
+    ui -> positionLabel  -> setText(positionText);
+    ui -> valueLabel -> setText(valueText);
+}
