@@ -14,7 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
       mImage(),
       ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui -> setupUi(this);
+    ui -> positionLabel -> setMargin(0);
+
+    statusBar() -> hide();
+
     connectSignals();
     scaleImageLabel();
 }

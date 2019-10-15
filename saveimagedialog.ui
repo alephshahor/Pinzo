@@ -16,6 +16,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="3">
     <widget class="QLineEdit" name="fileNameInput">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
      <property name="placeholderText">
       <string/>
      </property>
@@ -100,7 +103,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="placeholderText">
-      <string>Ej: .JPG .JPEG .TIFF .PNG</string>
+      <string>Ej: JPG JPEG TIFF PNG</string>
      </property>
     </widget>
    </item>
