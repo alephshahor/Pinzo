@@ -70,6 +70,11 @@ private:
      */
     void scaleImageLabel();
 
+    bool eventFilter(QObject* obj, QEvent* event);
+
+
+
+
 
 private:
 

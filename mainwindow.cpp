@@ -7,6 +7,7 @@
 #include <memory>
 #include <QFileDialog>
 #include <QDebug>
+#include <QMouseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -16,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui -> setupUi(this);
     ui -> positionLabel -> setMargin(0);
+    ui -> imageLabel -> setMouseTracking(true);
+    ui -> centralwidget -> setMouseTracking(true);
+    ui -> centralwidget -> installEventFilter(this);
 
     statusBar() -> hide();
 
@@ -69,6 +73,13 @@ void MainWindow::connectSignals()
             this, &MainWindow::saveImageAs);
 }
 
+//void ui -> centralWidget()::mouseMoveEvent(QMouseEvent* event)
+//{
+//    QString text;
+//    text = QString("(%1 , %2)").arg(event->pos().x()).arg(event->pos().y());
+//    ui -> imageLabel ->setText(text);
+//}
+
 void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
@@ -112,3 +123,17 @@ void MainWindow::scaleImageLabel()
     ui -> imageLabel -> setScaledContents( true );
     ui -> imageLabel -> setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
 }
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (dynamic_cast<QWidget*>(obj) == ui -> centralwidget){
+        if(event -> type() == QMouseEvent::MouseMove){
+                QString text;
+                QMouseEvent* ev_ = static_cast<QMouseEvent*>(event);
+                text = QString("Position: (%1 , %2)").arg(ev_->pos().x()).arg(ev_->pos().y());
+                ui -> positionLabel ->setText(text);
+                return true;
+        }else return false;
+    }else return QMainWindow::eventFilter(obj, event);
+   }
+
