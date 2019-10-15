@@ -20,6 +20,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/resources)
 set(INCLUDE_FILES
     mainwindow.h
     include/image.h
+    include/util.h
     saveimagedialog.h
     )
 
@@ -27,6 +28,7 @@ set(SOURCE_FILES
     main.cpp
     mainwindow.cpp
     src/image.cpp
+    src/util.cpp
     saveimagedialog.cpp
     )
 

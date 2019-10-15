@@ -83,7 +83,8 @@ void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
     setImage(image);
-    setWindowTitle(image.filePath());
+    setWindowTitle(image.fileName());
+    displayImageInfo();
 }
 
 void MainWindow::saveImage()
@@ -153,4 +154,14 @@ void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
 
     ui -> positionLabel  -> setText(positionText);
     ui -> valueLabel -> setText(valueText);
+}
+
+void MainWindow::displayImageInfo()
+{
+    QString formatLabelText = "Format: " + mImage.fileFormat();
+    ui -> formatLabel -> setText(formatLabelText);
+
+    QString dimensionLabelText = "Dimension: " + QString::number(mImage.fileDimension().first) + " x "
+                                               + QString::number(mImage.fileDimension().second);
+    ui -> dimensionLabel -> setText(dimensionLabelText);
 }

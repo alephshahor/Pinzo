@@ -90,7 +90,7 @@ private:
      */
     void displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate);
 
-
+    void displayImageInfo();
 
 
 

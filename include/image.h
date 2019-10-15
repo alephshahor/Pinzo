@@ -17,13 +17,18 @@ public:
     void setImage(const QImage &image);
 
     QString filePath() const;
-
+    QString fileName() const;
     QString fileFormat() const;
+    std::pair<int, int> fileDimension() const;
+
 
 public:
     QImage mImage;
+    QString mFileName;
     QString mFilePath;
     QString mFileFormat;
+    std::pair<int,int> mFileDimension;
+
 
 };
 

@@ -1,4 +1,6 @@
 #include "../include/image.h"
+#include "../include/util.h"
+
 #include <QImageReader>
 #include <QMessageBox>
 #include <QGuiApplication>
@@ -27,13 +29,25 @@ bool Image::loadImage(const QString &filepath)
     if(mImage.isNull()){
         return false;
     }else{
-        QRegExp reg("^(/|\\w+)+.(\\w+)");
-        if(reg.exactMatch(filepath)){
-            mFileFormat = reg.cap(2);
-        }
-        mFilePath = filepath;
-        return true;
+            QString fileNameCommand("identify -format \"%t\" " + filepath);
+            const char* fileNameCommand_ = fileNameCommand.toLocal8Bit().data();
+            mFileName = QString::fromUtf8(executeCommand(fileNameCommand_).c_str());
+
+            QString fileFormatCommand("identify -format \"%m\" " + filepath);
+            const char* fileFormatCommand_ = fileFormatCommand.toLocal8Bit().data();
+            mFileFormat = QString::fromUtf8(executeCommand(fileFormatCommand_).c_str());
+
+            QString fileDimensionCommand("identify -format \"%w %h\" " + filepath);
+            const char* fileDimensionCommand_ = fileDimensionCommand.toLocal8Bit().data();
+            QString fileDimension = QString::fromUtf8(executeCommand(fileDimensionCommand_).c_str());
+            mFileDimension.first  = fileDimension.split(QRegExp("\\s+"), QString::SkipEmptyParts).first().toInt();
+            mFileDimension.second = fileDimension.split(QRegExp("\\s+"), QString::SkipEmptyParts).last().toInt();
+
+            mFilePath = filepath;
+
+            return true;
     }
+
 }
 
 bool Image::saveImage(const QString &filepath, const char* format, int quality)
@@ -54,6 +68,16 @@ void Image::setImage(const QImage &image)
 QString Image::fileFormat() const
 {
     return mFileFormat;
+}
+
+std::pair<int, int> Image::fileDimension() const
+{
+    return mFileDimension;
+}
+
+QString Image::fileName() const
+{
+    return mFileName;
 }
 
 QString Image::filePath() const

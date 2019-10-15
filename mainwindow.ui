@@ -20,7 +20,7 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="100,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,100,0">
     <property name="spacing">
      <number>5</number>
     </property>
@@ -36,6 +36,32 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
+    <item>
+     <widget class="QFrame" name="imageInfoFrameTop">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="formatLabel">
+         <property name="text">
+          <string>Format:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="dimensionLabel">
+         <property name="text">
+          <string>Dimension:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item>
      <widget class="QLabel" name="imageLabel">
       <property name="sizePolicy">
@@ -53,7 +79,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="imageInfoFrame">
+     <widget class="QFrame" name="imageInfoFrameBottom">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -86,7 +112,7 @@
        <item>
         <widget class="QLabel" name="valueLabel">
          <property name="text">
-          <string>Value: ( 0 , 0 , 0)</string>
+          <string>Value: ( 0 , 0 , 0 )</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
