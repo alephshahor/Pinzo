@@ -18,8 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui -> setupUi(this);
 
-    Histogram* h = new Histogram(mImage);
-    h -> show();
+
     // Alows mouse tracking so we can get the cursor
     // position at every moment.
     ui -> imageLabel -> setMouseTracking(true);
@@ -89,6 +88,8 @@ void MainWindow::openImage(){
     setImage(image);
     setWindowTitle(image.fileName());
     displayImageInfo();
+    Histogram* h = new Histogram(mImage);
+    h -> show();
 }
 
 void MainWindow::saveImage()
