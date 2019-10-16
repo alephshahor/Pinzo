@@ -90,7 +90,16 @@ private:
      */
     void displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate);
 
+    /*!
+     * \brief displayImageInfo displays information about the image like
+     * its size, format ...
+     */
     void displayImageInfo();
+
+    /*!
+     * \brief openHistogram opens a new Histogram for the currently opened image.
+     */
+    void openHistogram();
 
 
 

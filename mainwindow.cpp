@@ -80,6 +80,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::saveImage);
     connect(ui -> actionSave_As, &QAction::triggered,
             this, &MainWindow::saveImageAs);
+    connect(ui -> actionHistogram, &QAction::triggered,
+            this, &MainWindow::openHistogram);
 }
 
 void MainWindow::openImage(){
@@ -88,8 +90,6 @@ void MainWindow::openImage(){
     setImage(image);
     setWindowTitle(image.fileName());
     displayImageInfo();
-    Histogram* h = new Histogram(mImage);
-    h -> show();
 }
 
 void MainWindow::saveImage()
@@ -170,4 +170,11 @@ void MainWindow::displayImageInfo()
     QString dimensionLabelText = "Dimension: " + QString::number(mImage.fileDimension().first) + " x "
                                                + QString::number(mImage.fileDimension().second);
     ui -> dimensionLabel -> setText(dimensionLabelText);
+}
+
+void MainWindow::openHistogram()
+{
+    Histogram* h = new Histogram(mImage);
+    h -> setAttribute(Qt::WA_DeleteOnClose);
+    h -> show();
 }
