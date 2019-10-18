@@ -141,14 +141,12 @@ void Histogram::calculateHistogramValues(int(*func)(QColor))
 
 void Histogram::createHistogram()
 {
-
-
-      ui -> customPlot->addGraph();
+      ui -> customPlot -> addGraph();
       QColor color(20+200/4.0,70*(1.6/4.0), 150, 150);
-      ui -> customPlot->graph()->setLineStyle(QCPGraph::lsLine);
-      ui -> customPlot->graph()->setPen(QPen(color.lighter(200)));
-      ui -> customPlot->graph()->setBrush(QBrush(color));
-      ui -> customPlot-> graph(0)->setData(mVPixelKey,mVPixelValue);
+      ui -> customPlot -> graph( )-> setLineStyle(QCPGraph::lsLine);
+      ui -> customPlot -> graph() -> setPen(QPen(color.lighter(200)));
+      ui -> customPlot -> graph() -> setBrush(QBrush(color));
+      ui -> customPlot -> graph(0)-> setData(mVPixelKey,mVPixelValue);
       ui -> customPlot -> xAxis -> setRange(0, 300);
       ui -> customPlot -> yAxis -> setRange(0, calculateModeFrequency());
       ui -> customPlot -> replot();

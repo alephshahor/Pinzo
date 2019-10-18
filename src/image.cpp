@@ -43,6 +43,10 @@ bool Image::loadImage(const QString &filepath)
             mFileDimension.first  = fileDimension.split(QRegExp("\\s+"), QString::SkipEmptyParts).first().toInt();
             mFileDimension.second = fileDimension.split(QRegExp("\\s+"), QString::SkipEmptyParts).last().toInt();
 
+            QString fileDepthCommand("identify -format \"%z\" " + filepath);
+            const char* fileDepthCommand_ = fileDepthCommand.toLocal8Bit().data();
+            mFileDepth = QString::fromUtf8(executeCommand(fileDepthCommand_).c_str()).toInt();
+
             mFilePath = filepath;
 
             return true;

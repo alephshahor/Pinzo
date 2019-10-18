@@ -27,6 +27,7 @@ public:
     QString mFileName;
     QString mFilePath;
     QString mFileFormat;
+    int     mFileDepth;
     std::pair<int,int> mFileDimension;
 
 
