@@ -54,6 +54,8 @@ add_executable(Pinzo
     ${UI_FILES}
 )
 
+target_compile_definitions(Pinzo PUBLIC CURRENT_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}")
+
 target_include_directories(Pinzo PUBLIC ${CMAKE_INCLUDE_SOURCE_DIR}/include)
 target_link_libraries(Pinzo PRIVATE Qt5::Widgets)
 target_link_libraries(Pinzo PUBLIC Qt5::Charts)

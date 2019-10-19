@@ -172,6 +172,14 @@ void MainWindow::displayImageInfo()
     ui -> dimensionLabel -> setText(dimensionLabelText);
 
     QString depthLabelText = "Depth: " + QString::number(mImage.fileDepth());
+
+    QString colorLabelText = "Color: ";
+    if(mImage.isGray() == true){
+        colorLabelText += "Grayscale";
+    }else colorLabelText += "RGB";
+
+    ui -> colorLabel -> setText(colorLabelText);
+
     ui -> depthLabel -> setText(depthLabelText);
 }
 

@@ -47,6 +47,17 @@ bool Image::loadImage(const QString &filepath)
             const char* fileDepthCommand_ = fileDepthCommand.toLocal8Bit().data();
             mFileDepth = QString::fromUtf8(executeCommand(fileDepthCommand_).c_str()).toInt();
 
+            QString currentDirectory = CURRENT_DIRECTORY;
+            QString fileColorCommand("python " + currentDirectory + "/src/isGrayscale.py " + filepath);
+            const char* fileColorCommand_ = fileColorCommand.toLocal8Bit().data();
+            QString fileColor = QString::fromUtf8(executeCommand(fileColorCommand_).c_str());
+
+            qDebug() << fileColor << "\n";
+
+            if(fileColor == "grayscale\n"){
+                mIsGray = true;
+            }else mIsGray = false;
+
             mFilePath = filepath;
 
             return true;
@@ -77,6 +88,11 @@ QString Image::fileFormat() const
 std::pair<int, int> Image::fileDimension() const
 {
     return mFileDimension;
+}
+
+bool Image::isGray() const
+{
+    return mIsGray;
 }
 
 int Image::fileDepth() const

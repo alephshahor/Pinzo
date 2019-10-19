@@ -66,6 +66,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="colorLabel">
+         <property name="text">
+          <string>Color:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>

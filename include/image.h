@@ -20,6 +20,7 @@ public:
     QString fileName() const;
     QString fileFormat() const;
     int fileDepth() const;
+    bool isGray() const;
     std::pair<int, int> fileDimension() const;
 
 
@@ -29,7 +30,9 @@ public:
     QString mFilePath;
     QString mFileFormat;
     int     mFileDepth;
+    bool    mIsGray;
     std::pair<int,int> mFileDimension;
+
 
 
 };
