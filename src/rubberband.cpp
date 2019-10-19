@@ -46,13 +46,13 @@ QRect RubberBand::generateRectangle()
     qDebug() << calculateWidth();
     qDebug() << calculateHeight();
 
-    if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.y())){
-        return QRect(mEnding.x(), mFixedEnding.y(), calculateWidth() , calculateHeight());
-    }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.y())){
+    if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.x())){
+        return QRect(mFixedEnding.x(), mFixedEnding.y(), calculateWidth() , calculateHeight());
+    }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.x())){
         return QRect(mFixedEnding.x(), mFixedOrigin.y(), calculateWidth() , calculateHeight());
-    }else if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.y())){
+    }else if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.x())){
         return QRect(mFixedOrigin.x(), mFixedEnding.y(), calculateWidth() , calculateHeight());
-    }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.y())){
+    }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.x())){
         qDebug() << QRect(mFixedOrigin.x(), mFixedOrigin.y(), calculateWidth() , calculateHeight());
         return QRect(mFixedOrigin.x(), mFixedOrigin.y(), calculateWidth() , calculateHeight());
     }else {
