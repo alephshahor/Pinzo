@@ -22,6 +22,7 @@ set(INCLUDE_FILES
     include/image.h
     include/util.h
     include/qcustomplot.h
+    include/rubberband.h
     saveimagedialog.h
     histogram.h
     )
@@ -32,6 +33,7 @@ set(SOURCE_FILES
     src/image.cpp
     src/util.cpp
     src/qcustomplot.cpp
+    src/rubberband.cpp
     saveimagedialog.cpp
     histogram.cpp
     )

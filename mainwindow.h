@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "include/image.h"
+#include "include/rubberband.h"
 #include <QMainWindow>
+#include <QRubberBand>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -101,7 +103,15 @@ private:
      */
     void openHistogram();
 
-    std::pair<int,int> convertCoordinates(float posX, float posY);
+
+    /*!
+     * \brief convertCoordinates of the cursor with respect to the imageLabel
+     * into coordinates valid for the Image ( inside its limits ).
+     * \param posX the cursor x-position.
+     * \param posY the cursor y-position.
+     * \return both of the coordinates with respect to the image.
+     */
+    QPoint convertCoordinates(float posX, float posY);
 
 
 
@@ -112,6 +122,7 @@ private:
      * represent the image in the GUI.
      */
     QPixmap mImagePixMap;
+    RubberBand* mRubberBand;
     Image mImage;
     Ui::MainWindow *ui;
 };

@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     // happens.
     ui -> centralwidget -> installEventFilter(this);
 
+    mRubberBand = new RubberBand(ui -> imageLabel);
     statusBar() -> hide();
-
     connectSignals();
     scaleImageLabel();
 
@@ -56,7 +56,6 @@ void MainWindow::setImage(const Image &image)
 //    ui -> imageLabel -> setPixmap(mImagePixMap.scaled(labelWidth, labelHeight, Qt::IgnoreAspectRatio));
     ui -> imageLabel -> setMargin(0);
     ui -> imageLabel -> setPixmap(mImagePixMap);
-
 }
 
 void MainWindow::cloneWindow()
@@ -139,25 +138,57 @@ void MainWindow::scaleImageLabel()
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (dynamic_cast<QWidget*>(obj) == ui -> centralwidget){
+        QMouseEvent* event_ = static_cast<QMouseEvent*>(event);
         if(event -> type() == QMouseEvent::MouseMove){
 
-            QMouseEvent* event_ = static_cast<QMouseEvent*>(event);
 
             int offset = ui -> imageInfoFrameTop -> geometry().height();
             float posX = event_ -> pos().x();
             float posY = event_ -> pos().y() - offset;
 
-            std::pair<int,int> imgCoordinates = convertCoordinates(posX, posY);
+            QPoint imgCoordinates = convertCoordinates(posX, posY);
 
-            displayCursorInfo(imgCoordinates.first, imgCoordinates.second);
+            mRubberBand -> mouseMoveEvent(QPoint(posX,posY));
+
+            displayCursorInfo(imgCoordinates.x(), imgCoordinates.y());
 
             return true;
-        }else return false;
+        }else if (event -> type() == QMouseEvent::MouseButtonPress){
+
+            int offset = ui -> imageInfoFrameTop -> geometry().height();
+            int posX = event_ -> pos().x();
+            int posY = event_ -> pos().y() - offset;
+
+            QPoint imgCoordinates = convertCoordinates(posX, posY);
+
+
+            mRubberBand -> mousePressEvent(QPoint(posX,posY), imgCoordinates);
+
+        } else if(event -> type() == QMouseEvent::MouseButtonRelease){
+
+            int offset = ui -> imageInfoFrameTop -> geometry().height();
+            int posX = event_ -> pos().x();
+            int posY = event_ -> pos().y() - offset;
+
+            QPoint imgCoordinates = convertCoordinates(posX, posY);
+
+
+           QRect selection =  mRubberBand -> mouseReleaseEvent(QPoint(posX,posY), imgCoordinates);
+           Image croppedImage(mImage, selection);
+
+
+           MainWindow* newWindow = new MainWindow();
+           newWindow -> setImage(croppedImage);
+           newWindow -> setAttribute(Qt::WA_DeleteOnClose);
+           newWindow -> show();
+
+        }return false;
+
     }else return QMainWindow::eventFilter(obj, event);
    }
 
 
-std::pair<int, int> MainWindow::convertCoordinates(float posX, float posY)
+QPoint MainWindow::convertCoordinates(float posX, float posY)
 {
     int labelWidth = ui -> imageLabel -> width();
     int labelHeight = ui -> imageLabel -> height();
@@ -168,7 +199,7 @@ std::pair<int, int> MainWindow::convertCoordinates(float posX, float posY)
     int imgPosX = posX * mImage.image().width();
     int imgPosY = posY * mImage.image().height();
 
-    return std::make_pair(imgPosX, imgPosY);
+    return QPoint(imgPosX, imgPosY);
 }
 
 

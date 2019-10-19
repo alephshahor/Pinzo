@@ -21,6 +21,20 @@ Image::Image(const QString &filepath):
     loadImage(filepath);
 }
 
+Image::Image(Image image, QRect rect):
+    mImage(),
+    mFileName(image.fileName()),
+    mFilePath(image.filePath()),
+    mFileFormat(image.fileFormat()),
+    mFileDepth(image.fileDepth()),
+    mIsGray(image.isGray()),
+    mFileDimension(image.fileDimension())
+{
+    QImageReader reader(image.filePath());
+    reader.setAutoTransform(true);
+    mImage = reader.read().copy(rect);
+}
+
 bool Image::loadImage(const QString &filepath)
 {
     QImageReader reader(filepath);
