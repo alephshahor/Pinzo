@@ -19,6 +19,7 @@ public:
     QString filePath() const;
     QString fileName() const;
     QString fileFormat() const;
+    int fileDepth() const;
     std::pair<int, int> fileDimension() const;
 
 

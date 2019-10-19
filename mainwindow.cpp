@@ -170,6 +170,9 @@ void MainWindow::displayImageInfo()
     QString dimensionLabelText = "Dimension: " + QString::number(mImage.fileDimension().first) + " x "
                                                + QString::number(mImage.fileDimension().second);
     ui -> dimensionLabel -> setText(dimensionLabelText);
+
+    QString depthLabelText = "Depth: " + QString::number(mImage.fileDepth());
+    ui -> depthLabel -> setText(depthLabelText);
 }
 
 void MainWindow::openHistogram()

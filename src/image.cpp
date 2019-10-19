@@ -79,6 +79,11 @@ std::pair<int, int> Image::fileDimension() const
     return mFileDimension;
 }
 
+int Image::fileDepth() const
+{
+    return mFileDepth;
+}
+
 QString Image::fileName() const
 {
     return mFileName;

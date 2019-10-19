@@ -59,6 +59,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="depthLabel">
+         <property name="text">
+          <string>Depth:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -153,6 +160,7 @@
      <string>Analysis</string>
     </property>
     <addaction name="actionHistogram"/>
+    <addaction name="actionEntropy"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
@@ -187,6 +195,11 @@
   <action name="actionHistogram">
    <property name="text">
     <string>Histogram</string>
+   </property>
+  </action>
+  <action name="actionEntropy">
+   <property name="text">
+    <string>Entropy</string>
    </property>
   </action>
  </widget>
