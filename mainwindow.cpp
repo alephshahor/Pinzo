@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connectSignals();
     scaleImageLabel();
 
+
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +51,12 @@ void MainWindow::setImage(const Image &image)
 {
     mImage = image;
     mImagePixMap.convertFromImage(mImage.image());
+//    int labelWidth = ui -> imageLabel -> width();
+//    int labelHeight = ui -> imageLabel -> height();
+//    ui -> imageLabel -> setPixmap(mImagePixMap.scaled(labelWidth, labelHeight, Qt::IgnoreAspectRatio));
+    ui -> imageLabel -> setMargin(0);
     ui -> imageLabel -> setPixmap(mImagePixMap);
+
 }
 
 void MainWindow::cloneWindow()
@@ -136,12 +142,35 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         if(event -> type() == QMouseEvent::MouseMove){
 
             QMouseEvent* event_ = static_cast<QMouseEvent*>(event);
-            displayCursorInfo(event_ -> pos().x(),event_ -> pos().y());
+
+            int offset = ui -> imageInfoFrameTop -> geometry().height();
+            float posX = event_ -> pos().x();
+            float posY = event_ -> pos().y() - offset;
+
+            std::pair<int,int> imgCoordinates = convertCoordinates(posX, posY);
+
+            displayCursorInfo(imgCoordinates.first, imgCoordinates.second);
 
             return true;
         }else return false;
     }else return QMainWindow::eventFilter(obj, event);
    }
+
+
+std::pair<int, int> MainWindow::convertCoordinates(float posX, float posY)
+{
+    int labelWidth = ui -> imageLabel -> width();
+    int labelHeight = ui -> imageLabel -> height();
+
+    posX = posX / labelWidth;
+    posY = posY / labelHeight;
+
+    int imgPosX = posX * mImage.image().width();
+    int imgPosY = posY * mImage.image().height();
+
+    return std::make_pair(imgPosX, imgPosY);
+}
+
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
 
@@ -189,3 +218,5 @@ void MainWindow::openHistogram()
     h -> setAttribute(Qt::WA_DeleteOnClose);
     h -> show();
 }
+
+

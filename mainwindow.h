@@ -101,6 +101,8 @@ private:
      */
     void openHistogram();
 
+    std::pair<int,int> convertCoordinates(float posX, float posY);
+
 
 
 private:

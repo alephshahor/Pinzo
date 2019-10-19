@@ -22,7 +22,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,100,0">
     <property name="spacing">
-     <number>5</number>
+     <number>0</number>
     </property>
     <property name="leftMargin">
      <number>0</number>
@@ -85,15 +85,21 @@
        </sizepolicy>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(255, 0, 0);</string>
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QFrame" name="imageInfoFrameBottom">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
