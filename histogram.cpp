@@ -12,12 +12,22 @@ Histogram::Histogram(Image image, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Histogram),
     mImage(image),
-    currentType(Lightness)
+    mCurrentType(Lightness)
 {
     ui->setupUi(this);
+    mImageRange = pow(2,mImage.getImageDepth());
     connect(ui -> changeButton, &QPushButton::clicked,
             this, &Histogram::changeDisplayType);
     displayHistogram();
+}
+
+Histogram::Histogram(Histogram &histogram)
+{
+    mImage = histogram.getImage();
+    mCurrentType = histogram.getCurrentType();
+    mVPixelKey = histogram.getVPixelKey();
+    mVPixelValue = histogram.getVPixelValue();
+
 }
 
 Histogram::~Histogram()
@@ -89,7 +99,7 @@ double Histogram::calculateStdDeviation()
 
 int Histogram::numberOfPixels()
 {
-    return mImage.image().width() * mImage.image().height();
+    return mImage.getImage().width() * mImage.getImage().height();
 }
 
 void Histogram::displayInfo()
@@ -127,9 +137,9 @@ void Histogram::calculateHistogramValues(int(*func)(QColor))
 {
     QVector<double> vPixelValue(256);
 
-    for(int i = 0; i < mImage.image().width(); i++){
-        for(int j = 0; j < mImage.image().height(); j++){
-            QColor pixel = mImage.image().pixel(i,j);
+    for(int i = 0; i < mImage.getImage().width(); i++){
+        for(int j = 0; j < mImage.getImage().height(); j++){
+            QColor pixel = mImage.getImage().pixel(i,j);
             int pixelValue = func(pixel);
             vPixelValue[pixelValue] += 1.0;
         }
@@ -154,7 +164,7 @@ void Histogram::createHistogram()
 
 void Histogram::displayHistogram(){
 
-    switch(currentType){
+    switch(mCurrentType){
         case Lightness:
         calculateHistogramValues(calculateColorLightnessValue);
         calculateHistogramKeys();
@@ -189,9 +199,9 @@ void Histogram::displayHistogram(){
 
 void Histogram::changeDisplayType()
 {
-    if(currentType == Blue){
-        currentType = Lightness;
-    }else currentType += 1;
+    if(mCurrentType == Blue){
+        mCurrentType = Lightness;
+    }else mCurrentType += 1;
     displayHistogram();
 }
 
@@ -213,6 +223,36 @@ int Histogram::calculateBlueColorValue(QColor pixel)
 int Histogram::calculateGreenColorValue(QColor pixel)
 {
     return pixel.green();
+}
+
+QVector<double> Histogram::getVPixelKey() const
+{
+    return mVPixelKey;
+}
+
+QVector<double> Histogram::getVPixelValue() const
+{
+    return mVPixelValue;
+}
+
+int Histogram::getCurrentType() const
+{
+    return mCurrentType;
+}
+
+void Histogram::setCurrentType(int value)
+{
+    mCurrentType = value;
+}
+
+Image Histogram::getImage() const
+{
+    return mImage;
+}
+
+void Histogram::setImage(const Image &image)
+{
+    mImage = image;
 }
 
 

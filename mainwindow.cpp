@@ -51,7 +51,7 @@ Image MainWindow::image() const
 void MainWindow::setImage(const Image &image)
 {
     mImage = image;
-    mImagePixMap.convertFromImage(mImage.image());
+    mImagePixMap.convertFromImage(mImage.getImage());
     ui -> imageLabel -> setMargin(0);
     ui -> imageLabel -> setPixmap(mImagePixMap);
     mRubberBand = new RubberBand(ui -> imageLabel);
@@ -101,20 +101,20 @@ void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
     setImage(image);
-    setWindowTitle(image.fileName());
+    setWindowTitle(image.getImageName());
     displayImageInfo();
 }
 
 void MainWindow::openImage_(Image image){
     setImage(image);
-    setWindowTitle(image.fileName());
+    setWindowTitle(image.getImageName());
     displayImageInfo();
 }
 
 void MainWindow::saveImage()
 {
 
-    mImage.image().save(mImage.filePath(), mImage.fileFormat().toStdString().c_str() , 100);
+    mImage.getImage().save(mImage.getImagePath(), mImage.getImageFormat().toStdString().c_str() , 100);
 
 }
 
@@ -137,7 +137,7 @@ void MainWindow::saveImageAs()
 
 
     QString newPath(dir + "/" + fileName);
-    mImage.image().save(newPath, fileFormat.toStdString().c_str() , fileQuality);
+    mImage.getImage().save(newPath, fileFormat.toStdString().c_str() , fileQuality);
 
     delete imageDialog;
 
@@ -197,8 +197,8 @@ QPoint MainWindow::convertCoordinates(float posX, float posY)
     posX = posX / labelWidth;
     posY = posY / labelHeight;
 
-    int imageWidth = mImage.image().width();
-    int imageHeight = mImage.image().height();
+    int imageWidth = mImage.getImage().width();
+    int imageHeight = mImage.getImage().height();
 
     int imgPosX = posX * imageWidth;
     int imgPosY = posY * imageHeight;
@@ -210,8 +210,8 @@ QPoint MainWindow::convertCoordinates(float posX, float posY)
 
 void MainWindow::limitBoundaries(int& imgPosX, int& imgPosY){
 
-    int imageWidth = mImage.image().width();
-    int imageHeight = mImage.image().height();
+    int imageWidth = mImage.getImage().width();
+    int imageHeight = mImage.getImage().height();
 
     if(imgPosY < 0){
         imgPosY = 0;
@@ -232,7 +232,7 @@ void MainWindow::limitBoundaries(int& imgPosX, int& imgPosY){
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
 
-    QColor imagePixel = mImage.image().pixel(xPixelCoordinate, yPixelCoordinate);
+    QColor imagePixel = mImage.getImage().pixel(xPixelCoordinate, yPixelCoordinate);
     int red = imagePixel.red();
     int green = imagePixel.green();
     int blue = imagePixel.blue();
@@ -251,14 +251,14 @@ void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
 
 void MainWindow::displayImageInfo()
 {
-    QString formatLabelText = "Format: " + mImage.fileFormat();
+    QString formatLabelText = "Format: " + mImage.getImageFormat();
     ui -> formatLabel -> setText(formatLabelText);
 
-    QString dimensionLabelText = "Dimension: " + QString::number(mImage.fileDimension().first) + " x "
-                                               + QString::number(mImage.fileDimension().second);
+    QString dimensionLabelText = "Dimension: " + QString::number(mImage.getImageDimension().first) + " x "
+                                               + QString::number(mImage.getImageDimension().second);
     ui -> dimensionLabel -> setText(dimensionLabelText);
 
-    QString depthLabelText = "Depth: " + QString::number(mImage.fileDepth());
+    QString depthLabelText = "Depth: " + QString::number(mImage.getImageDepth());
 
     QString colorLabelText = "Color: ";
     if(mImage.isGray() == true){

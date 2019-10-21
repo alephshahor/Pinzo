@@ -23,14 +23,14 @@ Image::Image(const QString &filepath):
 
 Image::Image(Image image, QRect rect):
     mImage(),
-    mFileName(image.fileName()),
-    mFilePath(image.filePath()),
-    mFileFormat(image.fileFormat()),
-    mFileDepth(image.fileDepth()),
+    mFileName(image.getImageName()),
+    mFilePath(image.getImagePath()),
+    mFileFormat(image.getImageFormat()),
+    mFileDepth(image.getImageDepth()),
     mIsGray(image.isGray()),
     mFileDimension(std::make_pair(rect.width(), rect.height()))
 {
-    QImageReader reader(image.filePath());
+    QImageReader reader(image.getImagePath());
     reader.setAutoTransform(true);
     mImage = reader.read().copy(rect);
 }
@@ -84,7 +84,7 @@ bool Image::saveImage(const QString &filepath, const char* format, int quality)
     return mImage.save(filepath, format, quality);
 }
 
-QImage Image::image() const
+QImage Image::getImage() const
 {
     return mImage;
 }
@@ -94,12 +94,12 @@ void Image::setImage(const QImage &image)
     mImage = image;
 }
 
-QString Image::fileFormat() const
+QString Image::getImageFormat() const
 {
     return mFileFormat;
 }
 
-std::pair<int, int> Image::fileDimension() const
+std::pair<int, int> Image::getImageDimension() const
 {
     return mFileDimension;
 }
@@ -109,17 +109,17 @@ bool Image::isGray() const
     return mIsGray;
 }
 
-int Image::fileDepth() const
+int Image::getImageDepth() const
 {
     return mFileDepth;
 }
 
-QString Image::fileName() const
+QString Image::getImageName() const
 {
     return mFileName;
 }
 
-QString Image::filePath() const
+QString Image::getImagePath() const
 {
     return mFilePath;
 }

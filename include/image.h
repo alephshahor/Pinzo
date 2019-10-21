@@ -15,15 +15,15 @@ public:
     bool loadImage(const QString& filepath);
     bool saveImage(const QString& filepath, const char* format, int quality);
 
-    QImage image() const;
+    QImage getImage() const;
     void setImage(const QImage &image);
 
-    QString filePath() const;
-    QString fileName() const;
-    QString fileFormat() const;
-    int fileDepth() const;
+    QString getImagePath() const;
+    QString getImageName() const;
+    QString getImageFormat() const;
+    int getImageDepth() const;
     bool isGray() const;
-    std::pair<int, int> fileDimension() const;
+    std::pair<int, int> getImageDimension() const;
 
 
 public:

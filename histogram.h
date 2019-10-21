@@ -17,7 +17,18 @@ class Histogram : public QWidget
 
 public:
     explicit Histogram(Image image, QWidget *parent = nullptr);
+    Histogram(Histogram& histogram);
     ~Histogram();
+
+    Image getImage() const;
+    void setImage(const Image &image);
+
+    int getCurrentType() const;
+    void setCurrentType(int value);
+
+    QVector<double> getVPixelValue() const;
+
+    QVector<double> getVPixelKey() const;
 
 private:
 
@@ -131,9 +142,9 @@ private:
     enum mDisplayType {Lightness, Red, Green, Blue};
 
     /*!
-     * \brief currentType stores the current visualization type.
+     * \brief mCurrentType stores the current visualization type.
      */
-    int currentType;
+    int mCurrentType;
 
     /*!
      * \brief mVPixelValue the y-axis values.
@@ -144,6 +155,12 @@ private:
      * \brief mVPixelKey the x-axis values.
      */
     QVector<double> mVPixelKey;
+
+    /*!
+     * \brief mImageRange number of possible intensity values
+     * depending on the image depth.
+     */
+    int mImageRange;
 
 };
 
