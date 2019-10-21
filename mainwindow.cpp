@@ -29,10 +29,11 @@ MainWindow::MainWindow(QWidget *parent)
     // happens.
     ui -> centralwidget -> installEventFilter(this);
 
-    mRubberBand = new RubberBand(ui -> imageLabel);
     statusBar() -> hide();
     connectSignals();
     scaleImageLabel();
+
+    mRubberBand = new RubberBand(ui -> imageLabel);
 
 
 }
@@ -51,11 +52,10 @@ void MainWindow::setImage(const Image &image)
 {
     mImage = image;
     mImagePixMap.convertFromImage(mImage.image());
-//    int labelWidth = ui -> imageLabel -> width();
-//    int labelHeight = ui -> imageLabel -> height();
-//    ui -> imageLabel -> setPixmap(mImagePixMap.scaled(labelWidth, labelHeight, Qt::IgnoreAspectRatio));
     ui -> imageLabel -> setMargin(0);
     ui -> imageLabel -> setPixmap(mImagePixMap);
+    mRubberBand = new RubberBand(ui -> imageLabel);
+
 }
 
 void MainWindow::cloneWindow()
@@ -72,6 +72,15 @@ void MainWindow::openNewWindow()
     newWindow -> setAttribute(Qt::WA_DeleteOnClose);
     newWindow -> show();
 }
+
+void MainWindow::openNewWindow_(Image image)
+{
+    MainWindow* newWindow = new MainWindow();
+    newWindow -> setAttribute(Qt::WA_DeleteOnClose);
+    newWindow -> openImage_(image);
+    newWindow -> show();
+}
+
 
 void MainWindow::connectSignals()
 {
@@ -92,6 +101,12 @@ void MainWindow::connectSignals()
 void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     Image image = Image(filepath);
+    setImage(image);
+    setWindowTitle(image.fileName());
+    displayImageInfo();
+}
+
+void MainWindow::openImage_(Image image){
     setImage(image);
     setWindowTitle(image.fileName());
     displayImageInfo();
@@ -138,49 +153,37 @@ void MainWindow::scaleImageLabel()
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (dynamic_cast<QWidget*>(obj) == ui -> centralwidget){
+
         QMouseEvent* event_ = static_cast<QMouseEvent*>(event);
+
+        int offset = ui -> imageInfoFrameTop -> geometry().height();
+        float posX = event_ -> pos().x();
+        float posY = event_ -> pos().y() - offset;
+
+        QPoint imgCoordinates = convertCoordinates(posX, posY);
+
+
         if(event -> type() == QMouseEvent::MouseMove){
 
-
-            int offset = ui -> imageInfoFrameTop -> geometry().height();
-            float posX = event_ -> pos().x();
-            float posY = event_ -> pos().y() - offset;
-
-            QPoint imgCoordinates = convertCoordinates(posX, posY);
-
             mRubberBand -> mouseMoveEvent(QPoint(posX,posY));
-
             displayCursorInfo(imgCoordinates.x(), imgCoordinates.y());
 
-            return true;
         }else if (event -> type() == QMouseEvent::MouseButtonPress){
-
-            int offset = ui -> imageInfoFrameTop -> geometry().height();
-            int posX = event_ -> pos().x();
-            int posY = event_ -> pos().y() - offset;
-
-            QPoint imgCoordinates = convertCoordinates(posX, posY);
-
 
             mRubberBand -> mousePressEvent(QPoint(posX,posY), imgCoordinates);
 
         } else if(event -> type() == QMouseEvent::MouseButtonRelease){
 
-            int offset = ui -> imageInfoFrameTop -> geometry().height();
-            int posX = event_ -> pos().x();
-            int posY = event_ -> pos().y() - offset;
+            try {
+                QRect selection =  mRubberBand -> mouseReleaseEvent(QPoint(posX,posY), imgCoordinates);
+                Image croppedImage(mImage, selection);
+                openNewWindow_(croppedImage);
+            } catch (const char* msg) {
+                QMessageBox errorMessageBox;
+                errorMessageBox.critical(0, "Error", msg);
+                errorMessageBox.setFixedSize(500,200);
+            }
 
-            QPoint imgCoordinates = convertCoordinates(posX, posY);
-
-
-           QRect selection =  mRubberBand -> mouseReleaseEvent(QPoint(posX,posY), imgCoordinates);
-           Image croppedImage(mImage, selection);
-
-
-           MainWindow* newWindow = new MainWindow();
-           newWindow -> setImage(croppedImage);
-           newWindow -> setAttribute(Qt::WA_DeleteOnClose);
-           newWindow -> show();
 
         }return false;
 
@@ -195,6 +198,7 @@ QPoint MainWindow::convertCoordinates(float posX, float posY)
 
     posX = posX / labelWidth;
     posY = posY / labelHeight;
+
 
     int imgPosX = posX * mImage.image().width();
     int imgPosY = posY * mImage.image().height();

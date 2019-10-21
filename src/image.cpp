@@ -28,7 +28,7 @@ Image::Image(Image image, QRect rect):
     mFileFormat(image.fileFormat()),
     mFileDepth(image.fileDepth()),
     mIsGray(image.isGray()),
-    mFileDimension(image.fileDimension())
+    mFileDimension(std::make_pair(rect.width(), rect.height()))
 {
     QImageReader reader(image.filePath());
     reader.setAutoTransform(true);

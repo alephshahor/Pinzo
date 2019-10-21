@@ -18,6 +18,8 @@ public:
     ~MainWindow();
 
 
+    void openNewWindow_(Image image);
+    void openImage_(Image image);
 private:
 
     /*!
