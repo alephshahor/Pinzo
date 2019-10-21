@@ -67,7 +67,7 @@ int Histogram::calculateMin()
 int Histogram::calculateMax()
 {
 
-    for(int i = 255; i >= 0; i--){
+    for(int i = mImageRange - 1; i >= 0; i--){
         if(mVPixelValue[i] > 0){
            return i;
         }
@@ -125,8 +125,8 @@ void Histogram::setVPixelValue(const QVector<double> &vPixelValue)
 
 void Histogram::calculateHistogramKeys()
 {
-    QVector<double> vPixelKey(256);
-    for(int i = 0; i < 256; i++){
+    QVector<double> vPixelKey(mImageRange);
+    for(int i = 0; i < mImageRange; i++){
         vPixelKey[i] = static_cast<double>(i);
     }
 
@@ -135,7 +135,7 @@ void Histogram::calculateHistogramKeys()
 
 void Histogram::calculateHistogramValues(int(*func)(QColor))
 {
-    QVector<double> vPixelValue(256);
+    QVector<double> vPixelValue(mImageRange);
 
     for(int i = 0; i < mImage.getImage().width(); i++){
         for(int j = 0; j < mImage.getImage().height(); j++){
