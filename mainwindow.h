@@ -17,9 +17,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-    void openNewWindow_(Image image);
-    void openImage_(Image image);
 private:
 
     /*!
@@ -44,6 +41,8 @@ private:
      * \brief Opens a new empty window.
      */
     void openNewWindow();
+    void openNewWindow_(Image image);
+
 
     /*!
      * \brief connectSignals connects menu options
@@ -56,6 +55,7 @@ private:
      * that already existed ( if existing ).
      */
     void openImage();
+    void openImage_(Image image);
 
     /*!
      * \brief saves the current image and its modifications.
@@ -115,6 +115,13 @@ private:
      */
     QPoint convertCoordinates(float posX, float posY);
 
+    /*!
+     * \brief limitBoundaries makes sure that the cursor position cannot get
+     * further than the dimension of the image.
+     * \param posX position of the cursor in the x-axis.
+     * \param posY position of the cursor in the y-axis.
+     */
+    void limitBoundaries(int &posX, int &posY);
 
 
 private:

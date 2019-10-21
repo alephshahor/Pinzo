@@ -81,7 +81,6 @@ void MainWindow::openNewWindow_(Image image)
     newWindow -> show();
 }
 
-
 void MainWindow::connectSignals()
 {
     connect(ui -> actionOpen, &QAction::triggered,
@@ -190,7 +189,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     }else return QMainWindow::eventFilter(obj, event);
    }
 
-
 QPoint MainWindow::convertCoordinates(float posX, float posY)
 {
     int labelWidth = ui -> imageLabel -> width();
@@ -199,13 +197,38 @@ QPoint MainWindow::convertCoordinates(float posX, float posY)
     posX = posX / labelWidth;
     posY = posY / labelHeight;
 
+    int imageWidth = mImage.image().width();
+    int imageHeight = mImage.image().height();
 
-    int imgPosX = posX * mImage.image().width();
-    int imgPosY = posY * mImage.image().height();
+    int imgPosX = posX * imageWidth;
+    int imgPosY = posY * imageHeight;
+
+    limitBoundaries(imgPosX, imgPosY);
 
     return QPoint(imgPosX, imgPosY);
 }
 
+void MainWindow::limitBoundaries(int& imgPosX, int& imgPosY){
+
+    int imageWidth = mImage.image().width();
+    int imageHeight = mImage.image().height();
+
+    if(imgPosY < 0){
+        imgPosY = 0;
+    }
+
+    if(imgPosX < 0){
+        imgPosX = 0;
+    }
+
+    if(imgPosX > imageWidth){
+        imgPosX = imageWidth;
+    }
+
+    if(imgPosY > imageHeight){
+        imgPosY = imageHeight;
+    }
+}
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){
 
