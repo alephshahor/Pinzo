@@ -172,7 +172,8 @@
     <property name="title">
      <string>Analysis</string>
     </property>
-    <addaction name="actionHistogram"/>
+    <addaction name="actionAbsoluteHist"/>
+    <addaction name="actionCumulativeHist"/>
     <addaction name="actionEntropy"/>
    </widget>
    <addaction name="menuFile"/>
@@ -205,9 +206,14 @@
     <string>New</string>
    </property>
   </action>
-  <action name="actionHistogram">
+  <action name="actionAbsoluteHist">
    <property name="text">
-    <string>Histogram</string>
+    <string>Absolute Histogram</string>
+   </property>
+  </action>
+  <action name="actionCumulativeHist">
+   <property name="text">
+    <string>Cumulative Histogram</string>
    </property>
   </action>
   <action name="actionEntropy">

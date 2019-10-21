@@ -21,7 +21,6 @@ AbsoluteHistogram::AbsoluteHistogram(Image image, QWidget *parent) :
     mImageRange = pow(2,mImage.getImageDepth());
     connect(ui -> changeButton, &QPushButton::clicked,
             this, &AbsoluteHistogram::changeDisplayType);
-    displayHistogram();
 }
 
 AbsoluteHistogram::~AbsoluteHistogram()

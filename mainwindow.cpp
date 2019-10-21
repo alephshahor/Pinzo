@@ -2,7 +2,8 @@
 #include "./ui_mainwindow.h"
 #include "include/image.h"
 #include "saveimagedialog.h"
-#include "histogram.h"
+#include "absolutehistogram.h"
+#include "cumulativehistogram.h"
 
 #include <iostream>
 #include <memory>
@@ -93,8 +94,10 @@ void MainWindow::connectSignals()
             this, &MainWindow::saveImage);
     connect(ui -> actionSave_As, &QAction::triggered,
             this, &MainWindow::saveImageAs);
-    connect(ui -> actionHistogram, &QAction::triggered,
-            this, &MainWindow::openHistogram);
+    connect(ui -> actionAbsoluteHist, &QAction::triggered,
+            this, [this]{openHistogram(Absolute);});
+    connect(ui -> actionCumulativeHist, &QAction::triggered,
+            this, [this]{openHistogram(Cumulative);});
 }
 
 void MainWindow::openImage(){
@@ -270,11 +273,21 @@ void MainWindow::displayImageInfo()
     ui -> depthLabel -> setText(depthLabelText);
 }
 
-void MainWindow::openHistogram()
+void MainWindow::openHistogram(HistogramType type)
 {
-    Histogram* h = new Histogram(mImage);
-    h -> setAttribute(Qt::WA_DeleteOnClose);
-    h -> show();
+
+    if(type == Cumulative){
+        CumulativeHistogram* h = new CumulativeHistogram(mImage);
+        h -> setAttribute(Qt::WA_DeleteOnClose);
+        h -> displayHistogram();
+        h -> show();
+    }else{
+        AbsoluteHistogram* h = new AbsoluteHistogram(mImage);
+        h -> setAttribute(Qt::WA_DeleteOnClose);
+        h -> displayHistogram();
+        h -> show();
+    }
+
 }
 
 

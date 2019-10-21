@@ -17,6 +17,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public:
+    enum HistogramType {Absolute, Cumulative};
+
 private:
 
     /*!
@@ -103,7 +106,7 @@ private:
     /*!
      * \brief openHistogram opens a new Histogram for the currently opened image.
      */
-    void openHistogram();
+    void openHistogram(HistogramType type);
 
 
     /*!
@@ -134,5 +137,6 @@ private:
     RubberBand* mRubberBand;
     Image mImage;
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H

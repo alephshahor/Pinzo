@@ -25,6 +25,8 @@ set(INCLUDE_FILES
     include/rubberband.h
     saveimagedialog.h
     histogram.h
+    cumulativehistogram.h
+    absolutehistogram.h
     )
 
 set(SOURCE_FILES
@@ -36,12 +38,15 @@ set(SOURCE_FILES
     src/rubberband.cpp
     saveimagedialog.cpp
     histogram.cpp
+    cumulativehistogram.cpp
+    absolutehistogram.cpp
     )
 
 set(UI_FILES
     mainwindow.ui
     saveimagedialog.ui
-    histogram.ui
+    cumulativehistogram.ui
+    absolutehistogram.ui
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)

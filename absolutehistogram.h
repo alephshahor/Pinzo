@@ -22,7 +22,11 @@ public:
     int getCurrentType() const;
     void setCurrentType(int value);
 
-
+    /*!
+     * \brief displayHistogram it creates and display the histogram
+     * according to the current type of visualization.
+     */
+    void displayHistogram() override;
 
 private:
 
@@ -67,20 +71,13 @@ private:
      * \brief calculateHistogramValues it calculates the values of
      * the histogram, that means the values of the y-axis.
      */
-    void calculateHistogramValues(int(*func)(QColor));
+    virtual void calculateHistogramValues(int(*func)(QColor));
 
 
     /*!
      * \brief createHistogram it creates a QCustomPlot graph.
      */
-    void createHistogram();
-
-
-    /*!
-     * \brief displayHistogram it creates and display the histogram
-     * according to the current type of visualization.
-     */
-    void displayHistogram() override;
+    void createHistogram() override;
 
     /*!
      * \brief changeDisplayType its called when the "changeButton" is
