@@ -47,6 +47,7 @@ set(UI_FILES
     saveimagedialog.ui
     cumulativehistogram.ui
     absolutehistogram.ui
+    histogram.ui
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)

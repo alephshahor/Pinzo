@@ -2,27 +2,40 @@
 #define CUMULATIVEHISTOGRAM_H
 
 #include <QWidget>
-#include "absolutehistogram.h"
+#include "histogram.h"
 
-namespace Ui {
-class CumulativeHistogram;
-}
 
-class CumulativeHistogram : public AbsoluteHistogram
+class CumulativeHistogram : public Histogram
 {
     Q_OBJECT
 
 public:
-    CumulativeHistogram(Image image);
+    CumulativeHistogram(Image image, QWidget *parent);
     ~CumulativeHistogram() override;
 
-    void calculateHistogramValues();
-//    void createHistogram() override;
-//    void displayHistogram() override;
 
-    void calculateHistogramValues(int (*func)(QColor)) override;
 private:
-    Ui::CumulativeHistogram *ui;
+
+    /*!
+     * \brief calculateHistogramValues it calculates the values of
+     * the histogram, that means the values of the y-axis.
+     */
+    void calculateHistogramValues(int(*func)(QColor)) override;
+
+
+    /*!
+     * \brief displayInfo it refreshes the values of the QLabels
+     * that stores the information of the histogram.
+     */
+    void displayInfo() override;
+
+    /*!
+     * \brief calculateEntropy it calculates the entropy of the image.
+     * \return
+     */
+    double calculateEntropy();
+
+
 
 };
 

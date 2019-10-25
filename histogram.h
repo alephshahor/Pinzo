@@ -9,13 +9,24 @@ namespace Ui {
 class Histogram;
 }
 
-class Histogram
+class Histogram : public QWidget
 {
 
+    Q_OBJECT
+
 public:
-    explicit Histogram(Image image);
+    explicit Histogram(Image image, QWidget *parent);
     Histogram(Histogram& histogram);
     virtual ~Histogram();
+
+    /*!
+     * \brief displayHistogram it creates and display the histogram
+     * according to the current type of visualization.
+     */
+    void displayHistogram();
+
+
+protected:
 
     Image getImage() const;
     void setImage(const Image &image);
@@ -33,12 +44,16 @@ public:
     void setVPixelValue(const QVector<double> &vPixelValue);
     void setVPixelKey(const QVector<double> &vPixelKey);
 
+    static int calculateColorLightnessValue(QColor pixel);
+    static int calculateRedColorValue(QColor pixel);
+    static int calculateBlueColorValue(QColor pixel);
+    static int calculateGreenColorValue(QColor pixel);
 
-
-
-    protected:
-
-
+    int calculateMin();
+    int calculateMax();
+    double calculateMean();
+    double calculateStdDeviation();
+    void changeDisplayType();
 
     /*!
      * \brief numberOfPixels of the image.
@@ -62,7 +77,21 @@ public:
     /*!
      * \brief createHistogram it creates a QCustomPlot graph.
      */
-    virtual void createHistogram() = 0;
+    void createHistogram();
+
+
+    /*!
+     * \brief displayHistogram it creates and display the histogram
+     * according to the current type of visualization.
+     */
+    virtual void displayInfo() = 0;
+
+    /*!
+     * \brief calculateHistogramValues it calculates the values of
+     * the histogram, that means the values of the y-axis.
+     */
+    virtual void calculateHistogramValues(int(*func)(QColor)) = 0;
+
 
     /*!
      * \brief calculateHistogramKeys it calculates the keys of
@@ -70,14 +99,11 @@ public:
      */
     void calculateHistogramKeys();
 
-    /*!
-     * \brief displayHistogram it creates and display the histogram
-     * according to the current type of visualization.
-     */
-    virtual void displayHistogram() = 0;
 
 
 protected:
+
+    Ui::Histogram* ui;
 
     /*!
      * \brief mImage the image the histogram takes to analyze.
@@ -99,6 +125,17 @@ protected:
      * depending on the image depth.
      */
     int mImageRange;
+
+    /*!
+     * \brief The mDisplayType enum the types of histogram
+     * visualization.
+     */
+    enum mDisplayType {Lightness, Red, Green, Blue};
+
+    /*!
+     * \brief mCurrentType stores the current visualization type.
+     */
+    int mCurrentType;
 
 };
 

@@ -1,14 +1,13 @@
 #include "cumulativehistogram.h"
 #include "ui_cumulativehistogram.h"
+#include "ui_histogram.h"
 
 #include <QVector>
 #include <cmath>
 
-CumulativeHistogram::CumulativeHistogram(Image image) :
-    AbsoluteHistogram(image),
-    ui(new Ui::CumulativeHistogram)
+CumulativeHistogram::CumulativeHistogram(Image image, QWidget* parent) :
+    Histogram(image, parent)
 {
-    ui->setupUi(this);
 }
 
 
@@ -32,6 +31,30 @@ void CumulativeHistogram::calculateHistogramValues(int(*func)(QColor))
 
       setVPixelValue(vPixelValueCumulative);
 }
+
+double CumulativeHistogram::calculateEntropy(){
+
+    double summatory = 0;
+    int imageDimension = mImage.getImage().width() * mImage.getImage().height();
+    for(int i = 0; i < mVPixelValue.size(); i++){
+        double iProbability = mVPixelValue[i] / imageDimension;
+        summatory += iProbability * log(iProbability);
+    }
+
+    return (-1)*summatory;
+}
+
+void CumulativeHistogram::displayInfo()
+{
+    ui -> countLabel -> setText("Count: " + QString::number(numberOfPixels()));
+    ui -> minLabel -> setText("Min: " + QString::number(calculateMin()));
+    ui -> maxLabel -> setText("Max: " + QString::number(calculateMax()));
+    ui -> meanLabel -> setText("Mean: " + QString::number(calculateMean()));
+    ui -> modeLabel -> setText("Mode: " + QString::number(calculateModeValue()) + " (" +
+                                          QString::number(calculateModeFrequency()) + ")");
+    ui -> stdDevLabel -> setText("StdDev: " + QString::number(calculateStdDeviation()));
+}
+
 
 CumulativeHistogram::~CumulativeHistogram()
 {

@@ -275,19 +275,17 @@ void MainWindow::displayImageInfo()
 
 void MainWindow::openHistogram(HistogramType type)
 {
+    Histogram* h;
 
     if(type == Cumulative){
-        CumulativeHistogram* h = new CumulativeHistogram(mImage);
-        h -> setAttribute(Qt::WA_DeleteOnClose);
-        h -> displayHistogram();
-        h -> show();
+        h = new CumulativeHistogram(mImage, nullptr);
     }else{
-        AbsoluteHistogram* h = new AbsoluteHistogram(mImage);
-        h -> setAttribute(Qt::WA_DeleteOnClose);
-        h -> displayHistogram();
-        h -> show();
+        h = new AbsoluteHistogram(mImage, nullptr);
     }
 
+    h -> setAttribute(Qt::WA_DeleteOnClose);
+    h -> displayHistogram();
+    h -> show();
 }
 
 
