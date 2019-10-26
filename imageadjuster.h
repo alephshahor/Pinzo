@@ -32,12 +32,6 @@ public:
     double calculateBrightness();
     double calculateContrast();
 
-    int getPreviousBrigthnessAmount() const;
-    void setPreviousBrigthnessAmount(int value);
-
-    int getPreviousContrastAmount() const;
-    void setPreviousContrastAmount(int previousContrastAmount);
-
 private:
     void reportChange(Image image);
     void refreshLabels();
@@ -46,8 +40,7 @@ signals:
     void imageChanged(Image image);
 
 private:
-    int mPreviousBrigthnessAmount;
-    int mPreviousContrastAmount;
+
     Image mImage;
     Ui::ImageAdjuster *ui;
 };

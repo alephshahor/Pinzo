@@ -6,7 +6,6 @@
 
 ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     QWidget(parent),
-    mPreviousBrigthnessAmount(0),
     mImage(image),
     ui(new Ui::ImageAdjuster)
 {
@@ -17,9 +16,8 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
             this, &ImageAdjuster::processSliderInput);
     connect(ui -> brightnessText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processTextInput);
-    connect(ui -> brightnessText, &QLineEdit::returnPressed,
+    connect(ui -> contrastText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processTextInput);
-    refreshLabels();
 }
 
 
@@ -71,8 +69,6 @@ void ImageAdjuster::adjustImage(int brightnessAmount, double contrastAmount)
                        limitNumber( (qGreen(st[p]) - 128) * contrastAmount + 128 + brightnessAmount),
                        limitNumber( (qBlue(st[p]) - 128) * contrastAmount + 128 + brightnessAmount)).rgb();
     }
-
-    refreshLabels();
     reportChange(adjustedImage);
 }
 
@@ -85,26 +81,22 @@ float ImageAdjuster::contrastCorrectionFactor(float contrastAmount)
 
 void ImageAdjuster::processSliderInput()
 {
-//    int brightnessAmount = ui -> brightnessSlider -> value() - getPreviousBrigthnessAmount();
-//    setPreviousBrigthnessAmount(ui -> brightnessSlider -> value());
     int brightnessAmount = ui -> brightnessSlider -> value();
     double contrastAmount = (static_cast<double>(ui -> contrastSlider -> value()) / 10) + 0.05;
 
     ui -> brightnessText -> setText(QString::number(ui -> brightnessSlider -> value()));
-    ui -> contrastText -> setText(QString::number(ui -> contrastSlider -> value() / 10));
+    ui -> contrastText -> setText(QString::number(static_cast<double>(ui -> contrastSlider -> value()) / 10));
 
     adjustImage(brightnessAmount, contrastAmount);
 }
 
 void ImageAdjuster::processTextInput()
 {
-    int brightnessAmount = ui -> brightnessText -> text().toInt() - getPreviousBrigthnessAmount();
-    setPreviousBrigthnessAmount(ui -> brightnessText -> text().toInt());
-
-    double contrastAmount = ui -> contrastText -> text().toInt() / 10;
+    int brightnessAmount = ui -> brightnessText -> text().toInt();
+    double contrastAmount = static_cast<double>(ui -> contrastText -> text().toDouble()) + 0.05;
 
     ui -> brightnessSlider -> setValue(ui -> brightnessText -> text().toInt());
-    ui -> contrastSlider -> setValue(ui -> brightnessText -> text().toInt() * 10);
+    ui -> contrastSlider -> setValue(ui -> contrastText -> text().toDouble() * 10);
 
     adjustImage(brightnessAmount, contrastAmount);
 }
@@ -122,35 +114,6 @@ int ImageAdjuster::limitNumber(int num)
 void ImageAdjuster::reportChange(Image image)
 {
     emit imageChanged(image);
-}
-
-void ImageAdjuster::refreshLabels()
-{
-    double brightness = calculateBrightness();
-    ui -> brightnessLabel -> setText("Brightness: " + QString::number(brightness));
-
-//    double contrast = calculateContrast();
-//    ui -> brightnessLabel -> setText("Brightness: " + QString::number(brightness));
-}
-
-int ImageAdjuster::getPreviousContrastAmount() const
-{
-    return mPreviousContrastAmount;
-}
-
-void ImageAdjuster::setPreviousContrastAmount(int previousContrastAmount)
-{
-    mPreviousContrastAmount = previousContrastAmount;
-}
-
-int ImageAdjuster::getPreviousBrigthnessAmount() const
-{
-    return mPreviousBrigthnessAmount;
-}
-
-void ImageAdjuster::setPreviousBrigthnessAmount(int value)
-{
-    mPreviousBrigthnessAmount = value;
 }
 
 
