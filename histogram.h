@@ -28,7 +28,7 @@ public:
 
 protected:
 
-    Image getImage() const;
+    Image getImage();
     void setImage(const Image &image);
 
     int getCurrentType() const;

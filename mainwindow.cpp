@@ -4,6 +4,7 @@
 #include "saveimagedialog.h"
 #include "absolutehistogram.h"
 #include "cumulativehistogram.h"
+#include "imageadjuster.h"
 
 #include <iostream>
 #include <memory>
@@ -44,7 +45,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-Image MainWindow::image() const
+Image MainWindow::image()
 {
     return mImage;
 }
@@ -98,11 +99,13 @@ void MainWindow::connectSignals()
             this, [this]{openHistogram(Absolute);});
     connect(ui -> actionCumulativeHist, &QAction::triggered,
             this, [this]{openHistogram(Cumulative);});
+    connect(ui -> actionAdjust, &QAction::triggered,
+            this, &MainWindow::openImageAdjuster);
 }
 
 void MainWindow::openImage(){
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
-    Image image = Image(filepath);
+    Image image(filepath);
     setImage(image);
     setWindowTitle(image.getImageName());
     displayImageInfo();
@@ -231,6 +234,25 @@ void MainWindow::limitBoundaries(int& imgPosX, int& imgPosY){
     if(imgPosY > imageHeight){
         imgPosY = imageHeight;
     }
+}
+
+void MainWindow::openImageAdjuster()
+{
+    ImageAdjuster* imgAdjuster = new ImageAdjuster(mImage, nullptr);
+    connect(imgAdjuster, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    imgAdjuster  -> setAttribute(Qt::WA_DeleteOnClose);
+    imgAdjuster  -> show();
+}
+
+void MainWindow::refreshImage(Image image)
+{
+      setImage(image);
+//    qDebug() << "I received the signal!\n";
+//    qDebug() << mImage.getImage().pixel(0,0);
+//    mImagePixMap.convertFromImage(image.getImage());
+//    ui -> imageLabel -> setMargin(0);
+//    ui -> imageLabel -> setPixmap(mImagePixMap);
+//    mRubberBand = new RubberBand(ui -> imageLabel);
 }
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){

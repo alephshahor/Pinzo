@@ -27,6 +27,7 @@ set(INCLUDE_FILES
     histogram.h
     cumulativehistogram.h
     absolutehistogram.h
+    imageadjuster.h
     )
 
 set(SOURCE_FILES
@@ -40,6 +41,7 @@ set(SOURCE_FILES
     histogram.cpp
     cumulativehistogram.cpp
     absolutehistogram.cpp
+    imageadjuster.cpp
     )
 
 set(UI_FILES
@@ -48,6 +50,7 @@ set(UI_FILES
     cumulativehistogram.ui
     absolutehistogram.ui
     histogram.ui
+    imageadjuster.ui
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)

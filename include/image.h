@@ -10,12 +10,12 @@ public:
     Image();
     Image(const QString& filepath);
     Image(Image image, QRect rect);
-
+    Image(Image& image);
 
     bool loadImage(const QString& filepath);
     bool saveImage(const QString& filepath, const char* format, int quality);
 
-    QImage getImage() const;
+    QImage& getImage();
     void setImage(const QImage &image);
 
     QString getImagePath() const;
@@ -24,7 +24,8 @@ public:
     int getImageDepth() const;
     bool isGray() const;
     std::pair<int, int> getImageDimension() const;
-
+    int getWidth();
+    int getHeight();
 
 public:
     QImage mImage;

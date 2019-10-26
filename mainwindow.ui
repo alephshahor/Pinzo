@@ -150,7 +150,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -167,6 +167,7 @@
      <string>Image</string>
     </property>
     <addaction name="actionClone"/>
+    <addaction name="actionAdjust"/>
    </widget>
    <widget class="QMenu" name="menuAnalysis">
     <property name="title">
@@ -219,6 +220,11 @@
   <action name="actionEntropy">
    <property name="text">
     <string>Entropy</string>
+   </property>
+  </action>
+  <action name="actionAdjust">
+   <property name="text">
+    <string>Adjust</string>
    </property>
   </action>
  </widget>

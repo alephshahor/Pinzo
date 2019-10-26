@@ -35,6 +35,17 @@ Image::Image(Image image, QRect rect):
     mImage = reader.read().copy(rect);
 }
 
+Image::Image(Image &image):
+    mImage(image.getImage()),
+    mFileName(image.getImageName()),
+    mFilePath(image.getImagePath()),
+    mFileFormat(image.getImageFormat()),
+    mFileDepth(image.getImageDepth()),
+    mIsGray(image.isGray()),
+    mFileDimension(image.getImageDimension())
+{
+}
+
 bool Image::loadImage(const QString &filepath)
 {
     QImageReader reader(filepath);
@@ -84,7 +95,7 @@ bool Image::saveImage(const QString &filepath, const char* format, int quality)
     return mImage.save(filepath, format, quality);
 }
 
-QImage Image::getImage() const
+QImage& Image::getImage()
 {
     return mImage;
 }
@@ -102,6 +113,16 @@ QString Image::getImageFormat() const
 std::pair<int, int> Image::getImageDimension() const
 {
     return mFileDimension;
+}
+
+int Image::getWidth()
+{
+    return mImage.width();
+}
+
+int Image::getHeight()
+{
+    return mImage.height();
 }
 
 bool Image::isGray() const

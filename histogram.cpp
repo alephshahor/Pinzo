@@ -225,7 +225,7 @@ QVector<double> Histogram::getVPixelValue() const
     return mVPixelValue;
 }
 
-Image Histogram::getImage() const
+Image Histogram::getImage()
 {
     return mImage;
 }

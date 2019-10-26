@@ -26,7 +26,7 @@ private:
      * \brief  mImage's getter.
      * \return mImage.
      */
-    Image image() const;
+    Image image();
 
     /*!
      * \brief sets mImage and mImagePixmap attributes.
@@ -126,6 +126,10 @@ private:
      */
     void limitBoundaries(int &posX, int &posY);
 
+    void openImageAdjuster();
+
+private slots:
+    void refreshImage(Image image);
 
 private:
 
