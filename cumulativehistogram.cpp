@@ -38,8 +38,13 @@ double CumulativeHistogram::calculateEntropy(){
     int imageDimension = mImage.getImage().width() * mImage.getImage().height();
     for(int i = 0; i < mVPixelValue.size(); i++){
         double iProbability = mVPixelValue[i] / imageDimension;
+        // If we allow probability to be zero then the logarith is -infinity and
+        // we are storing a NaN value in the summatory variable, which causes
+        // all successive sums to be NaN.
+        if(iProbability != 0.0)
         summatory += iProbability * log(iProbability);
     }
+
 
     return (-1)*summatory;
 }
@@ -53,6 +58,7 @@ void CumulativeHistogram::displayInfo()
     ui -> modeLabel -> setText("Mode: " + QString::number(calculateModeValue()) + " (" +
                                           QString::number(calculateModeFrequency()) + ")");
     ui -> stdDevLabel -> setText("StdDev: " + QString::number(calculateStdDeviation()));
+    ui -> entropyLabel -> setText("Entropy: " + QString::number(calculateEntropy()));
 }
 
 
