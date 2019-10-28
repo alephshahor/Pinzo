@@ -1,6 +1,5 @@
 #include "../include/rubberband.h"
 #include <QMouseEvent>
-#include <QDebug>
 #include <QLabel>
 #include <cmath>
 
@@ -41,11 +40,6 @@ QRect RubberBand::mouseReleaseEvent(QPoint pos, QPoint fixedPos)
 QRect RubberBand::generateRectangle()
 {
 
-    qDebug() << mFixedOrigin;
-    qDebug() << mFixedEnding;
-    qDebug() << calculateWidth();
-    qDebug() << calculateHeight();
-
     if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.x())){
         return QRect(mFixedEnding.x(), mFixedEnding.y(), calculateWidth() , calculateHeight());
     }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() > mFixedEnding.x())){
@@ -53,7 +47,6 @@ QRect RubberBand::generateRectangle()
     }else if((mFixedOrigin.y() > mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.x())){
         return QRect(mFixedOrigin.x(), mFixedEnding.y(), calculateWidth() , calculateHeight());
     }else if((mFixedOrigin.y() < mFixedEnding.y()) && (mFixedOrigin.x() < mFixedEnding.x())){
-        qDebug() << QRect(mFixedOrigin.x(), mFixedOrigin.y(), calculateWidth() , calculateHeight());
         return QRect(mFixedOrigin.x(), mFixedOrigin.y(), calculateWidth() , calculateHeight());
     }else {
         throw "Can't generate rectangle\n";

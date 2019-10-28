@@ -2,8 +2,7 @@
 #define HISTOGRAM_H
 
 #include "include/image.h"
-
-#include <QtCharts>
+#include <QWidget>
 
 namespace Ui {
 class Histogram;
@@ -35,7 +34,6 @@ protected:
     void setCurrentType(int value);
 
     QVector<double> getVPixelValue() const;
-
     QVector<double> getVPixelKey() const;
 
     int getImageRange() const;

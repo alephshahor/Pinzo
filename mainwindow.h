@@ -127,6 +127,8 @@ private:
     void limitBoundaries(int &posX, int &posY);
 
     void openImageAdjuster();
+    void openLinearTransformation();
+
 
 private slots:
     void refreshImage(Image image);

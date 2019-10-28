@@ -28,6 +28,7 @@ set(INCLUDE_FILES
     cumulativehistogram.h
     absolutehistogram.h
     imageadjuster.h
+    lineartransformation.h
     )
 
 set(SOURCE_FILES
@@ -42,6 +43,7 @@ set(SOURCE_FILES
     cumulativehistogram.cpp
     absolutehistogram.cpp
     imageadjuster.cpp
+    lineartransformation.cpp
     )
 
 set(UI_FILES
@@ -51,6 +53,11 @@ set(UI_FILES
     absolutehistogram.ui
     histogram.ui
     imageadjuster.ui
+    lineartransformation.ui
+    )
+
+set(TEST_FILES
+    test/catch.hpp
     )
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
@@ -62,15 +69,27 @@ find_package(Qt5 COMPONENTS PrintSupport REQUIRED)
 add_executable(Pinzo
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
+    ${TEST_FILES}
     ${UI_FILES}
 )
 
-target_compile_definitions(Pinzo PUBLIC CURRENT_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}")
+#add_executable(Test
+#    ${INCLUDE_FILES}
+#    ${SOURCE_FILES}
+#    ${TEST_FILES}
+#)
 
+target_compile_definitions(Pinzo PUBLIC CURRENT_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(Pinzo PUBLIC ${CMAKE_INCLUDE_SOURCE_DIR}/include)
+
 target_link_libraries(Pinzo PRIVATE Qt5::Widgets)
 target_link_libraries(Pinzo PUBLIC Qt5::Charts)
 target_link_libraries(Pinzo PUBLIC Qt5::Gui)
 target_link_libraries(Pinzo PUBLIC Qt5::PrintSupport)
 
-
+#target_compile_definitions(Test PUBLIC CURRENT_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}")
+#target_include_directories(Test PUBLIC ${CMAKE_INCLUDE_SOURCE_DIR}/include)
+#target_link_libraries(Test PRIVATE Qt5::Widgets)
+#target_link_libraries(Test PUBLIC Qt5::Charts)
+#target_link_libraries(Test PUBLIC Qt5::Gui)
+#target_link_libraries(Test PUBLIC Qt5::PrintSupport)

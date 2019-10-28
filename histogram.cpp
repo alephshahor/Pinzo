@@ -1,10 +1,7 @@
 #include "histogram.h"
 #include "ui_histogram.h"
 
-#include <QBarSet>
 #include <QPoint>
-#include <vector>
-#include <QChartView>
 #include <iostream>
 #include <cmath>
 

@@ -5,12 +5,14 @@
 #include "absolutehistogram.h"
 #include "cumulativehistogram.h"
 #include "imageadjuster.h"
+#include "lineartransformation.h"
 
 #include <iostream>
 #include <memory>
 #include <QFileDialog>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -36,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     scaleImageLabel();
 
     mRubberBand = new RubberBand(ui -> imageLabel);
-
 
 }
 
@@ -101,6 +102,8 @@ void MainWindow::connectSignals()
             this, [this]{openHistogram(Cumulative);});
     connect(ui -> actionAdjust, &QAction::triggered,
             this, &MainWindow::openImageAdjuster);
+    connect(ui -> actionLinearTransformation, &QAction::triggered,
+            this, &MainWindow::openLinearTransformation);
 }
 
 void MainWindow::openImage(){
@@ -242,6 +245,13 @@ void MainWindow::openImageAdjuster()
     connect(imgAdjuster, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
     imgAdjuster  -> setAttribute(Qt::WA_DeleteOnClose);
     imgAdjuster  -> show();
+}
+
+void MainWindow::openLinearTransformation()
+{
+    LinearTransformation* linearTransformation = new LinearTransformation(mImage);
+    linearTransformation -> setAttribute(Qt::WA_DeleteOnClose);
+    linearTransformation -> show();
 }
 
 void MainWindow::refreshImage(Image image)

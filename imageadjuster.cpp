@@ -2,7 +2,6 @@
 #include "ui_imageadjuster.h"
 
 #include <QSlider>
-#include <QDebug>
 
 ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     QWidget(parent),

@@ -150,7 +150,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -175,11 +175,17 @@
     </property>
     <addaction name="actionAbsoluteHist"/>
     <addaction name="actionCumulativeHist"/>
-    <addaction name="actionEntropy"/>
+   </widget>
+   <widget class="QMenu" name="menuProcess">
+    <property name="title">
+     <string>Process</string>
+    </property>
+    <addaction name="actionLinearTransformation"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
    <addaction name="menuAnalysis"/>
+   <addaction name="menuProcess"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -225,6 +231,11 @@
   <action name="actionAdjust">
    <property name="text">
     <string>Adjust</string>
+   </property>
+  </action>
+  <action name="actionLinearTransformation">
+   <property name="text">
+    <string>Linear Transformation</string>
    </property>
   </action>
  </widget>

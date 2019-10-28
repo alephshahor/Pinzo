@@ -29,6 +29,7 @@ public:
     void processSliderInput();
     void processTextInput();
 
+    /* Haven't been implemented*/
     double calculateBrightness();
     double calculateContrast();
 
