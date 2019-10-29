@@ -1,6 +1,7 @@
 #include "lineartransformation.h"
 #include "ui_lineartransformation.h"
 #include <QtAlgorithms>
+#include <QMessageBox>
 
 LinearTransformation::LinearTransformation(Image& image,QWidget *parent) :
     QWidget(parent),
@@ -15,6 +16,8 @@ LinearTransformation::LinearTransformation(Image& image,QWidget *parent) :
 
     connect(ui -> addButton, &QPushButton::clicked,
             this, &LinearTransformation::addPoint);
+    connect(ui -> transformButton, &QPushButton::clicked,
+            this, &LinearTransformation::transformImage);
 }
 
 LinearTransformation::~LinearTransformation()
@@ -22,13 +25,21 @@ LinearTransformation::~LinearTransformation()
     delete ui;
 }
 
-//void LinearTransformation::transformImage(){
-//    for(int i = 0; i < mImage.getHeight(); i++){
-//        for(int j = 0; j < mImage.getWidth(); j++){
-//            mImage.getImage().pixel(i,j)
-//        }
-//    }
-//}
+void LinearTransformation::transformImage(){
+    Image transformedImage(mImage);
+    QRgb *st = (QRgb *) transformedImage.getImage().bits();
+    quint64 pixelCount = transformedImage.getWidth() * transformedImage.getHeight();
+
+    for (quint64 p = 0; p < pixelCount; p++) {
+
+        st[p] = QColor( mTransformedSpaceValues[qRed(st[p])],
+                        mTransformedSpaceValues[qGreen(st[p])],
+                        mTransformedSpaceValues[qBlue(st[p])]
+                        ).rgb();
+    }
+
+    emit imageChanged(transformedImage);
+}
 
 void LinearTransformation::addPoint()
 {

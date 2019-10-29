@@ -36,12 +36,15 @@ private:
 public:
     explicit LinearTransformation(Image& image, QWidget *parent = nullptr);
     ~LinearTransformation();
-    void addPoint();
-    void swap(int i, int j);
 
-//    void transformImage();
+
+signals:
+    void imageChanged(Image image);
 
 private:
+    void addPoint();
+    void swap(int i, int j);
+    void transformImage();
     void applyTransformation(Line line, int minRange, int maxRange);
     double calculateSlope(QPoint p1, QPoint p2);
     int exists(int x);
@@ -51,6 +54,7 @@ private:
     void calculateTransformedSpace();
     void calculateSpaceKeys();
     void constructPlot();
+
 };
 
 #endif // LINEARTRANSFORMATION_H

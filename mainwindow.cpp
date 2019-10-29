@@ -250,6 +250,7 @@ void MainWindow::openImageAdjuster()
 void MainWindow::openLinearTransformation()
 {
     LinearTransformation* linearTransformation = new LinearTransformation(mImage);
+    connect(linearTransformation, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
     linearTransformation -> setAttribute(Qt::WA_DeleteOnClose);
     linearTransformation -> show();
 }
