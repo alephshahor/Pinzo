@@ -19,6 +19,7 @@ public:
     Image getImage();
     void setImage(const Image &image);
 
+    static void toGrayscale(Image &image);
 
     int limitNumber(int num);
 

@@ -128,10 +128,12 @@ private:
 
     void openImageAdjuster();
     void openLinearTransformation();
+    void convertToGray();
 
 
 private slots:
     void refreshImage(Image image);
+    void refreshImage();
 
 private:
 

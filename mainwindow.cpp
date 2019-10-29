@@ -61,6 +61,14 @@ void MainWindow::setImage(const Image &image)
 
 }
 
+void MainWindow::refreshImage()
+{
+    mImagePixMap.convertFromImage(mImage.getImage());
+    ui -> imageLabel -> setMargin(0);
+    ui -> imageLabel -> setPixmap(mImagePixMap);
+    mRubberBand = new RubberBand(ui -> imageLabel);
+}
+
 void MainWindow::cloneWindow()
 {
     MainWindow* newWindow = new MainWindow();
@@ -104,6 +112,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::openImageAdjuster);
     connect(ui -> actionLinearTransformation, &QAction::triggered,
             this, &MainWindow::openLinearTransformation);
+    connect(ui -> actionToGray, &QAction::triggered,
+            this, &MainWindow::convertToGray);
 }
 
 void MainWindow::openImage(){
@@ -250,20 +260,19 @@ void MainWindow::openImageAdjuster()
 void MainWindow::openLinearTransformation()
 {
     LinearTransformation* linearTransformation = new LinearTransformation(mImage);
-    connect(linearTransformation, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    connect(linearTransformation, SIGNAL(imageChanged()), this, SLOT(refreshImage()));
     linearTransformation -> setAttribute(Qt::WA_DeleteOnClose);
     linearTransformation -> show();
+}
+
+void MainWindow::convertToGray(){
+    ImageAdjuster::toGrayscale(mImage);
+    refreshImage();
 }
 
 void MainWindow::refreshImage(Image image)
 {
       setImage(image);
-//    qDebug() << "I received the signal!\n";
-//    qDebug() << mImage.getImage().pixel(0,0);
-//    mImagePixMap.convertFromImage(image.getImage());
-//    ui -> imageLabel -> setMargin(0);
-//    ui -> imageLabel -> setPixmap(mImagePixMap);
-//    mRubberBand = new RubberBand(ui -> imageLabel);
 }
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){

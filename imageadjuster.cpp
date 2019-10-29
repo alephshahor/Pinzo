@@ -36,6 +36,19 @@ void ImageAdjuster::setImage(const Image &image)
     mImage = image;
 }
 
+void ImageAdjuster::toGrayscale(Image& image)
+{
+    QRgb *st = (QRgb *) image.getImage().bits();
+    quint64 pixelCount = image.getWidth() * image.getHeight();
+
+    for (quint64 p = 0; p < pixelCount; p++) {
+
+        st[p] = QColor(qRed(st[p]) * 0.222,
+                       qGreen(st[p]) * 0.707,
+                       qBlue(st[p]) * 0.071).rgb();
+    }
+}
+
 // Using LUMA
 double ImageAdjuster::calculateBrightness()
 {

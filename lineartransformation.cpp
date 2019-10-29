@@ -16,6 +16,8 @@ LinearTransformation::LinearTransformation(Image& image,QWidget *parent) :
 
     connect(ui -> addButton, &QPushButton::clicked,
             this, &LinearTransformation::addPoint);
+    connect(ui -> removeButton, &QPushButton::clicked,
+            this, &LinearTransformation::removePoint);
     connect(ui -> transformButton, &QPushButton::clicked,
             this, &LinearTransformation::transformImage);
 }
@@ -26,19 +28,18 @@ LinearTransformation::~LinearTransformation()
 }
 
 void LinearTransformation::transformImage(){
-    Image transformedImage(mImage);
-    QRgb *st = (QRgb *) transformedImage.getImage().bits();
-    quint64 pixelCount = transformedImage.getWidth() * transformedImage.getHeight();
+
+    QRgb *st = (QRgb *) mImage.getImage().bits();
+    quint64 pixelCount = mImage.getWidth() * mImage.getHeight();
 
     for (quint64 p = 0; p < pixelCount; p++) {
 
         st[p] = QColor( mTransformedSpaceValues[qRed(st[p])],
                         mTransformedSpaceValues[qGreen(st[p])],
                         mTransformedSpaceValues[qBlue(st[p])]
-                        ).rgb();
+                       ).rgb();
     }
-
-    emit imageChanged(transformedImage);
+    emit imageChanged();
 }
 
 void LinearTransformation::addPoint()
@@ -54,6 +55,23 @@ void LinearTransformation::addPoint()
     constructPlot();
 }
 
+void LinearTransformation::removePoint()
+{
+    int xPoint = ui -> xInput->text().toInt();
+    int yPoint = ui -> yInput->text().toInt();
+
+    int pointIndex = exists(xPoint);
+    if(pointIndex != -1){
+        mPoints.remove(pointIndex);
+        calculateTransformedSpace();
+        constructPlot();
+    }else {
+        QMessageBox messageBox;
+        messageBox.critical(0, "Error", "Point doesn't exists");
+        messageBox.setFixedSize(500,200);
+    }
+}
+
 void LinearTransformation::calculateTransformedSpace()
 {
     if(mPoints.empty()){
@@ -62,11 +80,13 @@ void LinearTransformation::calculateTransformedSpace()
 
     sortPoints();
 
+
     for(int i = 0; i < mPoints.size() - 1; i++){
         double slope = calculateSlope(mPoints[i], mPoints[i+1]);
         Line line = {slope, mPoints[i].y(), mPoints[i].x()};
         applyTransformation(line, mPoints[i].x(), mPoints[i+1].x());
     }
+
 }
 
 void LinearTransformation::applyTransformation(LinearTransformation::Line line, int minRange, int maxRange)

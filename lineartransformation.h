@@ -39,10 +39,11 @@ public:
 
 
 signals:
-    void imageChanged(Image image);
+    void imageChanged();
 
 private:
     void addPoint();
+    void removePoint();
     void swap(int i, int j);
     void transformImage();
     void applyTransformation(Line line, int minRange, int maxRange);

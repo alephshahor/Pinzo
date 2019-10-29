@@ -168,6 +168,8 @@
     </property>
     <addaction name="actionClone"/>
     <addaction name="actionAdjust"/>
+    <addaction name="separator"/>
+    <addaction name="actionToGray"/>
    </widget>
    <widget class="QMenu" name="menuAnalysis">
     <property name="title">
@@ -236,6 +238,11 @@
   <action name="actionLinearTransformation">
    <property name="text">
     <string>Linear Transformation</string>
+   </property>
+  </action>
+  <action name="actionToGray">
+   <property name="text">
+    <string>To Gray</string>
    </property>
   </action>
  </widget>

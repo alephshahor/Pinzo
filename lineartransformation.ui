@@ -25,7 +25,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,0,1,1,1,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,0,1,1,1,0,0">
       <item>
        <widget class="QLabel" name="xLabel">
         <property name="text">
@@ -76,6 +76,13 @@
        <widget class="QPushButton" name="addButton">
         <property name="text">
          <string>Add</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="removeButton">
+        <property name="text">
+         <string>Remove</string>
         </property>
        </widget>
       </item>
