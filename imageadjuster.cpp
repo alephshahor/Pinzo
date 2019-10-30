@@ -2,6 +2,7 @@
 #include "ui_imageadjuster.h"
 
 #include <QSlider>
+#include <QMessageBox>
 
 ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     QWidget(parent),
@@ -94,7 +95,7 @@ float ImageAdjuster::contrastCorrectionFactor(float contrastAmount)
 void ImageAdjuster::processSliderInput()
 {
     int brightnessAmount = ui -> brightnessSlider -> value();
-    double contrastAmount = (static_cast<double>(ui -> contrastSlider -> value()) / 10) + 0.05;
+    double contrastAmount = (static_cast<double>(ui -> contrastSlider -> value()) / 10);
 
     ui -> brightnessText -> setText(QString::number(ui -> brightnessSlider -> value()));
     ui -> contrastText -> setText(QString::number(static_cast<double>(ui -> contrastSlider -> value()) / 10));
@@ -105,12 +106,33 @@ void ImageAdjuster::processSliderInput()
 void ImageAdjuster::processTextInput()
 {
     int brightnessAmount = ui -> brightnessText -> text().toInt();
-    double contrastAmount = static_cast<double>(ui -> contrastText -> text().toDouble()) + 0.05;
+    double contrastAmount = static_cast<double>(ui -> contrastText -> text().toDouble());
 
-    ui -> brightnessSlider -> setValue(ui -> brightnessText -> text().toInt());
-    ui -> contrastSlider -> setValue(ui -> contrastText -> text().toDouble() * 10);
+    int brightnessMinAmount = ui -> brightnessSlider -> minimum();
+    int brightnessMaxAmount = ui -> brightnessSlider -> maximum();
 
-    adjustImage(brightnessAmount, contrastAmount);
+    double contrastMinAmount = static_cast<double>(ui -> contrastSlider -> minimum()) / 10;
+    double contrastMaxAmount = static_cast<double>(ui -> contrastSlider -> maximum()) / 10;
+
+
+    if(brightnessAmount < brightnessMinAmount
+    || brightnessAmount > brightnessMaxAmount){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Brightness out of range [" + QString::number(brightnessMinAmount)
+                                                            + "," + QString::number(brightnessMaxAmount) + "]");
+        messageBox.setFixedSize(500,200);
+    }else if(contrastAmount < contrastMinAmount
+    || contrastAmount > contrastMaxAmount){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Contrast out of range [" + QString::number(contrastMinAmount)
+                                                            + "," + QString::number(contrastMaxAmount) + "]");
+        messageBox.setFixedSize(500,200);
+    }else{
+        ui -> brightnessSlider -> setValue(ui -> brightnessText -> text().toInt());
+        ui -> contrastSlider -> setValue(ui -> contrastText -> text().toDouble() * 10);
+        adjustImage(brightnessAmount, contrastAmount);
+    }
+
 }
 
 
