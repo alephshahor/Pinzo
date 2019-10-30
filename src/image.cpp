@@ -30,9 +30,7 @@ Image::Image(Image image, QRect rect):
     mIsGray(image.isGray()),
     mFileDimension(std::make_pair(rect.width(), rect.height()))
 {
-    QImageReader reader(image.getImagePath());
-    reader.setAutoTransform(true);
-    mImage = reader.read().copy(rect);
+    mImage = image.getImage().copy(rect);
 }
 
 Image::Image(Image &image):
@@ -76,8 +74,6 @@ bool Image::loadImage(const QString &filepath)
             QString fileColorCommand("python " + currentDirectory + "/src/isGrayscale.py " + filepath);
             const char* fileColorCommand_ = fileColorCommand.toLocal8Bit().data();
             QString fileColor = QString::fromUtf8(executeCommand(fileColorCommand_).c_str());
-
-            qDebug() << fileColor << "\n";
 
             if(fileColor == "grayscale\n"){
                 mIsGray = true;
