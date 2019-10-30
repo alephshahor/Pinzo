@@ -5,12 +5,13 @@
 #include <iostream>
 #include <cmath>
 
-Histogram::Histogram(Image image, QWidget *parent) :
+Histogram::Histogram(Image& image, QWidget *parent) :
     mImage(image),
     mCurrentType(Lightness),
     ui(new Ui::Histogram)
 {
     ui->setupUi(this);
+    ui -> customPlot -> addGraph();
     mImageRange = pow(2,mImage.getImageDepth());
     connect(ui -> changeButton, &QPushButton::clicked,
             this, &Histogram::changeDisplayType);
@@ -29,10 +30,8 @@ Histogram::~Histogram()
 
 }
 
-void Histogram::createHistogram()
+void Histogram::createHistogram(QColor color)
 {
-      ui -> customPlot -> addGraph();
-      QColor color(20+200/4.0,70*(1.6/4.0), 150, 150);
       ui -> customPlot -> graph( )-> setLineStyle(QCPGraph::lsLine);
       ui -> customPlot -> graph() -> setPen(QPen(color.lighter(200)));
       ui -> customPlot -> graph() -> setBrush(QBrush(color));
@@ -40,6 +39,18 @@ void Histogram::createHistogram()
       ui -> customPlot -> xAxis -> setRange(0, mImageRange);
       ui -> customPlot -> yAxis -> setRange(0, calculateModeFrequency());
       ui -> customPlot -> replot();
+}
+
+void Histogram::displayInfo()
+{
+    ui -> countLabel -> setText("Count: " + QString::number(numberOfPixels()));
+    ui -> minLabel -> setText("Min: " + QString::number(calculateMin()));
+    ui -> maxLabel -> setText("Max: " + QString::number(calculateMax()));
+    ui -> meanLabel -> setText("Mean: " + QString::number(calculateMean()));
+    ui -> modeLabel -> setText("Mode: " + QString::number(calculateModeValue()) + " (" +
+                                          QString::number(calculateModeFrequency()) + ")");
+    ui -> stdDevLabel -> setText("StdDev: " + QString::number(calculateStdDeviation()));
+    setTypeLabel();
 }
 
 int Histogram::numberOfPixels()
@@ -65,6 +76,28 @@ void Histogram::calculateHistogramKeys()
     }
 
     setVPixelKey(vPixelKey);
+}
+
+void Histogram::setTypeLabel()
+{
+    switch(mCurrentType){
+        case Lightness:
+            ui -> customPlot -> xAxis -> setLabel("Lightness");
+        break;
+
+        case Red:
+            ui -> customPlot -> xAxis -> setLabel("Red");
+        break;
+
+        case Green:
+            ui -> customPlot -> xAxis -> setLabel("Green");
+        break;
+
+        case Blue:
+            ui -> customPlot -> xAxis -> setLabel("Blue");
+        break;
+    }
+
 }
 
 int Histogram::calculateModeValue()
@@ -98,34 +131,35 @@ void Histogram::displayHistogram(){
         case Lightness:
         calculateHistogramValues(calculateColorLightnessValue);
         calculateHistogramKeys();
-        createHistogram();
         displayInfo();
+        createHistogram(QColor(0,0,0,180));
         break;
 
         case Red:
         calculateHistogramValues(calculateRedColorValue);
         calculateHistogramKeys();
-        createHistogram();
         displayInfo();
+        createHistogram(QColor(255,0,0, 180));
         break;
 
         case Green:
         calculateHistogramValues(calculateGreenColorValue);
         calculateHistogramKeys();
-        createHistogram();
         displayInfo();
+        createHistogram(QColor(0,255,0, 180));
         break;
 
         case Blue:
         calculateHistogramValues(calculateBlueColorValue);
         calculateHistogramKeys();
-        createHistogram();
         displayInfo();
+        createHistogram(QColor(0,0,255, 180));
         break;
     }
 
 
 }
+
 
 int Histogram::calculateColorLightnessValue(QColor pixel)
 {

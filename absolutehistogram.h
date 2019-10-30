@@ -12,7 +12,7 @@ class AbsoluteHistogram : public Histogram
 
 public:
 
-    AbsoluteHistogram(Image image, QWidget *parent);
+    AbsoluteHistogram(Image &image, QWidget *parent);
     AbsoluteHistogram(AbsoluteHistogram& histogram);
     ~AbsoluteHistogram() override;
 

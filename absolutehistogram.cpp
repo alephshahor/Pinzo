@@ -11,7 +11,7 @@
 #include <iostream>
 #include <cmath>
 
-AbsoluteHistogram::AbsoluteHistogram(Image image, QWidget* parent) :
+AbsoluteHistogram::AbsoluteHistogram(Image& image, QWidget* parent) :
     Histogram(image, parent)
 {}
 
@@ -22,13 +22,7 @@ AbsoluteHistogram::~AbsoluteHistogram()
 
 void AbsoluteHistogram::displayInfo()
 {
-    ui -> countLabel -> setText("Count: " + QString::number(numberOfPixels()));
-    ui -> minLabel -> setText("Min: " + QString::number(calculateMin()));
-    ui -> maxLabel -> setText("Max: " + QString::number(calculateMax()));
-    ui -> meanLabel -> setText("Mean: " + QString::number(calculateMean()));
-    ui -> modeLabel -> setText("Mode: " + QString::number(calculateModeValue()) + " (" +
-                                          QString::number(calculateModeFrequency()) + ")");
-    ui -> stdDevLabel -> setText("StdDev: " + QString::number(calculateStdDeviation()));
+    Histogram::displayInfo();
 }
 
 void AbsoluteHistogram::calculateHistogramValues(int(*func)(QColor))

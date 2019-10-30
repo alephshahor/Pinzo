@@ -14,7 +14,7 @@ class Histogram : public QWidget
     Q_OBJECT
 
 public:
-    explicit Histogram(Image image, QWidget *parent);
+    explicit Histogram(Image& image, QWidget *parent);
     Histogram(Histogram& histogram);
     virtual ~Histogram();
 
@@ -23,6 +23,7 @@ public:
      * according to the current type of visualization.
      */
     void displayHistogram();
+
 
 
 protected:
@@ -75,15 +76,14 @@ protected:
     /*!
      * \brief createHistogram it creates a QCustomPlot graph.
      */
-    void createHistogram();
+    void createHistogram(QColor color);
 
 
     /*!
      * \brief displayHistogram it creates and display the histogram
      * according to the current type of visualization.
      */
-    virtual void displayInfo() = 0;
-
+    virtual void displayInfo();
     /*!
      * \brief calculateHistogramValues it calculates the values of
      * the histogram, that means the values of the y-axis.
@@ -97,6 +97,7 @@ protected:
      */
     void calculateHistogramKeys();
 
+    void setTypeLabel();
 
 
 protected:

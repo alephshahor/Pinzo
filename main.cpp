@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "include/util.h"
 #include <QApplication>
 #include <iostream>
 
@@ -12,12 +13,9 @@ int main(int argc, char *argv[])
                 w.show();
                 return a.exec();
 
-            } catch (const std::exception& ex) {
-                auto pMessage = ex.what();
-                if (pMessage) {
-                    std::cout << "An unhandled exception was thrown:\n" << pMessage;
-                }
-                return -1;
+            } catch (const char* ex) {
+                    std::cerr << "An unhandled exception was thrown:\n" << ex;
+                    return -1;
             }
 
 

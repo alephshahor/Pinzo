@@ -10,7 +10,7 @@ class CumulativeHistogram : public Histogram
     Q_OBJECT
 
 public:
-    CumulativeHistogram(Image image, QWidget *parent);
+    CumulativeHistogram(Image &image, QWidget *parent);
     ~CumulativeHistogram() override;
 
 

@@ -5,7 +5,7 @@
 #include <QVector>
 #include <cmath>
 
-CumulativeHistogram::CumulativeHistogram(Image image, QWidget* parent) :
+CumulativeHistogram::CumulativeHistogram(Image& image, QWidget* parent) :
     Histogram(image, parent)
 {
 }
@@ -51,16 +51,9 @@ double CumulativeHistogram::calculateEntropy(){
 
 void CumulativeHistogram::displayInfo()
 {
-    ui -> countLabel -> setText("Count: " + QString::number(numberOfPixels()));
-    ui -> minLabel -> setText("Min: " + QString::number(calculateMin()));
-    ui -> maxLabel -> setText("Max: " + QString::number(calculateMax()));
-    ui -> meanLabel -> setText("Mean: " + QString::number(calculateMean()));
-    ui -> modeLabel -> setText("Mode: " + QString::number(calculateModeValue()) + " (" +
-                                          QString::number(calculateModeFrequency()) + ")");
-    ui -> stdDevLabel -> setText("StdDev: " + QString::number(calculateStdDeviation()));
+    Histogram::displayInfo();
     ui -> entropyLabel -> setText("Entropy: " + QString::number(calculateEntropy()));
 }
-
 
 CumulativeHistogram::~CumulativeHistogram()
 {
