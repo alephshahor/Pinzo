@@ -16,15 +16,16 @@ public:
     AbsoluteHistogram(AbsoluteHistogram& histogram);
     ~AbsoluteHistogram() override;
 
-
-private:
-
     /*!
      * \brief calculateHistogramValues it calculates the values of
      * the histogram, that means the values of the y-axis.
      */
     void calculateHistogramValues(int(*func)(QColor)) override;
 
+
+
+
+private:
 
     /*!
      * \brief displayInfo it refreshes the values of the QLabels

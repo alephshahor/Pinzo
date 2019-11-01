@@ -10,7 +10,7 @@ Histogram::Histogram(Image& image, QWidget *parent) :
     mCurrentType(Lightness),
     ui(new Ui::Histogram)
 {
-    ui->setupUi(this);
+    ui -> setupUi(this);
     ui -> customPlot -> addGraph();
     mImageRange = pow(2,mImage.getImageDepth());
     connect(ui -> changeButton, &QPushButton::clicked,

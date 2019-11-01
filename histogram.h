@@ -24,6 +24,27 @@ public:
      */
     void displayHistogram();
 
+    double calculateMean();
+    double calculateStdDeviation();
+
+    /*!
+     * \brief calculateHistogramValues it calculates the values of
+     * the histogram, that means the values of the y-axis.
+     */
+    virtual void calculateHistogramValues(int(*func)(QColor)) = 0;
+
+
+    /*!
+     * \brief calculateHistogramKeys it calculates the keys of
+     * the histogram, that means the values of the x-axis.
+     */
+    void calculateHistogramKeys();
+
+    static int calculateColorLightnessValue(QColor pixel);
+    static int calculateRedColorValue(QColor pixel);
+    static int calculateBlueColorValue(QColor pixel);
+    static int calculateGreenColorValue(QColor pixel);
+
 
 
 protected:
@@ -43,15 +64,8 @@ protected:
     void setVPixelValue(const QVector<double> &vPixelValue);
     void setVPixelKey(const QVector<double> &vPixelKey);
 
-    static int calculateColorLightnessValue(QColor pixel);
-    static int calculateRedColorValue(QColor pixel);
-    static int calculateBlueColorValue(QColor pixel);
-    static int calculateGreenColorValue(QColor pixel);
-
     int calculateMin();
     int calculateMax();
-    double calculateMean();
-    double calculateStdDeviation();
     void changeDisplayType();
 
     /*!
@@ -84,18 +98,6 @@ protected:
      * according to the current type of visualization.
      */
     virtual void displayInfo();
-    /*!
-     * \brief calculateHistogramValues it calculates the values of
-     * the histogram, that means the values of the y-axis.
-     */
-    virtual void calculateHistogramValues(int(*func)(QColor)) = 0;
-
-
-    /*!
-     * \brief calculateHistogramKeys it calculates the keys of
-     * the histogram, that means the values of the x-axis.
-     */
-    void calculateHistogramKeys();
 
     void setTypeLabel();
 
