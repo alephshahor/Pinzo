@@ -47,6 +47,8 @@ public:
 
 
 
+    QVector<double> calculateDistributionFunction(int (*func)(QColor));
+
 protected:
 
     Image getImage();

@@ -14,6 +14,7 @@ public:
     ~CumulativeHistogram() override;
 
 
+    QVector<double> calculateDistributionFunction(int (*func)(QColor));
 private:
 
     /*!

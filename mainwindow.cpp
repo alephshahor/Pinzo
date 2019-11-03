@@ -6,6 +6,7 @@
 #include "cumulativehistogram.h"
 #include "imageadjuster.h"
 #include "lineartransformation.h"
+#include "histogramspecification.h"
 
 #include <iostream>
 #include <memory>
@@ -114,6 +115,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::openLinearTransformation);
     connect(ui -> actionToGray, &QAction::triggered,
             this, &MainWindow::convertToGray);
+    connect(ui -> actionHistogram_Specification, &QAction::triggered,
+            this, &MainWindow::openHistogramSpecification);
 }
 
 void MainWindow::openImage(){
@@ -263,6 +266,14 @@ void MainWindow::openLinearTransformation()
     connect(linearTransformation, SIGNAL(imageChanged()), this, SLOT(refreshImage()));
     linearTransformation -> setAttribute(Qt::WA_DeleteOnClose);
     linearTransformation -> show();
+}
+
+void MainWindow::openHistogramSpecification()
+{
+    HistogramSpecification* histogramSpecification = new HistogramSpecification(mImage);
+    connect(histogramSpecification, SIGNAL(imageChanged()), this, SLOT(refreshImage()));
+    histogramSpecification -> setAttribute(Qt::WA_DeleteOnClose);
+    histogramSpecification  -> show();
 }
 
 void MainWindow::convertToGray(){

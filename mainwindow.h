@@ -128,6 +128,7 @@ private:
 
     void openImageAdjuster();
     void openLinearTransformation();
+    void openHistogramSpecification();
     void convertToGray();
 
 

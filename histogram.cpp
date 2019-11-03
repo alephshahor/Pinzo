@@ -266,4 +266,26 @@ void Histogram::setImage(const Image &image)
     mImage = image;
 }
 
+QVector<double> Histogram::calculateDistributionFunction(int(*func)(QColor))
+{
+    QVector<double> vPixelValue(mImageRange);
 
+    for(int i = 0; i < mImage.getImage().width(); i++){
+        for(int j = 0; j < mImage.getImage().height(); j++){
+            QColor pixel = mImage.getImage().pixel(i,j);
+            int pixelValue = func(pixel);
+            vPixelValue[pixelValue] += 1.0;
+        }
+    }
+
+    QVector<double> vPixelValueProbability(mImageRange);
+    int totalPixels = mImage.getImage().width() * mImage.getImage().height();
+
+    double cumulativeProbability = 0;
+    for(int i = 0; i < vPixelValue.size(); i++){
+        cumulativeProbability += vPixelValue[i];
+        vPixelValueProbability[i] = cumulativeProbability / totalPixels;
+    }
+
+    return vPixelValueProbability;
+}

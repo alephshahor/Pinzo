@@ -29,7 +29,7 @@ void CumulativeHistogram::calculateHistogramValues(int(*func)(QColor))
         vPixelValueCumulative[i] = vPixelValueCumulative[i - 1] + vPixelValue[i];
     }
 
-      setVPixelValue(vPixelValueCumulative);
+    setVPixelValue(vPixelValueCumulative);
 }
 
 double CumulativeHistogram::calculateEntropy(){

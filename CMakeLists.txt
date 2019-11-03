@@ -29,6 +29,7 @@ set(INCLUDE_FILES
     absolutehistogram.h
     imageadjuster.h
     lineartransformation.h
+    histogramspecification.h
     )
 
 set(SOURCE_FILES
@@ -44,6 +45,7 @@ set(SOURCE_FILES
     absolutehistogram.cpp
     imageadjuster.cpp
     lineartransformation.cpp
+    histogramspecification.cpp
     )
 
 set(UI_FILES
@@ -54,6 +56,7 @@ set(UI_FILES
     histogram.ui
     imageadjuster.ui
     lineartransformation.ui
+    histogramspecification.ui
     )
 
 set(TEST_FILES

@@ -183,6 +183,7 @@
      <string>Process</string>
     </property>
     <addaction name="actionLinearTransformation"/>
+    <addaction name="actionHistogram_Specification"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
@@ -243,6 +244,11 @@
   <action name="actionToGray">
    <property name="text">
     <string>To Gray</string>
+   </property>
+  </action>
+  <action name="actionHistogram_Specification">
+   <property name="text">
+    <string>Histogram Specification</string>
    </property>
   </action>
  </widget>
