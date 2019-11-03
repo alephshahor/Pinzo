@@ -7,6 +7,7 @@
 #include <QDebug>
 #include "histogram.h"
 #include "absolutehistogram.h"
+#include "cumulativehistogram.h"
 
 
 HistogramSpecification::HistogramSpecification(Image& image, QWidget *parent) :
@@ -18,7 +19,13 @@ HistogramSpecification::HistogramSpecification(Image& image, QWidget *parent) :
     connect(ui -> loadRefImgButton, &QPushButton::clicked,
             this, &HistogramSpecification::loadReferenceImage);
     connect(ui -> applyButton, &QPushButton::clicked,
-            this, &HistogramSpecification::processReferenceHistogram);
+            this, &HistogramSpecification::processHistogramSpecification);
+    connect(ui -> equalizationCheckbox, &QCheckBox::clicked,
+            this, &HistogramSpecification::processEqualizationCheckbox);
+
+    ui -> equalizationCheckbox -> setChecked(false);
+    ui -> equalizationCheckbox -> setCheckState(Qt::Unchecked);
+    ui -> refFuncComboBox -> setDisabled(true);
 }
 
 HistogramSpecification::~HistogramSpecification()
@@ -64,21 +71,27 @@ void HistogramSpecification::applyMappingFunction( QVector<double>& rMappingFunc
     }
 }
 
-void HistogramSpecification::processReferenceHistogram()
+void HistogramSpecification::processHistogramSpecification()
 {
-    if(ui -> equalizationCheckbox -> checkState() == false){
+    if(ui -> equalizationCheckbox -> checkState() == Qt::Unchecked){
         if(mReferenceImage.getWidth() == 0){ // No image has been loaded.
             QMessageBox messageBox;
             messageBox.critical(0, "Error", "You need to specify a reference image.");
             messageBox.setFixedSize(500,200);
         }else{
-            QVector<double> rMappingFunc = matchHistograms(Histogram::calculateRedColorValue);
-            QVector<double> gMappingFunc = matchHistograms(Histogram::calculateGreenColorValue);
-            QVector<double> bMappingFunc = matchHistograms(Histogram::calculateBlueColorValue);
-            applyMappingFunction(rMappingFunc, gMappingFunc, bMappingFunc);
-            emit imageChanged();
+            processReferenceHistogram();
         }
-    }
+    }else processEqualizationFunction();
+}
+
+void HistogramSpecification::processReferenceHistogram()
+{
+
+    QVector<double> rMappingFunc = matchHistograms(Histogram::calculateRedColorValue);
+    QVector<double> gMappingFunc = matchHistograms(Histogram::calculateGreenColorValue);
+    QVector<double> bMappingFunc = matchHistograms(Histogram::calculateBlueColorValue);
+    applyMappingFunction(rMappingFunc, gMappingFunc, bMappingFunc);
+    emit imageChanged();
 }
 
 void HistogramSpecification::loadReferenceImage()
@@ -86,4 +99,54 @@ void HistogramSpecification::loadReferenceImage()
     QString filepath = QFileDialog::getOpenFileName((this), "Open the file");
     mReferenceImage = Image(filepath);
     ui -> refImgName -> setText(mReferenceImage.getImageName());
+}
+
+void HistogramSpecification::processEqualizationCheckbox()
+{
+    if(ui -> equalizationCheckbox -> checkState() == Qt::Checked){
+        ui -> refImgName -> setDisabled(true);
+        ui -> loadRefImgButton -> setDisabled(true);
+        ui -> refFuncComboBox -> setDisabled(false);
+    }else{
+        ui -> refImgName -> setDisabled(false);
+        ui -> loadRefImgButton -> setDisabled(false);
+        ui -> refFuncComboBox -> setDisabled(true);
+    }
+}
+
+void HistogramSpecification::processEqualizationFunction()
+{
+    int functionIndex = ui -> refFuncComboBox -> currentIndex();
+    QVector<double> rEqualizationFunction;
+    QVector<double> gEqualizationFunction;
+    QVector<double> bEqualizationFunction;
+    switch(functionIndex){
+        case Linear:
+            rEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateRedColorValue);
+            gEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateGreenColorValue);
+            bEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateBlueColorValue);
+        break;
+    }
+    applyMappingFunction(rEqualizationFunction, gEqualizationFunction, bEqualizationFunction);
+    emit imageChanged();
+}
+
+QVector<double> HistogramSpecification::getLinearEqualizationFunction(int (*func)(QColor))
+{
+    Histogram* originalHistogram = new CumulativeHistogram(mOriginalImage, nullptr);
+    originalHistogram -> calculateHistogramValues(func);
+
+    int nIntensityValues = pow(2,mOriginalImage.getImageDepth());
+    int width = mOriginalImage.getWidth();
+    int height = mOriginalImage.getHeight();
+    int totalPixels = width * height;
+
+    QVector<double> mappingFunction(nIntensityValues);
+
+    for(int i = 0; i < nIntensityValues; i++){
+        int newValue = originalHistogram -> getValue(i) * (nIntensityValues - 1) / totalPixels;
+        mappingFunction[i] = newValue;
+    }
+
+    return mappingFunction;
 }

@@ -45,9 +45,9 @@ public:
     static int calculateBlueColorValue(QColor pixel);
     static int calculateGreenColorValue(QColor pixel);
 
-
-
     QVector<double> calculateDistributionFunction(int (*func)(QColor));
+
+    double getValue(int index);
 
 protected:
 

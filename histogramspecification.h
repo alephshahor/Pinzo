@@ -22,13 +22,18 @@ signals:
     void imageChanged();
 
 private:
+    void processHistogramSpecification();
     void processReferenceHistogram();
     void loadReferenceImage();
+    void processEqualizationCheckbox();
+    void processEqualizationFunction();
+    QVector<double> getLinearEqualizationFunction(int (*func)(QColor));
 
 private:
     Ui::HistogramSpecification *ui;
     Image& mOriginalImage;
     Image mReferenceImage;
+    enum mEqualizationFunctions {Linear};
 };
 
 #endif // HISTOGRAMSPECIFICATION_H

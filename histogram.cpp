@@ -289,3 +289,8 @@ QVector<double> Histogram::calculateDistributionFunction(int(*func)(QColor))
 
     return vPixelValueProbability;
 }
+
+double Histogram::getValue(int index)
+{
+    return mVPixelValue[index];
+}
