@@ -60,6 +60,10 @@ bool Image::loadImage(const QString &filepath)
             const char* fileFormatCommand_ = fileFormatCommand.toLocal8Bit().data();
             mFileFormat = QString::fromUtf8(executeCommand(fileFormatCommand_).c_str());
 
+            if(mFileFormat == "TIFF"){
+                mImage = mImage.convertToFormat(QImage::Format_RGB32, Qt::AutoColor);
+            }
+
             QString fileDimensionCommand("identify -format \"%w %h\" " + filepath);
             const char* fileDimensionCommand_ = fileDimensionCommand.toLocal8Bit().data();
             QString fileDimension = QString::fromUtf8(executeCommand(fileDimensionCommand_).c_str());
@@ -80,6 +84,7 @@ bool Image::loadImage(const QString &filepath)
             }else mIsGray = false;
 
             mFilePath = filepath;
+
 
             return true;
     }
