@@ -53,9 +53,10 @@ void ImageAdjuster::toGrayscale(Image& image)
 
     for (quint64 p = 0; p < pixelCount; p++) {
 
-        st[p] = QColor(qRed(st[p]) * 0.222,
-                       qGreen(st[p]) * 0.707,
-                       qBlue(st[p]) * 0.071).rgb();
+        float average = (qRed(st[p]) + qGreen(st[p]) + qBlue(st[p]))/3;
+        st[p] = QColor(average,
+                       average,
+                       average).rgb();
     }
 }
 

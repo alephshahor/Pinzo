@@ -75,6 +75,7 @@ void MainWindow::cloneWindow()
     MainWindow* newWindow = new MainWindow();
     newWindow -> setImage(mImage);
     newWindow -> setAttribute(Qt::WA_DeleteOnClose);
+    newWindow -> displayImageInfo();
     newWindow -> show();
 }
 
