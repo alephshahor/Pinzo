@@ -227,11 +227,12 @@ double Histogram::calculateMean()
 
 double Histogram::calculateStdDeviation()
 {
-    int mean = calculateMean();
-    int sum = 0;
+    double mean = calculateMean();
+    double sum = 0;
 
     for(int i = 0; i < mVPixelValue.size(); i++){
-        sum += (mVPixelValue[i] - mean) * (mVPixelValue[i] - mean);
+        double x = (i - mean) * (i - mean);
+        sum += (mVPixelValue[i] * x);
     }
     return sqrt(sum / numberOfPixels());
 }

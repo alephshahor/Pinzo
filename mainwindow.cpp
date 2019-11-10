@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mRubberBand = new RubberBand(ui -> imageLabel);
 
+
 }
 
 MainWindow::~MainWindow()
