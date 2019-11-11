@@ -30,12 +30,6 @@ private:
      */
     void displayInfo() override;
 
-    /*!
-     * \brief calculateEntropy it calculates the entropy of the image.
-     * \return
-     */
-    double calculateEntropy();
-
 
 
 };

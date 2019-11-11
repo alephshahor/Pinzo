@@ -32,27 +32,11 @@ void CumulativeHistogram::calculateHistogramValues(int(*func)(QColor))
     setVPixelValue(vPixelValueCumulative);
 }
 
-double CumulativeHistogram::calculateEntropy(){
-
-    double summatory = 0;
-    int imageDimension = mImage.getImage().width() * mImage.getImage().height();
-    for(int i = 0; i < mVPixelValue.size(); i++){
-        double iProbability = mVPixelValue[i] / imageDimension;
-        // If we allow probability to be zero then the logarith is -infinity and
-        // we are storing a NaN value in the summatory variable, which causes
-        // all successive sums to be NaN.
-        if(iProbability != 0.0)
-        summatory += iProbability * log(iProbability);
-    }
-
-
-    return (-1)*summatory;
-}
 
 void CumulativeHistogram::displayInfo()
 {
     Histogram::displayInfo();
-    ui -> entropyLabel -> setText("Entropy: " + QString::number(calculateEntropy()));
+    ui -> entropyLabel -> setText("");
 }
 
 CumulativeHistogram::~CumulativeHistogram()

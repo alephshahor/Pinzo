@@ -2,6 +2,7 @@
 #include "ui_histogramspecification.h"
 
 #include <cmath>
+#include <algorithm>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
@@ -122,16 +123,16 @@ void HistogramSpecification::processEqualizationFunction()
     QVector<double> bEqualizationFunction;
     switch(functionIndex){
         case Linear:
-            rEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateRedColorValue);
-            gEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateGreenColorValue);
-            bEqualizationFunction = getLinearEqualizationFunction(Histogram::calculateBlueColorValue);
+            rEqualizationFunction = getEqualizationFunction(Histogram::calculateRedColorValue);
+            gEqualizationFunction = getEqualizationFunction(Histogram::calculateGreenColorValue);
+            bEqualizationFunction = getEqualizationFunction(Histogram::calculateBlueColorValue);
         break;
     }
     applyMappingFunction(rEqualizationFunction, gEqualizationFunction, bEqualizationFunction);
     emit imageChanged();
 }
 
-QVector<double> HistogramSpecification::getLinearEqualizationFunction(int (*func)(QColor))
+QVector<double> HistogramSpecification::getEqualizationFunction(int (*func)(QColor))
 {
     Histogram* originalHistogram = new CumulativeHistogram(mOriginalImage, nullptr);
     originalHistogram -> calculateHistogramValues(func);
@@ -141,10 +142,11 @@ QVector<double> HistogramSpecification::getLinearEqualizationFunction(int (*func
     int height = mOriginalImage.getHeight();
     int totalPixels = width * height;
 
+     QVector<double> originalDistributionFun = originalHistogram -> calculateDistributionFunction(func);
     QVector<double> mappingFunction(nIntensityValues);
 
     for(int i = 0; i < nIntensityValues; i++){
-        int newValue = originalHistogram -> getValue(i) * (nIntensityValues - 1) / totalPixels;
+        double newValue = floor(originalDistributionFun[i] * (nIntensityValues -1));
         mappingFunction[i] = newValue;
     }
 
