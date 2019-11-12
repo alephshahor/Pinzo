@@ -7,6 +7,7 @@
 #include "imageadjuster.h"
 #include "lineartransformation.h"
 #include "histogramspecification.h"
+#include "gammacorrection.h"
 
 #include <iostream>
 #include <memory>
@@ -119,6 +120,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::convertToGray);
     connect(ui -> actionHistogram_Specification, &QAction::triggered,
             this, &MainWindow::openHistogramSpecification);
+    connect(ui -> actionGamma_Correction, &QAction::triggered,
+            this, &MainWindow::openGammaCorrection);
 }
 
 void MainWindow::openImage(){
@@ -281,6 +284,14 @@ void MainWindow::openHistogramSpecification()
 void MainWindow::convertToGray(){
     ImageAdjuster::toGrayscale(mImage);
     refreshImage();
+}
+
+void MainWindow::openGammaCorrection()
+{
+    GammaCorrection* gammaCorrection = new GammaCorrection(mImage, nullptr);
+    connect(gammaCorrection, SIGNAL(imageChanged()), this, SLOT(refreshImage()));
+    gammaCorrection -> setAttribute(Qt::WA_DeleteOnClose);
+    gammaCorrection -> show();
 }
 
 void MainWindow::refreshImage(Image image)
