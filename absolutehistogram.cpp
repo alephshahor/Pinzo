@@ -23,6 +23,7 @@ AbsoluteHistogram::~AbsoluteHistogram()
 void AbsoluteHistogram::displayInfo()
 {
     Histogram::displayInfo();
+    ui -> entropyLabel -> setText("Entropy: " + QString::number(calculateEntropy()));
 }
 
 void AbsoluteHistogram::calculateHistogramValues(int(*func)(QColor))
@@ -39,6 +40,23 @@ void AbsoluteHistogram::calculateHistogramValues(int(*func)(QColor))
 
 
       setVPixelValue(vPixelValue);
+}
+
+double AbsoluteHistogram::calculateEntropy(){
+
+    double summatory = 0;
+    int imageDimension = mImage.getImage().width() * mImage.getImage().height();
+    for(int i = 0; i < mVPixelValue.size(); i++){
+        double iProbability = mVPixelValue[i] / imageDimension;
+        // If we allow probability to be zero then the logarith is -infinity and
+        // we are storing a NaN value in the summatory variable, which causes
+        // all successive sums to be NaN.
+        if(iProbability != 0.0)
+        summatory += iProbability * log2(iProbability);
+    }
+
+
+    return (-1)*summatory;
 }
 
 

@@ -131,6 +131,7 @@ private:
     void openHistogramSpecification();
     void convertToGray();
 
+    void openGammaCorrection();
 
 private slots:
     void refreshImage(Image image);

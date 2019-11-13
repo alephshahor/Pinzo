@@ -22,16 +22,22 @@ public:
      */
     void calculateHistogramValues(int(*func)(QColor)) override;
 
-
-
-
 private:
+
+
 
     /*!
      * \brief displayInfo it refreshes the values of the QLabels
      * that stores the information of the histogram.
      */
     void displayInfo() override;
+
+    /*!
+     * \brief calculateEntropy it calculates the entropy of the image.
+     * \return
+     */
+    double calculateEntropy();
+
 
 };
 

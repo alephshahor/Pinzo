@@ -16,6 +16,12 @@ class ImageAdjuster : public QWidget
 
 private:
     enum mColor {Red, Green, Blue};
+    double mRedBias;
+    double mGreenBias;
+    double mBlueBias;
+    double mRedAlpha;
+    double mGreenAlpha;
+    double mBlueAlpha;
     Image mImage;
     Histogram* mHistogram;
     Ui::ImageAdjuster *ui;
@@ -32,9 +38,7 @@ public:
     int limitNumber(int num);
 
     void adjustImage(int brightnessAmount, double contrastAmount);
-    void adjustImage(double rBrightnessAmount, double rContrastAmount,
-                     double gBrightnessAmount, double gContrastAmount,
-                     double bBrightnessAmount, double bContrastAmount);
+    void adjustImage();
 
     float contrastCorrectionFactor(float contrastAmount);
 
@@ -43,19 +47,23 @@ public:
     void processRgbCheckbox();
     void processMeansAndDeviations();
 
+    void processMean();
+    void processDeviation();
+
     /* Haven't been implemented*/
     double calculateBrightness();
     double calculateContrast();
 
-    void equaliseMeansAndDeviation();
+    void grayscaleMode();
 
 private:
 
-    void calculateInitialHistogramValues();
+    void refreshMeanAndDeviation();
     void reportChange(Image image);
     void refreshLabels();
     double calculateAlpha(mColor color);
     double calculateBias(mColor color);
+    void refreshTextAndSliders();
 
 signals:
     void imageChanged(Image image);

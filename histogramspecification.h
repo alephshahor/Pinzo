@@ -27,7 +27,7 @@ private:
     void loadReferenceImage();
     void processEqualizationCheckbox();
     void processEqualizationFunction();
-    QVector<double> getLinearEqualizationFunction(int (*func)(QColor));
+    QVector<double> getEqualizationFunction(int (*func)(QColor));
 
 private:
     Ui::HistogramSpecification *ui;

@@ -30,6 +30,7 @@ set(INCLUDE_FILES
     imageadjuster.h
     lineartransformation.h
     histogramspecification.h
+    gammacorrection.h
     )
 
 set(SOURCE_FILES
@@ -46,6 +47,7 @@ set(SOURCE_FILES
     imageadjuster.cpp
     lineartransformation.cpp
     histogramspecification.cpp
+    gammacorrection.cpp
     )
 
 set(UI_FILES
@@ -57,6 +59,7 @@ set(UI_FILES
     imageadjuster.ui
     lineartransformation.ui
     histogramspecification.ui
+    gammacorrection.ui
     )
 
 set(TEST_FILES

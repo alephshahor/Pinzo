@@ -19,13 +19,29 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
             this, &ImageAdjuster::processTextInput);
     connect(ui -> contrastText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processTextInput);
-    connect(ui -> applyButton, &QPushButton::clicked,
-            this, &ImageAdjuster::processMeansAndDeviations);
+
+    connect(ui -> rMeanText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processMean);
+    connect(ui -> gMeanText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processMean);
+    connect(ui -> bMeanText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processMean);
+
+    connect(ui -> rDeviationText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processDeviation);
+    connect(ui -> gDeviationText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processDeviation);
+    connect(ui -> bDeviationText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processDeviation);
+
     connect(ui -> rgbCheckBox, &QCheckBox::clicked,
             this, &ImageAdjuster::processRgbCheckbox);
+    connect(ui -> refreshButton, &QPushButton::pressed,
+            this, &ImageAdjuster::refreshTextAndSliders);
+
     mHistogram = new AbsoluteHistogram(mImage, nullptr);
     mHistogram -> calculateHistogramKeys();
-    calculateInitialHistogramValues();
+    refreshMeanAndDeviation();
     ui -> rgbCheckBox -> setChecked(true);
 }
 
@@ -77,7 +93,7 @@ double ImageAdjuster::calculateBrightness()
     return summary;
 }
 
-void ImageAdjuster::equaliseMeansAndDeviation()
+void ImageAdjuster::grayscaleMode()
 {
     QString mean = ui -> rMeanText -> text();
     QString deviation = ui -> rDeviationText -> text();
@@ -87,7 +103,7 @@ void ImageAdjuster::equaliseMeansAndDeviation()
     ui -> bDeviationText -> setText(deviation);
 }
 
-void ImageAdjuster::calculateInitialHistogramValues()
+void ImageAdjuster::refreshMeanAndDeviation()
 {
     mHistogram -> calculateHistogramValues(Histogram::calculateRedColorValue);
     ui -> rMeanText -> setText(QString::number(mHistogram->calculateMean()));
@@ -100,6 +116,10 @@ void ImageAdjuster::calculateInitialHistogramValues()
     mHistogram -> calculateHistogramValues(Histogram::calculateBlueColorValue);
     ui -> bMeanText -> setText(QString::number(mHistogram->calculateMean()));
     ui -> bDeviationText -> setText(QString::number(mHistogram->calculateStdDeviation()));
+
+    processMean();
+    processDeviation();
+
 }
 
 void ImageAdjuster::adjustImage(int brightnessAmount, double contrastAmount)
@@ -120,7 +140,7 @@ void ImageAdjuster::adjustImage(int brightnessAmount, double contrastAmount)
     reportChange(adjustedImage);
 }
 
-void ImageAdjuster::adjustImage(double rBrightnessAmount, double rContrastAmount, double gBrightnessAmount, double gContrastAmount, double bBrightnessAmount, double bContrastAmount)
+void ImageAdjuster::adjustImage()
 {
     Image adjustedImage(mImage);
     QRgb *st = (QRgb *) adjustedImage.getImage().bits();
@@ -128,9 +148,9 @@ void ImageAdjuster::adjustImage(double rBrightnessAmount, double rContrastAmount
 
     for (quint64 p = 0; p < pixelCount; p++) {
 
-        st[p] = QColor(limitNumber( (qRed(st[p]) - 128) * rContrastAmount + 128 + rBrightnessAmount),
-                       limitNumber( (qGreen(st[p]) - 128) * gContrastAmount + 128 + gBrightnessAmount),
-                       limitNumber( (qBlue(st[p]) - 128) * bContrastAmount + 128 + bBrightnessAmount)).rgb();
+        st[p] = QColor(limitNumber( (qRed(st[p]) - 128) * mRedAlpha + 128 + mRedBias),
+                       limitNumber( (qGreen(st[p]) - 128) * mGreenAlpha + 128 + mGreenBias),
+                       limitNumber( (qBlue(st[p]) - 128) * mBlueAlpha + 128 + mBlueBias)).rgb();
     }
     reportChange(adjustedImage);
 }
@@ -182,27 +202,38 @@ void ImageAdjuster::processTextInput()
         ui -> contrastSlider -> setValue(ui -> contrastText -> text().toDouble() * 10);
         adjustImage(brightnessAmount, contrastAmount);
     }
-
 }
 
-void ImageAdjuster::processMeansAndDeviations()
+
+void ImageAdjuster::refreshTextAndSliders(){
+    refreshMeanAndDeviation();
+    ui -> brightnessSlider -> setValue(0);
+    ui -> brightnessText -> setText("0");
+    ui -> contrastSlider -> setValue(10 );
+    ui -> contrastText -> setText("1");
+}
+
+void ImageAdjuster::processDeviation()
 {
 
-    if(ui -> rgbCheckBox -> checkState() == false){
-        qDebug() << "Hi\n";
-        equaliseMeansAndDeviation();
-    }
+    mRedAlpha = calculateAlpha(Red);
 
-    double rAlpha = calculateAlpha(Red);
-    double rBrightness = calculateBias(Red);
+    mGreenAlpha = calculateAlpha(Green);
 
-    double gAlpha = calculateAlpha(Green);
-    double gBrightness = calculateBias(Green);
+    mBlueAlpha = calculateAlpha(Blue);
 
-    double bAlpha = calculateAlpha(Blue);
-    double bBrightness = calculateBias(Blue);
+    adjustImage();
+}
 
-    adjustImage(rBrightness,rAlpha,gBrightness,gAlpha,bBrightness,bAlpha);
+void ImageAdjuster::processMean()
+{
+    mRedBias = calculateBias(Red);
+
+    mGreenBias = calculateBias(Green);
+
+    mBlueBias = calculateBias(Blue);
+
+    adjustImage();
 }
 
 void ImageAdjuster::processRgbCheckbox(){
@@ -214,6 +245,7 @@ void ImageAdjuster::processRgbCheckbox(){
         ui -> rChannelLabel -> setText("(GRAY)");
         ui -> gChannelLabel -> setText("(X)");
         ui -> bChannelLabel -> setText("(X)");
+        grayscaleMode();
     }else{
         ui -> gMeanText -> setDisabled(false);
         ui -> gDeviationText -> setDisabled(false);
