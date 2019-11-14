@@ -289,7 +289,7 @@ void MainWindow::convertToGray(){
 void MainWindow::openGammaCorrection()
 {
     GammaCorrection* gammaCorrection = new GammaCorrection(mImage, nullptr);
-    connect(gammaCorrection, SIGNAL(imageChanged()), this, SLOT(refreshImage()));
+    connect(gammaCorrection, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
     gammaCorrection -> setAttribute(Qt::WA_DeleteOnClose);
     gammaCorrection -> show();
 }

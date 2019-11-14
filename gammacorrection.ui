@@ -31,7 +31,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="valueText"/>
+       <widget class="QLineEdit" name="valueText">
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QSlider" name="valueSlider">
@@ -39,6 +43,9 @@
          <number>50</number>
         </property>
         <property name="pageStep">
+         <number>10</number>
+        </property>
+        <property name="value">
          <number>10</number>
         </property>
         <property name="orientation">

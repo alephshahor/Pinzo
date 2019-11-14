@@ -2,6 +2,8 @@
 #include "ui_gammacorrection.h"
 
 #include <QMessageBox>
+#include <QDebug>
+#include <cmath>
 
 GammaCorrection::GammaCorrection(Image image, QWidget *parent) :
     QWidget(parent),
@@ -24,11 +26,11 @@ GammaCorrection::~GammaCorrection()
 }
 
 void GammaCorrection::proccessSliderInput(){
-    double gammaValue = static_cast<double>(ui -> valueSlider -> value());
+    double gammaValue = static_cast<double>(ui -> valueSlider -> value()) / 10;
     mGammaValue = gammaValue;
     applyGamma();
 
-    ui -> valueText -> setText(QString::number(gammaValue / 10));
+    ui -> valueText -> setText(QString::number(gammaValue));
 }
 
 void GammaCorrection::proccessTextInput(){
@@ -49,19 +51,20 @@ void GammaCorrection::proccessTextInput(){
 void GammaCorrection::applyGamma()
 {
     Image adjustedImage(mImage);
-    int imageDepth = mImage.getImageDepth();
+    int intensityValues = pow(2,mImage.getImageDepth());
+
     QRgb *st = (QRgb *) adjustedImage.getImage().bits();
     quint64 pixelCount = adjustedImage.getWidth() * adjustedImage.getHeight();
 
     for (quint64 p = 0; p < pixelCount; p++) {
 
-        double red_in   =  qRed(st[p]) / (imageDepth);
-        double green_in =  qGreen(st[p]) / (imageDepth);
-        double blue_in  =  qBlue(st[p]) / (imageDepth);
+        double red_in   =  static_cast<double>(qRed(st[p])) / (intensityValues  - 1);
+        double green_in =  static_cast<double>(qGreen(st[p])) / (intensityValues  - 1);
+        double blue_in  =  static_cast<double>(qBlue(st[p])) / (intensityValues  - 1);
 
-        double red_out = pow(red_in, mGammaValue) * (imageDepth - 1);
-        double green_out = pow(green_in, mGammaValue) * (imageDepth - 1);
-        double blue_out = pow(blue_in, mGammaValue) * (imageDepth - 1);
+        double red_out = pow(red_in, mGammaValue) * (intensityValues  - 1);
+        double green_out = pow(green_in, mGammaValue) * (intensityValues  - 1);
+        double blue_out = pow(blue_in, mGammaValue) * (intensityValues  - 1);
 
         st[p] = QColor(red_out, green_out, blue_out).rgb();
     }
