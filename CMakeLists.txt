@@ -31,6 +31,7 @@ set(INCLUDE_FILES
     lineartransformation.h
     histogramspecification.h
     gammacorrection.h
+    imagedifference.h
     )
 
 set(SOURCE_FILES
@@ -48,6 +49,7 @@ set(SOURCE_FILES
     lineartransformation.cpp
     histogramspecification.cpp
     gammacorrection.cpp
+    imagedifference.cpp
     )
 
 set(UI_FILES
@@ -60,6 +62,7 @@ set(UI_FILES
     lineartransformation.ui
     histogramspecification.ui
     gammacorrection.ui
+    imagedifference.ui
     )
 
 set(TEST_FILES

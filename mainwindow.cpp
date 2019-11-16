@@ -8,6 +8,7 @@
 #include "lineartransformation.h"
 #include "histogramspecification.h"
 #include "gammacorrection.h"
+#include "imagedifference.h"
 
 #include <iostream>
 #include <memory>
@@ -122,6 +123,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::openHistogramSpecification);
     connect(ui -> actionGamma_Correction, &QAction::triggered,
             this, &MainWindow::openGammaCorrection);
+    connect(ui -> actionDifference, &QAction::triggered,
+            this, &MainWindow::openImageDifference);
 }
 
 void MainWindow::openImage(){
@@ -292,6 +295,14 @@ void MainWindow::openGammaCorrection()
     connect(gammaCorrection, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
     gammaCorrection -> setAttribute(Qt::WA_DeleteOnClose);
     gammaCorrection -> show();
+}
+
+void MainWindow::openImageDifference()
+{
+    ImageDifference* imageDifference = new ImageDifference(mImage, nullptr);
+    connect(imageDifference, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    imageDifference -> setAttribute(Qt::WA_DeleteOnClose);
+    imageDifference -> show();
 }
 
 void MainWindow::refreshImage(Image image)

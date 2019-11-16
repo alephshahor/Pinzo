@@ -150,7 +150,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>35</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -182,9 +182,18 @@
     <property name="title">
      <string>Process</string>
     </property>
+    <widget class="QMenu" name="menuMath">
+     <property name="title">
+      <string>Math</string>
+     </property>
+     <addaction name="actionDifference"/>
+    </widget>
     <addaction name="actionLinearTransformation"/>
     <addaction name="actionHistogram_Specification"/>
     <addaction name="actionGamma_Correction"/>
+    <addaction name="separator"/>
+    <addaction name="menuMath"/>
+    <addaction name="actionDifference_Map"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
@@ -255,6 +264,16 @@
   <action name="actionGamma_Correction">
    <property name="text">
     <string>Gamma Correction</string>
+   </property>
+  </action>
+  <action name="actionDifference">
+   <property name="text">
+    <string>Difference</string>
+   </property>
+  </action>
+  <action name="actionDifference_Map">
+   <property name="text">
+    <string>Difference Map</string>
    </property>
   </action>
  </widget>

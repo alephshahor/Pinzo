@@ -132,6 +132,8 @@ private:
     void convertToGray();
 
     void openGammaCorrection();
+    void openImageDifference();
+
 
 private slots:
     void refreshImage(Image image);
