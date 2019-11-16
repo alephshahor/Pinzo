@@ -9,6 +9,7 @@
 #include "histogramspecification.h"
 #include "gammacorrection.h"
 #include "imagedifference.h"
+#include "differencemap.h"
 
 #include <iostream>
 #include <memory>
@@ -73,6 +74,11 @@ void MainWindow::refreshImage()
     mRubberBand = new RubberBand(ui -> imageLabel);
 }
 
+void MainWindow::refreshImage(Image image)
+{
+      setImage(image);
+}
+
 void MainWindow::cloneWindow()
 {
     MainWindow* newWindow = new MainWindow();
@@ -125,6 +131,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::openGammaCorrection);
     connect(ui -> actionDifference, &QAction::triggered,
             this, &MainWindow::openImageDifference);
+    connect(ui -> actionDifference_Map, &QAction::triggered,
+            this, &MainWindow::openDifferenceMap);
 }
 
 void MainWindow::openImage(){
@@ -305,9 +313,12 @@ void MainWindow::openImageDifference()
     imageDifference -> show();
 }
 
-void MainWindow::refreshImage(Image image)
+void MainWindow::openDifferenceMap()
 {
-      setImage(image);
+    DifferenceMap* differenceMap = new DifferenceMap(mImage, nullptr);
+    connect(differenceMap, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    differenceMap -> setAttribute(Qt::WA_DeleteOnClose);
+    differenceMap -> show();
 }
 
 void MainWindow::displayCursorInfo(int xPixelCoordinate, int yPixelCoordinate){

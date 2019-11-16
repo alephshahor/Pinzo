@@ -16,6 +16,11 @@ public:
     explicit ImageDifference(Image image, QWidget *parent);
     ~ImageDifference();
 
+    void setReferenceImage(Image referenceImage);
+    Image calculateDifference_();
+
+
+private:
     void loadReferenceImage();
     void calculateDifference();
 

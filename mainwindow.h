@@ -133,6 +133,8 @@ private:
 
     void openGammaCorrection();
     void openImageDifference();
+    void openDifferenceMap();
+
 
 
 private slots:

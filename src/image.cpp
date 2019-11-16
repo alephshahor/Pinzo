@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QRegExp>
+#include <cmath>
 
 Image::Image():
     mImage()
@@ -109,6 +110,11 @@ void Image::setImage(const QImage &image)
 QString Image::getImageFormat() const
 {
     return mFileFormat;
+}
+
+int Image::getNumberOfIntensityValues() const
+{
+    return pow(2, mFileDepth);
 }
 
 std::pair<int, int> Image::getImageDimension() const

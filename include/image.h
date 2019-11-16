@@ -21,6 +21,8 @@ public:
     QString getImagePath() const;
     QString getImageName() const;
     QString getImageFormat() const;
+
+    int getNumberOfIntensityValues() const;
     int getImageDepth() const;
     bool isGray() const;
     std::pair<int, int> getImageDimension() const;

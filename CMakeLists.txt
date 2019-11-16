@@ -32,6 +32,7 @@ set(INCLUDE_FILES
     histogramspecification.h
     gammacorrection.h
     imagedifference.h
+    differencemap.h
     )
 
 set(SOURCE_FILES
@@ -50,6 +51,7 @@ set(SOURCE_FILES
     histogramspecification.cpp
     gammacorrection.cpp
     imagedifference.cpp
+    differencemap.cpp
     )
 
 set(UI_FILES
@@ -63,6 +65,7 @@ set(UI_FILES
     histogramspecification.ui
     gammacorrection.ui
     imagedifference.ui
+    differencemap.ui
     )
 
 set(TEST_FILES
