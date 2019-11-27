@@ -11,14 +11,14 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     ui(new Ui::ImageAdjuster)
 {
     ui->setupUi(this);
-    connect(ui -> brightnessSlider, &QSlider::valueChanged,
-            this, &ImageAdjuster::processSliderInput);
-    connect(ui -> contrastSlider, &QSlider::valueChanged,
-            this, &ImageAdjuster::processSliderInput);
-    connect(ui -> brightnessText, &QLineEdit::returnPressed,
-            this, &ImageAdjuster::processTextInput);
-    connect(ui -> contrastText, &QLineEdit::returnPressed,
-            this, &ImageAdjuster::processTextInput);
+//    connect(ui -> brightnessSlider, &QSlider::valueChanged,
+//            this, &ImageAdjuster::processSliderInput);
+//    connect(ui -> contrastSlider, &QSlider::valueChanged,
+//            this, &ImageAdjuster::processSliderInput);
+//    connect(ui -> brightnessText, &QLineEdit::returnPressed,
+//            this, &ImageAdjuster::processTextInput);
+//    connect(ui -> contrastText, &QLineEdit::returnPressed,
+//            this, &ImageAdjuster::processTextInput);
 
     connect(ui -> rMeanText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processMean);
@@ -34,10 +34,10 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     connect(ui -> bDeviationText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processDeviation);
 
-    connect(ui -> rgbCheckBox, &QCheckBox::clicked,
-            this, &ImageAdjuster::processRgbCheckbox);
-    connect(ui -> refreshButton, &QPushButton::pressed,
-            this, &ImageAdjuster::refreshTextAndSliders);
+//    connect(ui -> rgbCheckBox, &QCheckBox::clicked,
+//            this, &ImageAdjuster::processRgbCheckbox);
+//    connect(ui -> refreshButton, &QPushButton::pressed,
+//            this, &ImageAdjuster::refreshTextAndSliders);
 
     mHistogram = new AbsoluteHistogram(mImage, nullptr);
     mHistogram -> calculateHistogramKeys();
@@ -142,16 +142,17 @@ void ImageAdjuster::adjustImage(int brightnessAmount, double contrastAmount)
 
 void ImageAdjuster::adjustImage()
 {
+
     Image adjustedImage(mImage);
     QRgb *st = (QRgb *) adjustedImage.getImage().bits();
     quint64 pixelCount = adjustedImage.getWidth() * adjustedImage.getHeight();
 
     for (quint64 p = 0; p < pixelCount; p++) {
-
-        st[p] = QColor(limitNumber( (qRed(st[p]) - 128) * mRedAlpha + 128 + mRedBias),
-                       limitNumber( (qGreen(st[p]) - 128) * mGreenAlpha + 128 + mGreenBias),
-                       limitNumber( (qBlue(st[p]) - 128) * mBlueAlpha + 128 + mBlueBias)).rgb();
+        st[p] = QColor(limitNumber( (qRed(st[p]) * mRedAlpha)  + mRedBias),
+                       limitNumber( (qGreen(st[p]) * mGreenAlpha)   + mGreenBias),
+                       limitNumber( (qBlue(st[p]) * mBlueAlpha)  + mBlueBias)).rgb();
     }
+
     reportChange(adjustedImage);
 }
 
@@ -215,12 +216,17 @@ void ImageAdjuster::refreshTextAndSliders(){
 
 void ImageAdjuster::processDeviation()
 {
-
     mRedAlpha = calculateAlpha(Red);
 
     mGreenAlpha = calculateAlpha(Green);
 
     mBlueAlpha = calculateAlpha(Blue);
+
+    mRedBias = calculateBias(Red);
+
+    mGreenBias = calculateBias(Green);
+
+    mBlueBias = calculateBias(Blue);
 
     adjustImage();
 }

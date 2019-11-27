@@ -39,6 +39,9 @@ public:
 
     void adjustImage(int brightnessAmount, double contrastAmount);
     void adjustImage();
+//    void adjustImageAlpha();
+//    void adjustImageBias();
+
 
     float contrastCorrectionFactor(float contrastAmount);
 
