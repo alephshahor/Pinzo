@@ -150,7 +150,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>35</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -199,8 +199,8 @@
     <property name="title">
      <string>Geometric</string>
     </property>
-    <addaction name="actionVertical_Mirror"/>
     <addaction name="actionHorizontal_Mirror"/>
+    <addaction name="actionVertical_Mirror"/>
     <addaction name="actionTraspose"/>
     <addaction name="actionRotate_90"/>
     <addaction name="actionRotate_91"/>
@@ -285,7 +285,31 @@
   <action name="actionDifference_Map">
    <property name="text">
     <string>Difference Map</string>
-
+   </property>
+  </action>
+  <action name="actionHorizontal_Mirror">
+   <property name="text">
+    <string>Horizontal Mirror</string>
+   </property>
+  </action>
+  <action name="actionVertical_Mirror">
+   <property name="text">
+    <string>Vertical Mirror</string>
+   </property>
+  </action>
+  <action name="actionTraspose">
+   <property name="text">
+    <string>Traspose</string>
+   </property>
+  </action>
+  <action name="actionRotate_90">
+   <property name="text">
+    <string>Rotate (90º)</string>
+   </property>
+  </action>
+  <action name="actionRotate_91">
+   <property name="text">
+    <string>Rotate(-90º)</string>
    </property>
   </action>
  </widget>

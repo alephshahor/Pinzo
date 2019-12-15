@@ -10,6 +10,10 @@
 #include "gammacorrection.h"
 #include "imagedifference.h"
 #include "differencemap.h"
+#include "mainwindow.h"
+#include "mainwindow.h"
+#include "mainwindow.h"
+#include "include/geometricfunctions.h"
 
 #include <iostream>
 #include <memory>
@@ -127,14 +131,12 @@ void MainWindow::connectSignals()
             this, &MainWindow::convertToGray);
     connect(ui -> actionHistogram_Specification, &QAction::triggered,
             this, &MainWindow::openHistogramSpecification);
-<<<<<<< HEAD
     connect(ui -> actionGamma_Correction, &QAction::triggered,
             this, &MainWindow::openGammaCorrection);
     connect(ui -> actionDifference, &QAction::triggered,
             this, &MainWindow::openImageDifference);
     connect(ui -> actionDifference_Map, &QAction::triggered,
             this, &MainWindow::openDifferenceMap);
-=======
     connect(ui -> actionVertical_Mirror, &QAction::triggered,
             this, &MainWindow::verticalMirror);
     connect(ui -> actionHorizontal_Mirror, &QAction::triggered,
@@ -145,7 +147,6 @@ void MainWindow::connectSignals()
             this, &MainWindow::rotateClockwise);
     connect(ui -> actionRotate_91, &QAction::triggered,
             this, &MainWindow::rotateAntiClockwise);
->>>>>>> master
 }
 
 void MainWindow::openImage(){
@@ -310,9 +311,14 @@ void MainWindow::convertToGray(){
     refreshImage();
 }
 
-<<<<<<< HEAD
 void MainWindow::openGammaCorrection()
-=======
+{
+    GammaCorrection* gammaCorrection = new GammaCorrection(mImage, nullptr);
+    connect(gammaCorrection, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    gammaCorrection -> setAttribute(Qt::WA_DeleteOnClose);
+    gammaCorrection -> show();
+}
+
 void MainWindow::verticalMirror()
 {
     GeometricFunctions geometricFunction(mImage);
@@ -353,14 +359,6 @@ void MainWindow::rotateAntiClockwise()
     refreshImage(mirroredImage);
 }
 
-void MainWindow::refreshImage(Image image)
->>>>>>> master
-{
-    GammaCorrection* gammaCorrection = new GammaCorrection(mImage, nullptr);
-    connect(gammaCorrection, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
-    gammaCorrection -> setAttribute(Qt::WA_DeleteOnClose);
-    gammaCorrection -> show();
-}
 
 void MainWindow::openImageDifference()
 {

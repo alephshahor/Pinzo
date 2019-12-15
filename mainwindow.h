@@ -130,6 +130,7 @@ private:
     void openLinearTransformation();
     void openHistogramSpecification();
     void convertToGray();
+
     void verticalMirror();
     void horizontalMirror();
     void traspose();
