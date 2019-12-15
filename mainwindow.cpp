@@ -7,6 +7,7 @@
 #include "imageadjuster.h"
 #include "lineartransformation.h"
 #include "histogramspecification.h"
+#include "include/geometricfunctions.h"
 
 #include <iostream>
 #include <memory>
@@ -119,6 +120,16 @@ void MainWindow::connectSignals()
             this, &MainWindow::convertToGray);
     connect(ui -> actionHistogram_Specification, &QAction::triggered,
             this, &MainWindow::openHistogramSpecification);
+    connect(ui -> actionVertical_Mirror, &QAction::triggered,
+            this, &MainWindow::verticalMirror);
+    connect(ui -> actionHorizontal_Mirror, &QAction::triggered,
+            this, &MainWindow::horizontalMirror);
+    connect(ui -> actionTraspose, &QAction::triggered,
+            this, &MainWindow::traspose);
+    connect(ui -> actionRotate_90, &QAction::triggered,
+            this, &MainWindow::rotateClockwise);
+    connect(ui -> actionRotate_91, &QAction::triggered,
+            this, &MainWindow::rotateAntiClockwise);
 }
 
 void MainWindow::openImage(){
@@ -281,6 +292,46 @@ void MainWindow::openHistogramSpecification()
 void MainWindow::convertToGray(){
     ImageAdjuster::toGrayscale(mImage);
     refreshImage();
+}
+
+void MainWindow::verticalMirror()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.verticalMirror();
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::horizontalMirror()
+{
+     GeometricFunctions geometricFunction(mImage);
+     Image mirroredImage;
+     mirroredImage = geometricFunction.horizontalMirror();
+     refreshImage(mirroredImage);
+}
+
+void MainWindow::traspose()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.traspose();
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::rotateClockwise()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.rotation("clockwise");
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::rotateAntiClockwise()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.rotation("anticlockwise");
+    refreshImage(mirroredImage);
 }
 
 void MainWindow::refreshImage(Image image)

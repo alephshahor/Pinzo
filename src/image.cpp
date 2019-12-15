@@ -44,6 +44,18 @@ Image::Image(Image &image):
 {
 }
 
+Image::Image(Image &image, int width, int height)
+{
+    this -> mFileName = image.getImageName();
+    this -> mFilePath = image.getImagePath();
+    this -> mFileFormat = image.getImageFormat();
+    this -> mFileDepth = image.getImageDepth();
+    this -> mIsGray = image.isGray();
+    this -> mFileDimension = std::make_pair(width, height);
+
+    this -> mImage = QPixmap(width, height).toImage();
+}
+
 bool Image::loadImage(const QString &filepath)
 {
     QImageReader reader(filepath);
