@@ -127,12 +127,25 @@ void MainWindow::connectSignals()
             this, &MainWindow::convertToGray);
     connect(ui -> actionHistogram_Specification, &QAction::triggered,
             this, &MainWindow::openHistogramSpecification);
+<<<<<<< HEAD
     connect(ui -> actionGamma_Correction, &QAction::triggered,
             this, &MainWindow::openGammaCorrection);
     connect(ui -> actionDifference, &QAction::triggered,
             this, &MainWindow::openImageDifference);
     connect(ui -> actionDifference_Map, &QAction::triggered,
             this, &MainWindow::openDifferenceMap);
+=======
+    connect(ui -> actionVertical_Mirror, &QAction::triggered,
+            this, &MainWindow::verticalMirror);
+    connect(ui -> actionHorizontal_Mirror, &QAction::triggered,
+            this, &MainWindow::horizontalMirror);
+    connect(ui -> actionTraspose, &QAction::triggered,
+            this, &MainWindow::traspose);
+    connect(ui -> actionRotate_90, &QAction::triggered,
+            this, &MainWindow::rotateClockwise);
+    connect(ui -> actionRotate_91, &QAction::triggered,
+            this, &MainWindow::rotateAntiClockwise);
+>>>>>>> master
 }
 
 void MainWindow::openImage(){
@@ -297,7 +310,51 @@ void MainWindow::convertToGray(){
     refreshImage();
 }
 
+<<<<<<< HEAD
 void MainWindow::openGammaCorrection()
+=======
+void MainWindow::verticalMirror()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.verticalMirror();
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::horizontalMirror()
+{
+     GeometricFunctions geometricFunction(mImage);
+     Image mirroredImage;
+     mirroredImage = geometricFunction.horizontalMirror();
+     refreshImage(mirroredImage);
+}
+
+void MainWindow::traspose()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.traspose();
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::rotateClockwise()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.rotation("clockwise");
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::rotateAntiClockwise()
+{
+    GeometricFunctions geometricFunction(mImage);
+    Image mirroredImage;
+    mirroredImage = geometricFunction.rotation("anticlockwise");
+    refreshImage(mirroredImage);
+}
+
+void MainWindow::refreshImage(Image image)
+>>>>>>> master
 {
     GammaCorrection* gammaCorrection = new GammaCorrection(mImage, nullptr);
     connect(gammaCorrection, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
@@ -375,5 +432,3 @@ void MainWindow::openHistogram(HistogramType type)
     h -> displayHistogram();
     h -> show();
 }
-
-

@@ -23,6 +23,7 @@ set(INCLUDE_FILES
     include/util.h
     include/qcustomplot.h
     include/rubberband.h
+    include/geometricfunctions.h
     saveimagedialog.h
     histogram.h
     cumulativehistogram.h
@@ -42,6 +43,7 @@ set(SOURCE_FILES
     src/util.cpp
     src/qcustomplot.cpp
     src/rubberband.cpp
+    src/geometricfunctions.cpp
     saveimagedialog.cpp
     histogram.cpp
     cumulativehistogram.cpp

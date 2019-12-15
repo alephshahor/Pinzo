@@ -195,10 +195,21 @@
     <addaction name="menuMath"/>
     <addaction name="actionDifference_Map"/>
    </widget>
+   <widget class="QMenu" name="menuGeometric">
+    <property name="title">
+     <string>Geometric</string>
+    </property>
+    <addaction name="actionVertical_Mirror"/>
+    <addaction name="actionHorizontal_Mirror"/>
+    <addaction name="actionTraspose"/>
+    <addaction name="actionRotate_90"/>
+    <addaction name="actionRotate_91"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
    <addaction name="menuAnalysis"/>
    <addaction name="menuProcess"/>
+   <addaction name="menuGeometric"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -274,6 +285,7 @@
   <action name="actionDifference_Map">
    <property name="text">
     <string>Difference Map</string>
+
    </property>
   </action>
  </widget>
