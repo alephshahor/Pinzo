@@ -14,6 +14,7 @@
 #include "mainwindow.h"
 #include "mainwindow.h"
 #include "include/geometricfunctions.h"
+#include "scaling.h"
 
 #include <iostream>
 #include <memory>
@@ -76,11 +77,13 @@ void MainWindow::refreshImage()
     ui -> imageLabel -> setMargin(0);
     ui -> imageLabel -> setPixmap(mImagePixMap);
     mRubberBand = new RubberBand(ui -> imageLabel);
+    displayImageInfo();
 }
 
 void MainWindow::refreshImage(Image image)
 {
       setImage(image);
+      displayImageInfo();
 }
 
 void MainWindow::cloneWindow()
@@ -147,6 +150,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::rotateClockwise);
     connect(ui -> actionRotate_91, &QAction::triggered,
             this, &MainWindow::rotateAntiClockwise);
+    connect(ui -> actionScale, &QAction::triggered,
+            this, &MainWindow::scale);
 }
 
 void MainWindow::openImage(){
@@ -357,6 +362,15 @@ void MainWindow::rotateAntiClockwise()
     Image mirroredImage;
     mirroredImage = geometricFunction.rotation("anticlockwise");
     refreshImage(mirroredImage);
+}
+
+void MainWindow::scale()
+{
+    Scaling* scaling = new Scaling(mImage, nullptr);
+    connect(scaling, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    scaling -> setAttribute(Qt::WA_DeleteOnClose);
+    scaling -> show();
+
 }
 
 

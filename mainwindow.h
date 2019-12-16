@@ -136,10 +136,13 @@ private:
     void traspose();
     void rotateClockwise();
     void rotateAntiClockwise();
+    void scale();
 
     void openGammaCorrection();
     void openImageDifference();
     void openDifferenceMap();
+
+
 
 
 

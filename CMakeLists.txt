@@ -34,6 +34,7 @@ set(INCLUDE_FILES
     gammacorrection.h
     imagedifference.h
     differencemap.h
+    scaling.h
     )
 
 set(SOURCE_FILES
@@ -54,6 +55,7 @@ set(SOURCE_FILES
     gammacorrection.cpp
     imagedifference.cpp
     differencemap.cpp
+    scaling.cpp
     )
 
 set(UI_FILES
@@ -68,6 +70,7 @@ set(UI_FILES
     gammacorrection.ui
     imagedifference.ui
     differencemap.ui
+    scaling.ui
     )
 
 set(TEST_FILES
