@@ -22,6 +22,10 @@ private:
     void nearestNeighbourInterpolation(Image& resizedImage, float xFactor, float yFactor);
     void bilinealInterpolation(Image& resizedImage, float xFactor, float yFactor);
 
+    QColor sumColors(QColor colorA, QColor colorB);
+    QColor substractColors(QColor colorA, QColor colorB);
+    QColor multiplyColorWithConstant(QColor colorA, float constant);
+
     Image createResizedImage();
 
 

@@ -109,7 +109,80 @@ void Scaling::nearestNeighbourInterpolation(Image& resizedImage, float xFactor, 
 void Scaling::bilinealInterpolation(Image& resizedImage, float xFactor, float yFactor)
 {
 
+    xFactor = 1 / xFactor;
+    yFactor = 1 / yFactor;
 
+
+    for(int i = 0; i < resizedImage.getHeight(); i++){
+        for(int j = 0; j < resizedImage.getWidth(); j++){
+            int smallestX = floor(j * xFactor);
+            int biggestX = ceil(j * xFactor);
+
+            int smallestY = floor(i * yFactor);
+            int biggestY = ceil(i * yFactor);
+
+            QRgb leftmostUpperColorValue = this -> image.getImage().pixel(smallestX, smallestY);
+            QRgb rightmostUpperColorValue = this -> image.getImage().pixel(biggestX, smallestY);
+            QRgb leftmostLowerColorValue = this -> image.getImage().pixel(smallestX, biggestY);
+            QRgb rightmostLowerColorValue = this -> image.getImage().pixel(biggestX, biggestY);
+
+            float xOffset = (j * xFactor) - smallestX;
+            float yOffset = (i * yFactor) - smallestY;
+
+            QColor horizontalValue = sumColors(leftmostUpperColorValue,
+                                            multiplyColorWithConstant(
+                                                substractColors(rightmostUpperColorValue,leftmostUpperColorValue),
+                                                xOffset)
+                                            );
+            QColor verticalValue = sumColors(leftmostLowerColorValue,
+                                            multiplyColorWithConstant(
+                                                substractColors(rightmostLowerColorValue,leftmostLowerColorValue),
+                                                xOffset)
+                                            );
+
+            QColor colorValue = sumColors(horizontalValue,
+                                            multiplyColorWithConstant(
+                                                substractColors(verticalValue,horizontalValue),
+                                                yOffset)
+                                            );
+
+            resizedImage.getImage().setPixel(j,i,colorValue.rgb());
+        }
+    }
+
+    emit imageChanged(resizedImage);
+
+}
+
+QColor Scaling::sumColors(QColor colorA, QColor colorB)
+{
+
+    int red = colorA.red() + colorB.red();
+    int blue = colorA.blue() + colorB.blue();
+    int green = colorA.green() + colorB.green();
+
+    return QColor(red, blue, green);
+
+}
+
+QColor Scaling::substractColors(QColor colorA, QColor colorB)
+{
+
+    int red = colorA.red() - colorB.red();
+    int blue = colorA.blue() - colorB.blue();
+    int green = colorA.green() - colorB.green();
+
+    return QColor(red, blue, green, 1);
+
+}
+
+QColor Scaling::multiplyColorWithConstant(QColor colorA, float constant)
+{
+    int red = colorA.red() * constant;
+    int blue = colorA.blue() * constant;
+    int green = colorA.green()  * constant;
+
+    return QColor(red, blue, green, 1);
 }
 
 
