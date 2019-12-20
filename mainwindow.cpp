@@ -15,6 +15,7 @@
 #include "mainwindow.h"
 #include "include/geometricfunctions.h"
 #include "scaling.h"
+#include "rotation.h"
 
 #include <iostream>
 #include <memory>
@@ -152,6 +153,8 @@ void MainWindow::connectSignals()
             this, &MainWindow::rotateAntiClockwise);
     connect(ui -> actionScale, &QAction::triggered,
             this, &MainWindow::scale);
+    connect(ui -> actionRotate, &QAction::triggered,
+            this, &MainWindow::rotate);
 }
 
 void MainWindow::openImage(){
@@ -371,6 +374,14 @@ void MainWindow::scale()
     scaling -> setAttribute(Qt::WA_DeleteOnClose);
     scaling -> show();
 
+}
+
+void MainWindow::rotate()
+{
+    Rotation* rotation = new Rotation(mImage, nullptr);
+    connect(rotation, SIGNAL(imageChanged(Image)), this, SLOT(refreshImage(Image)));
+    rotation -> setAttribute(Qt::WA_DeleteOnClose);
+    rotation -> show();
 }
 
 

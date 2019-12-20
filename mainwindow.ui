@@ -205,6 +205,7 @@
     <addaction name="actionRotate_90"/>
     <addaction name="actionRotate_91"/>
     <addaction name="actionScale"/>
+    <addaction name="actionRotate"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage"/>
@@ -316,6 +317,11 @@
   <action name="actionScale">
    <property name="text">
     <string>Scale</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="text">
+    <string>Rotate</string>
    </property>
   </action>
  </widget>

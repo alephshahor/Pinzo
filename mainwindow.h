@@ -137,6 +137,7 @@ private:
     void rotateClockwise();
     void rotateAntiClockwise();
     void scale();
+    void rotate();
 
     void openGammaCorrection();
     void openImageDifference();

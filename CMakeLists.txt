@@ -35,6 +35,7 @@ set(INCLUDE_FILES
     imagedifference.h
     differencemap.h
     scaling.h
+    rotation.h
     )
 
 set(SOURCE_FILES
@@ -56,6 +57,7 @@ set(SOURCE_FILES
     imagedifference.cpp
     differencemap.cpp
     scaling.cpp
+    rotation.cpp
     )
 
 set(UI_FILES
@@ -71,6 +73,7 @@ set(UI_FILES
     imagedifference.ui
     differencemap.ui
     scaling.ui
+    rotation.ui
     )
 
 set(TEST_FILES
