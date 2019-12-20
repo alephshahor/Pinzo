@@ -21,7 +21,6 @@ public:
     void inverseTransform(float rotationAngle);
     std::vector<std::vector<float>> generateRotationMatrix(float rotationAngle);
 
-
     int maxIndex(std::vector<int> indexes);
     int minIndex(std::vector<int> indexes);
 

@@ -41,6 +41,8 @@ public:
 
 
 
+private:
+    void allPixelsToColor(QColor color);
 };
 
 #endif // IMAGE_H

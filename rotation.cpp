@@ -167,7 +167,6 @@ std::vector<std::vector<float> > Rotation::generateRotationMatrix(float rotation
     return rotationMatrix;
 }
 
-
 int Rotation::maxIndex(std::vector<int> indexes)
 {
     int biggestIndex = indexes[0];

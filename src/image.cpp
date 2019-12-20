@@ -55,6 +55,13 @@ Image::Image(Image &image, int width, int height)
     this -> mFileDimension = std::make_pair(width, height);
 
     this -> mImage = QPixmap(width, height).toImage();
+    allPixelsToColor(QColor(0,0,0));
+}
+
+void Image::allPixelsToColor(QColor color){
+    for(int i = 0; i < mImage.height(); i++)
+        for(int j = 0; j < mImage.width(); j++)
+            mImage.setPixel(j,i,color.rgb());
 }
 
 bool Image::loadImage(const QString &filepath)
