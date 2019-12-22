@@ -60,7 +60,7 @@ double AbsoluteHistogram::calculateEntropy(){
 }
 
 void AbsoluteHistogram::deleteBackgroundResidualColor(int pixelValue){
-    qDebug() << "Deleting pixel: " << pixelValue << " with residual pixels: " << mImage.getBackgroundPixels();
+    qDebug() << "Deleting pixel: " << pixelValue << " with residual pixels: " << mImage.getBackgroundPixels() << " having: " << mVPixelValue[pixelValue];
     mVPixelValue[pixelValue] -= mImage.getBackgroundPixels();
 }
 

@@ -7,7 +7,7 @@
 
 Histogram::Histogram(Image& image, QWidget *parent) :
     mImage(image),
-    mCurrentType(Lightness),
+    mCurrentType(Red),
     ui(new Ui::Histogram)
 {
     ui -> setupUi(this);
@@ -81,9 +81,9 @@ void Histogram::calculateHistogramKeys()
 void Histogram::setTypeLabel()
 {
     switch(mCurrentType){
-        case Lightness:
-            ui -> customPlot -> xAxis -> setLabel("Lightness");
-        break;
+//        case Lightness:
+//            ui -> customPlot -> xAxis -> setLabel("Lightness");
+//        break;
 
         case Red:
             ui -> customPlot -> xAxis -> setLabel("Red");
@@ -120,7 +120,7 @@ int Histogram::calculateModeFrequency()
 void Histogram::changeDisplayType()
 {
     if(mCurrentType == Blue){
-        mCurrentType = Lightness;
+        mCurrentType = Red;
     }else mCurrentType += 1;
     displayHistogram();
 }
@@ -128,12 +128,12 @@ void Histogram::changeDisplayType()
 void Histogram::displayHistogram(){
 
     switch(mCurrentType){
-        case Lightness:
-        calculateHistogramValues(calculateColorLightnessValue);
-        calculateHistogramKeys();
-        displayInfo();
-        createHistogram(QColor(0,0,0,180));
-        break;
+//        case Lightness:
+//        calculateHistogramValues(calculateColorLightnessValue);
+//        calculateHistogramKeys();
+//        displayInfo();
+//        createHistogram(QColor(0,0,0,180));
+//        break;
 
         case Red:
         calculateHistogramValues(calculateRedColorValue);

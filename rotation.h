@@ -24,8 +24,12 @@ public:
     int maxIndex(std::vector<int> indexes);
     int minIndex(std::vector<int> indexes);
 
-    int calculateParalelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
+    int calculateParallelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
                                   int leftmostLowerCorner[], int rightmostLowerCorner[]);
+    bool pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperCorner[],
+                            int leftmostLowerCorner[], int rightmostLowerCorner[],
+                            int rotatedPoint[]);
+    int calculateTriangleArea(int a[], int b[], int c[]);
 
 signals:
     void imageChanged(Image image);

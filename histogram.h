@@ -137,7 +137,7 @@ protected:
      * \brief The mDisplayType enum the types of histogram
      * visualization.
      */
-    enum mDisplayType {Lightness, Red, Green, Blue};
+    enum mDisplayType {Red, Green, Blue};
 
     /*!
      * \brief mCurrentType stores the current visualization type.

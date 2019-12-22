@@ -50,6 +50,11 @@ void Rotation::inverseTransform(float rotationAngle)
     int rightMostLowerIndex[2] = {int(width * rotationMatrix[0][0]) - int(height * rotationMatrix[0][1]),
                                   int(width * rotationMatrix[1][0]) + int(height * rotationMatrix[1][1])};
 
+    int originalLeftMostUpperIndex[2] = {0,0};
+    int originalRightMostUpperIndex[2] = {image.getWidth(),0};
+    int originalLeftMostLowerIndex[2] = {0, image.getHeight()};
+    int originalRightMostLowerIndex[2] = {image.getWidth(), image.getHeight()};
+
     qDebug() << "LMU" << leftMostUpperIndex[0] << leftMostUpperIndex[1];
     qDebug() << "LML" << leftMostLowerIndex[0] << leftMostLowerIndex[1];
     qDebug() << "RMU" << rightMostUpperIndex[0] << rightMostUpperIndex[1];
@@ -85,12 +90,29 @@ void Rotation::inverseTransform(float rotationAngle)
 
             int rotatedXCoordinate = (jAsCoordinate * rotationMatrix[0][0]) + (iAsCoordinate * rotationMatrix[0][1]);
             int rotatedYCoordinate = (-1 * jAsCoordinate * rotationMatrix[0][1]) + (iAsCoordinate * rotationMatrix[1][1]);
-            QRgb colorValue = this -> image.getImage().pixel(rotatedXCoordinate, rotatedYCoordinate);
+
+            int rotatedPoint[2] = {rotatedXCoordinate, rotatedYCoordinate};
+            QRgb colorValue;
+
+            if(pointIsInsideImage(originalLeftMostUpperIndex, originalRightMostUpperIndex,
+                                  originalLeftMostLowerIndex, originalRightMostLowerIndex,
+                                  rotatedPoint)){
+                colorValue = this -> image.getImage().pixel(rotatedXCoordinate, rotatedYCoordinate);
+            }else{
+                colorValue = this -> image.getBackgroundColor().rgb();
+            }
+
+
 
             rotatedImage.getImage().setPixel(j,i,colorValue);
         }
     }
 
+
+    int backgroundPixels = abs((newWidth * newHeight) - calculateParallelogramArea(leftMostUpperIndex, rightMostUpperIndex,
+                                                     leftMostLowerIndex, rightMostLowerIndex));
+    qDebug() << "Background pixels: " << backgroundPixels;
+    rotatedImage.setBackgroundPixels(backgroundPixels);
     emit imageChanged(rotatedImage);
 }
 
@@ -150,11 +172,10 @@ void Rotation::directTransform(float rotationAngle)
         }
     }
 
-    int backgroundPixels = abs((newWidth * newHeight) - calculateParalelogramArea(leftMostUpperIndex, rightMostUpperIndex,
+    int backgroundPixels = abs((newWidth * newHeight) - calculateParallelogramArea(leftMostUpperIndex, rightMostUpperIndex,
                                                      leftMostLowerIndex, rightMostLowerIndex));
+    qDebug() << "Background pixels: " << backgroundPixels;
     rotatedImage.setBackgroundPixels(backgroundPixels);
-    qDebug() << "Background pixels:  " << backgroundPixels;
-    qDebug() << "Background pixels: " << rotatedImage.getBackgroundPixels();
     emit imageChanged(rotatedImage);
 }
 std::vector<std::vector<float> > Rotation::generateRotationMatrix(float rotationAngle)
@@ -197,10 +218,41 @@ int Rotation::minIndex(std::vector<int> indexes)
     return smallestIndex;
 }
 
-int Rotation::calculateParalelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
+int Rotation::calculateParallelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
                                         int leftmostLowerCorner[], int rightmostLowerCorner[])
 {
 
-    return ((rightmostLowerCorner[0] - leftmostLowerCorner[0])*(leftmostUpperCorner[0] - leftmostLowerCorner[0]))
-          - ((rightmostLowerCorner[1] - leftmostLowerCorner[1])*(leftmostUpperCorner[1] - leftmostLowerCorner[1]));
+    return ((rightmostUpperCorner[0] - leftmostUpperCorner[0])*(rightmostLowerCorner[1] - leftmostUpperCorner[1]))
+            - ((rightmostUpperCorner[1] - leftmostUpperCorner[1])*(rightmostLowerCorner[0] - leftmostUpperCorner[0]));
+}
+
+bool Rotation::pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperCorner[],
+                                  int leftmostLowerCorner[], int rightmostLowerCorner[],
+                                  int rotatedPoint[])
+{
+    int firstTriangleArea = calculateTriangleArea(leftmostLowerCorner, leftmostUpperCorner, rotatedPoint);
+    int secondTriangleArea = calculateTriangleArea(leftmostUpperCorner, rightmostUpperCorner, rotatedPoint);
+    int thirdTriangleArea = calculateTriangleArea(rightmostLowerCorner, rightmostUpperCorner, rotatedPoint);
+    int fourthTriangleArea = calculateTriangleArea(leftmostLowerCorner, rightmostLowerCorner, rotatedPoint);
+
+    int parallelogramArea = rightmostLowerCorner[0] * rightmostLowerCorner[1];
+
+//    qDebug() << "Triangle's sum area: " << (firstTriangleArea + secondTriangleArea + thirdTriangleArea + fourthTriangleArea);
+//    qDebug() << "Parallelogram area: " << parallelogramArea;
+
+    if((firstTriangleArea + secondTriangleArea + thirdTriangleArea + fourthTriangleArea) > parallelogramArea){
+        return false;
+    }else {
+        if(firstTriangleArea == 0 || secondTriangleArea == 0 || thirdTriangleArea == 0 || fourthTriangleArea == 0)
+            return false;
+    }
+        return true;
+}
+
+int Rotation::calculateTriangleArea(int a[], int b[], int c[])
+{
+    int area = abs( ((a[0]-c[0])*(b[1]-a[1]))
+                  - ((a[0]-b[0])*(c[1]-a[1]))
+                   );
+    return area/2;
 }
