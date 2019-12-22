@@ -76,6 +76,8 @@ void Rotation::inverseTransform(float rotationAngle)
     qDebug() << "Max height: " << maxHeight;
 
     Image rotatedImage(this -> image,newWidth,newHeight);
+
+
     for(int i = 0; i < rotatedImage.getHeight(); i++){
         for(int j = 0; j < rotatedImage.getWidth(); j++){
             int jAsCoordinate = j + minWidth;
@@ -84,6 +86,7 @@ void Rotation::inverseTransform(float rotationAngle)
             int rotatedXCoordinate = (jAsCoordinate * rotationMatrix[0][0]) + (iAsCoordinate * rotationMatrix[0][1]);
             int rotatedYCoordinate = (-1 * jAsCoordinate * rotationMatrix[0][1]) + (iAsCoordinate * rotationMatrix[1][1]);
             QRgb colorValue = this -> image.getImage().pixel(rotatedXCoordinate, rotatedYCoordinate);
+
             rotatedImage.getImage().setPixel(j,i,colorValue);
         }
     }
@@ -147,6 +150,9 @@ void Rotation::directTransform(float rotationAngle)
         }
     }
 
+    int backgroundPixels = abs((newWidth * newHeight) - calculateParalelogramArea(leftMostUpperIndex, rightMostUpperIndex,
+                                                     leftMostLowerIndex, rightMostLowerIndex));
+    rotatedImage.setBackgroundPixels(backgroundPixels);
     emit imageChanged(rotatedImage);
 }
 std::vector<std::vector<float> > Rotation::generateRotationMatrix(float rotationAngle)
@@ -187,4 +193,21 @@ int Rotation::minIndex(std::vector<int> indexes)
         }
     }
     return smallestIndex;
+}
+
+int Rotation::calculateParalelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
+                                        int leftmostLowerCorner[], int rightmostLowerCorner[])
+{
+
+    int a = leftmostLowerCorner[0] * rightmostLowerCorner[1]
+         + rightmostLowerCorner[0] * rightmostUpperCorner[1]
+         + rightmostUpperCorner[0] * leftmostUpperCorner[1]
+         + leftmostUpperCorner[0] * leftmostLowerCorner[1];
+
+    int b = rightmostLowerCorner[0] * leftmostLowerCorner[1]
+          + rightmostUpperCorner[0] * rightmostLowerCorner[1]
+          + leftmostUpperCorner[0] * rightmostUpperCorner[1]
+          + leftmostLowerCorner[0] * leftmostUpperCorner[1];
+
+    return abs((a-b))/2;
 }

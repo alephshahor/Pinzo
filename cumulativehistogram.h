@@ -15,6 +15,9 @@ public:
 
 
     QVector<double> calculateDistributionFunction(int (*func)(QColor));
+
+    void deleteBackgroundResidualColor(int pixelValue) override;
+
 private:
 
     /*!

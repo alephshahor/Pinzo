@@ -32,6 +32,21 @@ void CumulativeHistogram::calculateHistogramValues(int(*func)(QColor))
     setVPixelValue(vPixelValueCumulative);
 }
 
+void CumulativeHistogram::deleteBackgroundResidualColor(int pixelValue){
+
+
+    mVPixelValue[pixelValue] -= mImage.getBackgroundPixels();
+
+
+    QVector<double> vPixelValueCumulative(mImageRange);
+    vPixelValueCumulative[0] = mVPixelValue[0];
+    for(int i = 1; i < mVPixelValue.size(); i++){
+        vPixelValueCumulative[i] = vPixelValueCumulative[i - 1] + mVPixelValue[i];
+    }
+
+    setVPixelValue(vPixelValueCumulative);
+
+}
 
 void CumulativeHistogram::displayInfo()
 {

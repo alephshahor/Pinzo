@@ -22,6 +22,8 @@ public:
      */
     void calculateHistogramValues(int(*func)(QColor)) override;
 
+    void deleteBackgroundResidualColor(int pixelValue) override;
+
 private:
 
 

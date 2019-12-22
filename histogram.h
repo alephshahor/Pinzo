@@ -33,6 +33,8 @@ public:
      */
     virtual void calculateHistogramValues(int(*func)(QColor)) = 0;
 
+    virtual void deleteBackgroundResidualColor(int pixelValue) = 0;
+
 
     /*!
      * \brief calculateHistogramKeys it calculates the keys of
@@ -48,6 +50,8 @@ public:
     QVector<double> calculateDistributionFunction(int (*func)(QColor));
 
     double getValue(int index);
+
+    void fixBackgroundResidualColor(int ammountOfResidualColor);
 
 protected:
 

@@ -24,6 +24,8 @@ Image::Image(const QString &filepath):
 
 Image::Image(Image image, QRect rect):
     mImage(),
+    mBackgroundColor(QColor(0,0,0)),
+    mBackgroundPixels(0),
     mFileName(image.getImageName()),
     mFilePath(image.getImagePath()),
     mFileFormat(image.getImageFormat()),
@@ -36,6 +38,8 @@ Image::Image(Image image, QRect rect):
 
 Image::Image(Image &image):
     mImage(image.getImage()),
+    mBackgroundColor(QColor(0,0,0)),
+    mBackgroundPixels(image.getBackgroundPixels()),
     mFileName(image.getImageName()),
     mFilePath(image.getImagePath()),
     mFileFormat(image.getImageFormat()),
@@ -47,6 +51,8 @@ Image::Image(Image &image):
 
 Image::Image(Image &image, int width, int height)
 {
+    this -> mBackgroundColor = QColor(0,0,0);
+    this -> mBackgroundPixels = image.getBackgroundPixels();
     this -> mFileName = image.getImageName();
     this -> mFilePath = image.getImagePath();
     this -> mFileFormat = image.getImageFormat();
@@ -55,7 +61,7 @@ Image::Image(Image &image, int width, int height)
     this -> mFileDimension = std::make_pair(width, height);
 
     this -> mImage = QPixmap(width, height).toImage();
-    allPixelsToColor(QColor(0,0,0));
+    allPixelsToColor(mBackgroundColor);
 }
 
 void Image::allPixelsToColor(QColor color){
@@ -149,6 +155,21 @@ int Image::getWidth()
 int Image::getHeight()
 {
     return mImage.height();
+}
+
+QColor Image::getBackgroundColor() const
+{
+    return mBackgroundColor;
+}
+
+void Image::setBackgroundPixels(int backgroundPixels)
+{
+    mBackgroundPixels = backgroundPixels;
+}
+
+int Image::getBackgroundPixels() const
+{
+    return mBackgroundPixels;
 }
 
 bool Image::isGray() const

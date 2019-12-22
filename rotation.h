@@ -24,6 +24,9 @@ public:
     int maxIndex(std::vector<int> indexes);
     int minIndex(std::vector<int> indexes);
 
+    int calculateParalelogramArea(int leftmostUpperCorner[], int rightmostUpperCorner[],
+                                  int leftmostLowerCorner[], int rightmostLowerCorner[]);
+
 signals:
     void imageChanged(Image image);
 

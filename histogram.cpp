@@ -137,6 +137,7 @@ void Histogram::displayHistogram(){
 
         case Red:
         calculateHistogramValues(calculateRedColorValue);
+        deleteBackgroundResidualColor(this -> mImage.getBackgroundColor().red());
         calculateHistogramKeys();
         displayInfo();
         createHistogram(QColor(255,0,0, 180));
@@ -144,6 +145,7 @@ void Histogram::displayHistogram(){
 
         case Green:
         calculateHistogramValues(calculateGreenColorValue);
+        deleteBackgroundResidualColor(this -> mImage.getBackgroundColor().green());
         calculateHistogramKeys();
         displayInfo();
         createHistogram(QColor(0,255,0, 180));
@@ -151,6 +153,7 @@ void Histogram::displayHistogram(){
 
         case Blue:
         calculateHistogramValues(calculateBlueColorValue);
+        deleteBackgroundResidualColor(this -> mImage.getBackgroundColor().blue());
         calculateHistogramKeys();
         displayInfo();
         createHistogram(QColor(0,0,255, 180));
@@ -159,7 +162,6 @@ void Histogram::displayHistogram(){
 
 
 }
-
 
 int Histogram::calculateColorLightnessValue(QColor pixel)
 {

@@ -30,16 +30,21 @@ public:
     int getWidth();
     int getHeight();
 
+    QColor getBackgroundColor() const;
+
+    int getBackgroundPixels() const;
+    void setBackgroundPixels(int backgroundPixels);
+
 public:
     QImage mImage;
+    QColor mBackgroundColor;
     QString mFileName;
     QString mFilePath;
     QString mFileFormat;
+    int mBackgroundPixels;
     int     mFileDepth;
     bool    mIsGray;
     std::pair<int,int> mFileDimension;
-
-
 
 private:
     void allPixelsToColor(QColor color);
