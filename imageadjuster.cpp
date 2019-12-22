@@ -11,14 +11,14 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     ui(new Ui::ImageAdjuster)
 {
     ui->setupUi(this);
-//    connect(ui -> brightnessSlider, &QSlider::valueChanged,
-//            this, &ImageAdjuster::processSliderInput);
-//    connect(ui -> contrastSlider, &QSlider::valueChanged,
-//            this, &ImageAdjuster::processSliderInput);
-//    connect(ui -> brightnessText, &QLineEdit::returnPressed,
-//            this, &ImageAdjuster::processTextInput);
-//    connect(ui -> contrastText, &QLineEdit::returnPressed,
-//            this, &ImageAdjuster::processTextInput);
+    connect(ui -> brightnessSlider, &QSlider::valueChanged,
+            this, &ImageAdjuster::processSliderInput);
+    connect(ui -> contrastSlider, &QSlider::valueChanged,
+            this, &ImageAdjuster::processSliderInput);
+    connect(ui -> brightnessText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processTextInput);
+    connect(ui -> contrastText, &QLineEdit::returnPressed,
+            this, &ImageAdjuster::processTextInput);
 
     connect(ui -> rMeanText, &QLineEdit::returnPressed,
             this, &ImageAdjuster::processMean);
@@ -227,6 +227,8 @@ void ImageAdjuster::processDeviation()
     mGreenBias = calculateBias(Green);
 
     mBlueBias = calculateBias(Blue);
+
+    qDebug() << "Red alpha: " << mRedAlpha;
 
     adjustImage();
 }
