@@ -17,7 +17,8 @@ Image::Image():
 }
 
 Image::Image(const QString &filepath):
-    mImage()
+    mImage(),
+    mBackgroundPixels()
 {
     loadImage(filepath);
 }

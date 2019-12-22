@@ -153,6 +153,8 @@ void Rotation::directTransform(float rotationAngle)
     int backgroundPixels = abs((newWidth * newHeight) - calculateParalelogramArea(leftMostUpperIndex, rightMostUpperIndex,
                                                      leftMostLowerIndex, rightMostLowerIndex));
     rotatedImage.setBackgroundPixels(backgroundPixels);
+    qDebug() << "Background pixels:  " << backgroundPixels;
+    qDebug() << "Background pixels: " << rotatedImage.getBackgroundPixels();
     emit imageChanged(rotatedImage);
 }
 std::vector<std::vector<float> > Rotation::generateRotationMatrix(float rotationAngle)
@@ -199,15 +201,6 @@ int Rotation::calculateParalelogramArea(int leftmostUpperCorner[], int rightmost
                                         int leftmostLowerCorner[], int rightmostLowerCorner[])
 {
 
-    int a = leftmostLowerCorner[0] * rightmostLowerCorner[1]
-         + rightmostLowerCorner[0] * rightmostUpperCorner[1]
-         + rightmostUpperCorner[0] * leftmostUpperCorner[1]
-         + leftmostUpperCorner[0] * leftmostLowerCorner[1];
-
-    int b = rightmostLowerCorner[0] * leftmostLowerCorner[1]
-          + rightmostUpperCorner[0] * rightmostLowerCorner[1]
-          + leftmostUpperCorner[0] * rightmostUpperCorner[1]
-          + leftmostLowerCorner[0] * leftmostUpperCorner[1];
-
-    return abs((a-b))/2;
+    return ((rightmostLowerCorner[0] - leftmostLowerCorner[0])*(leftmostUpperCorner[0] - leftmostLowerCorner[0]))
+          - ((rightmostLowerCorner[1] - leftmostLowerCorner[1])*(leftmostUpperCorner[1] - leftmostLowerCorner[1]));
 }
