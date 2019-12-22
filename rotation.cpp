@@ -235,7 +235,8 @@ bool Rotation::pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperC
     int thirdTriangleArea = calculateTriangleArea(rightmostLowerCorner, rightmostUpperCorner, rotatedPoint);
     int fourthTriangleArea = calculateTriangleArea(leftmostLowerCorner, rightmostLowerCorner, rotatedPoint);
 
-    int parallelogramArea = rightmostLowerCorner[0] * rightmostLowerCorner[1];
+    int parallelogramArea = calculateParallelogramArea(leftmostUpperCorner, rightmostUpperCorner,
+                                                       leftmostLowerCorner, rightmostLowerCorner);
 
 //    qDebug() << "Triangle's sum area: " << (firstTriangleArea + secondTriangleArea + thirdTriangleArea + fourthTriangleArea);
 //    qDebug() << "Parallelogram area: " << parallelogramArea;
