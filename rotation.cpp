@@ -243,11 +243,12 @@ bool Rotation::pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperC
 
     if((firstTriangleArea + secondTriangleArea + thirdTriangleArea + fourthTriangleArea) > parallelogramArea){
         return false;
-    }else {
-        if(firstTriangleArea == 0 || secondTriangleArea == 0 || thirdTriangleArea == 0 || fourthTriangleArea == 0)
+    }else if(firstTriangleArea == 0 || secondTriangleArea == 0 || thirdTriangleArea == 0 || fourthTriangleArea == 0){
+            // Here is where pixels with i = 0 or j = 0 are being put to black.
             return false;
+    }else{
+            return true;
     }
-        return true;
 }
 
 int Rotation::calculateTriangleArea(int a[], int b[], int c[])

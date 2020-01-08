@@ -23,96 +23,6 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0">
-      <item row="4" column="5">
-       <widget class="QLabel" name="bDeviationLabel">
-        <property name="text">
-         <string>Deviation</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="brightnessLabel">
-        <property name="text">
-         <string>Brigthness :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="7">
-       <widget class="QLabel" name="gChannelLabel">
-        <property name="text">
-         <string>(G)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="brightnessText">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="bMeanLabel">
-        <property name="text">
-         <string>Mean</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="gMeanLabel">
-        <property name="text">
-         <string>Mean</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="5">
-       <widget class="QLabel" name="gDeviationLabel">
-        <property name="text">
-         <string>Deviation</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="rgbCheckBox">
-        <property name="text">
-         <string>RGB</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="7">
-       <widget class="QLabel" name="rChannelLabel">
-        <property name="text">
-         <string>(R)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="6">
-       <widget class="QLineEdit" name="rDeviationText"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="rMeanLabel">
-        <property name="text">
-         <string>Mean:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="7">
-       <widget class="QLabel" name="bChannelLabel">
-        <property name="text">
-         <string>(B)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="5">
-       <widget class="QLabel" name="rDeviationLabel">
-        <property name="text">
-         <string>Deviation:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="gMeanText"/>
-      </item>
       <item row="0" column="5" colspan="2">
        <widget class="QSlider" name="brightnessSlider">
         <property name="minimum">
@@ -132,24 +42,114 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="6">
-       <widget class="QLineEdit" name="gDeviationText"/>
-      </item>
-      <item row="4" column="6">
-       <widget class="QLineEdit" name="bDeviationText"/>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLineEdit" name="bMeanText"/>
-      </item>
-      <item row="5" column="2">
-       <widget class="QPushButton" name="refreshButton">
+      <item row="0" column="0">
+       <widget class="QLabel" name="brightnessLabel">
         <property name="text">
-         <string>Refresh</string>
+         <string>Brigthness :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="7">
+       <widget class="QLabel" name="gChannelLabel">
+        <property name="text">
+         <string>(G)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="contrastText">
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="gMeanLabel">
+        <property name="text">
+         <string>Mean</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="6">
+       <widget class="QLineEdit" name="rDeviationText"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="brightnessText">
+        <property name="text">
+         <string>0</string>
         </property>
        </widget>
       </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="rMeanText"/>
+      </item>
+      <item row="3" column="6">
+       <widget class="QLineEdit" name="gDeviationText"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="rMeanLabel">
+        <property name="text">
+         <string>Mean:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="bMeanLabel">
+        <property name="text">
+         <string>Mean</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="6">
+       <widget class="QLineEdit" name="bDeviationText"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="gMeanText"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="bMeanText"/>
+      </item>
+      <item row="2" column="7">
+       <widget class="QLabel" name="rChannelLabel">
+        <property name="text">
+         <string>(R)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="contrastLabel">
+        <property name="text">
+         <string>Contrast :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="7">
+       <widget class="QLabel" name="bChannelLabel">
+        <property name="text">
+         <string>(B)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QLabel" name="gDeviationLabel">
+        <property name="text">
+         <string>Deviation</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="5">
+       <widget class="QLabel" name="bDeviationLabel">
+        <property name="text">
+         <string>Deviation</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLabel" name="rDeviationLabel">
+        <property name="text">
+         <string>Deviation:</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="5" colspan="2">
        <widget class="QSlider" name="contrastSlider">
@@ -170,20 +170,6 @@
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="contrastText">
-        <property name="text">
-         <string>1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="contrastLabel">
-        <property name="text">
-         <string>Contrast :</string>
         </property>
        </widget>
       </item>

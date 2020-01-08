@@ -42,7 +42,7 @@ ImageAdjuster::ImageAdjuster(Image& image, QWidget *parent) :
     mHistogram = new AbsoluteHistogram(mImage, nullptr);
     mHistogram -> calculateHistogramKeys();
     refreshMeanAndDeviation();
-    ui -> rgbCheckBox -> setChecked(true);
+   // ui -> rgbCheckBox -> setChecked(true);
 }
 
 
@@ -244,26 +244,26 @@ void ImageAdjuster::processMean()
     adjustImage();
 }
 
-void ImageAdjuster::processRgbCheckbox(){
-    if(ui -> rgbCheckBox -> checkState() == false){
-        ui -> gMeanText -> setDisabled(true);
-        ui -> gDeviationText -> setDisabled(true);
-        ui -> bMeanText -> setDisabled(true);
-        ui -> bDeviationText -> setDisabled(true);
-        ui -> rChannelLabel -> setText("(GRAY)");
-        ui -> gChannelLabel -> setText("(X)");
-        ui -> bChannelLabel -> setText("(X)");
-        grayscaleMode();
-    }else{
-        ui -> gMeanText -> setDisabled(false);
-        ui -> gDeviationText -> setDisabled(false);
-        ui -> bMeanText -> setDisabled(false);
-        ui -> bDeviationText -> setDisabled(false);
-        ui -> rChannelLabel -> setText("(R)");
-        ui -> gChannelLabel -> setText("(G)");
-        ui -> bChannelLabel -> setText("(B)");
-    }
-}
+//void ImageAdjuster::processRgbCheckbox(){
+//    if(ui -> rgbCheckBox -> checkState() == false){
+//        ui -> gMeanText -> setDisabled(true);
+//        ui -> gDeviationText -> setDisabled(true);
+//        ui -> bMeanText -> setDisabled(true);
+//        ui -> bDeviationText -> setDisabled(true);
+//        ui -> rChannelLabel -> setText("(GRAY)");
+//        ui -> gChannelLabel -> setText("(X)");
+//        ui -> bChannelLabel -> setText("(X)");
+//        grayscaleMode();
+//    }else{
+//        ui -> gMeanText -> setDisabled(false);
+//        ui -> gDeviationText -> setDisabled(false);
+//        ui -> bMeanText -> setDisabled(false);
+//        ui -> bDeviationText -> setDisabled(false);
+//        ui -> rChannelLabel -> setText("(R)");
+//        ui -> gChannelLabel -> setText("(G)");
+//        ui -> bChannelLabel -> setText("(B)");
+//    }
+//}
 
 int ImageAdjuster::limitNumber(int num)
 {
