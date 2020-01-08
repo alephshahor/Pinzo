@@ -18,14 +18,15 @@ Image::Image():
 
 Image::Image(const QString &filepath):
     mImage(),
-    mBackgroundPixels()
+    mBackgroundPixels(),
+    mBackgroundColor(QColor(255,105,180))
 {
     loadImage(filepath);
 }
 
 Image::Image(Image image, QRect rect):
     mImage(),
-    mBackgroundColor(QColor(0,0,0)),
+    mBackgroundColor(image.getBackgroundColor()),
     mBackgroundPixels(0),
     mFileName(image.getImageName()),
     mFilePath(image.getImagePath()),
@@ -39,7 +40,7 @@ Image::Image(Image image, QRect rect):
 
 Image::Image(Image &image):
     mImage(image.getImage()),
-    mBackgroundColor(QColor(0,0,0)),
+    mBackgroundColor(image.getBackgroundColor()),
     mBackgroundPixels(image.getBackgroundPixels()),
     mFileName(image.getImageName()),
     mFilePath(image.getImagePath()),
@@ -52,7 +53,7 @@ Image::Image(Image &image):
 
 Image::Image(Image &image, int width, int height)
 {
-    this -> mBackgroundColor = QColor(0,0,0);
+    this -> mBackgroundColor = image.getBackgroundColor();
     this -> mBackgroundPixels = image.getBackgroundPixels();
     this -> mFileName = image.getImageName();
     this -> mFilePath = image.getImagePath();

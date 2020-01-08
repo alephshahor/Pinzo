@@ -82,7 +82,7 @@ void Rotation::inverseTransform(float rotationAngle)
 
     Image rotatedImage(this -> image,newWidth,newHeight);
 
-
+    int backgroundPixels2 = 0;
     for(int i = 0; i < rotatedImage.getHeight(); i++){
         for(int j = 0; j < rotatedImage.getWidth(); j++){
             int jAsCoordinate = j + minWidth;
@@ -99,6 +99,7 @@ void Rotation::inverseTransform(float rotationAngle)
                                   rotatedPoint)){
                 colorValue = this -> image.getImage().pixel(rotatedXCoordinate, rotatedYCoordinate);
             }else{
+                backgroundPixels2 += 1;
                 colorValue = this -> image.getBackgroundColor().rgb();
             }
 
@@ -109,10 +110,17 @@ void Rotation::inverseTransform(float rotationAngle)
     }
 
 
-    int backgroundPixels = abs((newWidth * newHeight) - calculateParallelogramArea(leftMostUpperIndex, rightMostUpperIndex,
-                                                     leftMostLowerIndex, rightMostLowerIndex));
+    int backgroundPixels = abs((newWidth * newHeight) - abs(calculateParallelogramArea(leftMostUpperIndex, rightMostUpperIndex,
+                                                     leftMostLowerIndex, rightMostLowerIndex)));
     qDebug() << "Background pixels: " << backgroundPixels;
-    rotatedImage.setBackgroundPixels(backgroundPixels);
+    qDebug() << "Background pixels 2: " << backgroundPixels2;
+
+    int a[2] = {0,0};
+    int b[2] = {400,0};
+    int c[2] = {0,400};
+    int d[2] = {400,400};
+    qDebug() << "Paralelogram area: " << calculateParallelogramArea(c,d,a,b);
+    rotatedImage.setBackgroundPixels(backgroundPixels2);
     emit imageChanged(rotatedImage);
 }
 
@@ -226,6 +234,7 @@ int Rotation::calculateParallelogramArea(int leftmostUpperCorner[], int rightmos
             - ((rightmostUpperCorner[1] - leftmostUpperCorner[1])*(rightmostLowerCorner[0] - leftmostUpperCorner[0]));
 }
 
+
 bool Rotation::pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperCorner[],
                                   int leftmostLowerCorner[], int rightmostLowerCorner[],
                                   int rotatedPoint[])
@@ -243,9 +252,9 @@ bool Rotation::pointIsInsideImage(int leftmostUpperCorner[], int rightmostUpperC
 
     if((firstTriangleArea + secondTriangleArea + thirdTriangleArea + fourthTriangleArea) > parallelogramArea){
         return false;
-    }else if(firstTriangleArea == 0 || secondTriangleArea == 0 || thirdTriangleArea == 0 || fourthTriangleArea == 0){
-            // Here is where pixels with i = 0 or j = 0 are being put to black.
-            return false;
+ //   }else if(firstTriangleArea == 0 || secondTriangleArea == 0 || thirdTriangleArea == 0 || fourthTriangleArea == 0){
+         // Here is where pixels with i = 0 or j = 0 are being put to black, because they lay in the border.
+//            return false;
     }else{
             return true;
     }
